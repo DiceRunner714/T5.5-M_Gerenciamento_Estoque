@@ -24,13 +24,19 @@ public class Item {
 		valor = newValor;
 		id = newId;
 	}
-	
+
+	// TODO: substituir esse método por toString()
 	public void listarCaracteristicasBasicas() {
 		System.out.println(String.format("---Produto----\nID: %d\nNome: %s\nCategoria: %s\nQtd: "
 				+ "%d\nValor: R$%.2f\n", id, nome,  
 				categoria, quantidade, valor));
 	}
-	
+
+	public String toString() {
+		return String.format("---Produto----\nID: %d\nNome: %s\nCategoria: %s\nQtd: "
+						+ "%d\nValor: R$%.2f\n", id, nome,
+				categoria, quantidade, valor);
+	}
 	public String getNome() {
 		return nome;
 	}
