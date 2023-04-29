@@ -32,11 +32,6 @@ public class Filial {
 		}
 	}
 	
-	
-	public void lerItem(int id) {
-		
-	}
-	
 	public Item getItem(int id) {
 		// Returns an specific item given its ID
 		// returns null if item is not found
