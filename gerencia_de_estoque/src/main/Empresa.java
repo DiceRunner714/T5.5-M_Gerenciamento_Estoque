@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Empresa {
 	
-
-
 	private String nome;
 	private ArrayList<Filial> filiais;
 	
@@ -14,14 +12,33 @@ public class Empresa {
 		filiais = new ArrayList<Filial>();
 	}
 	
-	public ArrayList<Item> getAllEstoque() {
-		return null;
+	public ArrayList<Item> lerTodoEstoque() {
+		ArrayList<Item> todosItens = new ArrayList<>();
+		for (Filial filial : filiais) {
+			todosItens.addAll(filial.getAllItens());
+		}
+		return todosItens;
+	}
+
+	public Item buscarItem(String nome) {
+		ArrayList<Item> todoEstoque = this.lerTodoEstoque();
+		Item itemBuscado = null;
+		for (Item item: todoEstoque) {
+			if (item.getNome().equals(nome))
+				itemBuscado = item;
+		}
+		return itemBuscado;
 	}
 
 	public void adicionarFilial(String nome, String local, int id) {
 		filiais.add(new Filial(nome, local, id));
 	}
-	
+
+	// Overloading que permite adicionar filial criada externamente
+	public void adicionarFilial(Filial f) {
+		filiais.add(f);
+	}
+
 	public void removerFilial(int id) {
 		for (Filial filial : filiais) {
 			if (filial.getId() == id) {
@@ -31,21 +48,30 @@ public class Empresa {
 		}
 	}
 	
-	public void atualizarFilial(String nome, String local, int id) {
+	public void atualizarFilial(String nome, String local, int novoId, int id) {
 		for (Filial filial : filiais) {
 			if (filial.getId() == id) {
-				filial.setId(id);
+				filial.setId(novoId);
 				filial.setLocal(local);
 				filial.setNome(nome);
 				break;
 			}
 		}
 	}
-	
-	public String lerFilial() {
-		return null;
+
+	// Retorna filial com id igual ao parâmetro, caso contrário
+	// retorna null
+	public Filial lerFilial(int id) {
+		Filial filialLida = null;
+		for (Filial filial : filiais) {
+			if (filial.getId() == id)
+				filialLida = filial;
+		}
+		return filialLida;
 	}
-	
+
+
+	// GETS E SETS
 	public String getNome() {
 		return nome;
 	}
@@ -62,11 +88,12 @@ public class Empresa {
 		this.filiais = filiais;
 	}
 	
-	public String getFiliaisDescricao() {
-		String descricao_filiais = "____FILIAIS____\n\n";
+	public String toString() {
+		String descricaoEmpresa = String.format("___EMPRESA___\nNome: %s\n", nome);
+		String descircaoFiliais = "";
 		for (Filial filial : filiais) {
-			descricao_filiais += filial.toString();
+			descircaoFiliais += filial.toString();
 		}
-		return descricao_filiais;
+		return descricaoEmpresa+descircaoFiliais;
 	}
 }
