@@ -26,7 +26,10 @@ public class Main {
 		filial1.getItem(4).atualizarItem("Laranja", 345, "Alimentos", 2.10, 4);
 		filial1.getItem(4).listarCaracteristicasBasicas();
 
+		// --REQUISITOS MINIMOS--
+
 		// <---Testes de empresa-->
+
 
 
 		// --CRUD de filial--
@@ -67,8 +70,6 @@ public class Main {
 		System.out.println(dreamworks);
 		System.out.println("REMOVER FILIAL FINALIZADO");
 
-
-		// --REQUISITOS MINIMOS--
 
 		// Ler estoque completo
 		System.out.println("LER TODO O ESTOQUE INICIADO");
@@ -114,6 +115,33 @@ public class Main {
 		System.out.println("APENAS ESTOQUE VAZIO:");
 		System.out.println(filialEstoqueVazio.getEstoqueVazio());
 		System.out.println("FILTRO DE ITENS COM ESTOQUE VAZIO FINALIZADO");
+
+		// Gets e sets de Empresa
+		// GETS
+		System.out.println("TESTE GETS E SETS DE EMPRESA INICIADO");
+		System.out.println("Get nome");
+		System.out.println(dreamworks.getNome());
+		System.out.println("Get filiais");
+		System.out.println(dreamworks.getFiliais());
+
+
+		// SETS
+		System.out.println("Set nome");
+		dreamworks.setNome("Alameda 59.5");
+		System.out.println(dreamworks.getNome());
+
+		System.out.println("Set filiais");
+		ArrayList<Filial> novasFiliais = new ArrayList<>();
+		novasFiliais.add(
+				new Filial("Boeing inc.", "USA", 123)
+		);
+		novasFiliais.add(
+			new Filial("Airbus inc.", "Europa", 124)
+		);
+		dreamworks.setFiliais(novasFiliais);
+		System.out.println(dreamworks);
+
+		System.out.println("TESTE GETS E SETS DE EMPRESA FINALIZADO");
 	}
 
 }
