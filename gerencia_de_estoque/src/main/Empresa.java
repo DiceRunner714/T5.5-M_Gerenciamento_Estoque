@@ -9,7 +9,7 @@ public class Empresa {
 	
 	public Empresa(String nome) {
 		this.nome = nome;
-		filiais = new ArrayList<Filial>();
+		filiais = new ArrayList<>();
 	}
 	
 	public ArrayList<Item> lerTodoEstoque() {
@@ -89,11 +89,14 @@ public class Empresa {
 	}
 	
 	public String toString() {
-		String descricaoEmpresa = String.format("___EMPRESA___\nNome: %s\n", nome);
-		String descircaoFiliais = "";
+		/* Um StringBuilder foi criado para montar a string, pois ao concatenar uma string em um loop
+		 o JDK irá criar um objeto StringBuilder para cada loop causando queda de desempenho
+		 */
+		String stringEmpresa = String.format("___EMPRESA___\nNome: %s\n", nome);
+		StringBuilder stringFiliais = new StringBuilder();
 		for (Filial filial : filiais) {
-			descircaoFiliais += filial.toString();
+			stringFiliais.append(filial.toString());
 		}
-		return descricaoEmpresa+descircaoFiliais;
+		return stringEmpresa+stringFiliais;
 	}
 }
