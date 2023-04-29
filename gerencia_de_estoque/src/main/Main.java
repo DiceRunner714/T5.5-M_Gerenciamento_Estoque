@@ -69,7 +69,7 @@ public class Main {
 
 		// --REQUISITOS MINIMOS--
 
-		// Ler todo o estoque
+		// Ler estoque completo
 		System.out.println("LER TODO O ESTOQUE INICIADO");
 		System.out.println(dreamworks.lerTodoEstoque());
 		System.out.println("LER TODO O ESTOQUE FINALIZADO");
