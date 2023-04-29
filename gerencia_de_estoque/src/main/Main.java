@@ -36,6 +36,7 @@ public class Main {
 		dreamworks.adicionarFilial(filial1);
 		dreamworks.adicionarFilial(filial2);
 		dreamworks.adicionarFilial(filial3);
+		dreamworks.adicionarFilial("ACME .CO", "Estados Unidos", 950);
 		System.out.println(dreamworks);
 		System.out.println("ADICIONAR FILIAL FINALIZADO");
 
@@ -62,7 +63,7 @@ public class Main {
 		// Remover filial
 		System.out.println("REMOVER FILIAL INICIADO");
 		System.out.println(dreamworks);
-		dreamworks.removerFilial(6);
+		dreamworks.removerFilial(950);
 		System.out.println(dreamworks);
 		System.out.println("REMOVER FILIAL FINALIZADO");
 
@@ -79,12 +80,40 @@ public class Main {
 		System.out.println(dreamworks.buscarItem("Tênis"));
 		System.out.println("BUSCA DE ITEM POR NOME FINALIZADO");
 
-		// Filtro de todos itens de estoque de uma filial
+		// Filtro de todos os itens de estoque de uma filial
 		System.out.println("LISTAGEM DE ITEMS POR FILIAL INICIADO");
-		dreamworks.lerFilial(0).adicionarItem(
+
+		dreamworks.lerFilial(6).adicionarItem(
 				new Item("sapatênis", 5, "lixo", 599.5, 60)
 		);
 
+		System.out.println("<--ITEMS DA FILIAL 0-->");
+		System.out.println(dreamworks.lerFilial(0).getAllItens());
+
+		System.out.println("<--ITEMS DA FILIAL 6-->");
+		System.out.println(dreamworks.lerFilial(6).getAllItens());
+		System.out.println("LISTAGEM DE ITEMS POR FILIAL FINALIZADO");
+
+
+		// Filtro de todos os itens de estoque vazio em uma determinada filial
+		System.out.println("FILTRO DE ITENS COM ESTOQUE VAZIO INICIADO");
+		dreamworks.adicionarFilial("TESTE ESTQOUE VAZIO", "NULLÂNDIA", 235);
+		Filial filialEstoqueVazio = dreamworks.lerFilial(235);
+		filialEstoqueVazio.adicionarItem(
+				new Item("Televisor", 0, "Eletrônico", 500,90)
+		);
+		filialEstoqueVazio.adicionarItem(
+				new Item("Servidor Rack", 0, "Computação", 500,150)
+		);
+		filialEstoqueVazio.adicionarItem(
+				new Item("Raspberry PI pico", 5, "Eletrônico", 500,120)
+		);
+
+		System.out.println("TODOS OS ITEMS:");
+		System.out.println(filialEstoqueVazio.getAllItens());
+		System.out.println("APENAS ESTOQUE VAZIO:");
+		System.out.println(filialEstoqueVazio.getEstoqueVazio());
+		System.out.println("FILTRO DE ITENS COM ESTOQUE VAZIO FINALIZADO");
 	}
-	
+
 }
