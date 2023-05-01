@@ -33,7 +33,7 @@ public class Filial {
 	}
 	
 	public Item getItem(int id) {
-		// Returns an specific item given its ID
+		// Returns a specific item given its ID
 		// returns null if item is not found
 		for (Item item : itens) {
 			if (item.getId() == id) {
@@ -43,11 +43,18 @@ public class Filial {
 		return null;
 	}
 
+	public String toString() {
+		return String.format("""
+ 			---Filial---
+ 			nome: %s
+ 			local: %s
+ 			id: %d
+ 			""", nome, local, id);
+	}
 	public ArrayList<Item> getAllItens() {
 		// Returns an item list of this branch
 		return itens;
 	}
-	
 	public ArrayList<Item> getEstoqueVazio() {
 		// Returns a list of all items out of stock
 		ArrayList<Item> itensVazios = new ArrayList<>();
@@ -58,15 +65,9 @@ public class Filial {
 		}
 		return itensVazios;
 	}
-	
-	public String toString() {
-		return String.format("---Filial---\nid: %d\nnome: %s\nlocal: %s\n", id, nome, local);
-	}
-	
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

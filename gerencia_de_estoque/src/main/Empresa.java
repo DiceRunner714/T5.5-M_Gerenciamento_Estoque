@@ -70,33 +70,28 @@ public class Empresa {
 		return filialLida;
 	}
 
+	public String toString() {
+		return String.format("""
+  			___EMPRESA___
+  			Nome: %s
+  			Filiais:
+  			%s
+  			""", nome, filiais.toString());
+	}
+
 
 	// GETS E SETS
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 	public ArrayList<Filial> getFiliais() {
 		return filiais;
 	}
-
 	public void setFiliais(ArrayList<Filial> filiais) {
 		this.filiais = filiais;
 	}
 	
-	public String toString() {
-		/* Um StringBuilder foi criado para montar a string, pois ao concatenar uma string em um loop
-		 o JDK irá criar um objeto StringBuilder para cada loop causando queda de desempenho
-		 */
-		String stringEmpresa = String.format("___EMPRESA___\nNome: %s\n", nome);
-		StringBuilder stringFiliais = new StringBuilder();
-		for (Filial filial : filiais) {
-			stringFiliais.append(filial.toString());
-		}
-		return stringEmpresa+stringFiliais;
-	}
 }
