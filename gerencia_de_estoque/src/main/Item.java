@@ -1,6 +1,6 @@
 package main;
 
-public  class Item {
+public abstract class Item {
 	
 	private String nome;
 	private int quantidade;
@@ -29,14 +29,26 @@ public  class Item {
 
 	// TODO: substituir esse método por toString()
 	public void listarCaracteristicasBasicas() {
-		System.out.println(String.format("---Produto----\nID: %d\nNome: %s\nCategoria: %s\nQtd: "
-				+ "%d\nValor: R$%.2f\n", id, nome,  
-				categoria, quantidade, valor));
+		System.out.printf("""
+						---Produto----
+						ID: %d
+						Nome: %s
+						Categoria: %s
+						Qtd: %d
+						Valor: R$%.2f
+						%n""", id, nome,
+				categoria, quantidade, valor);
 	}
 
 	public String toString() {
-		return String.format("---Produto----\nID: %d\nNome: %s\nCategoria: %s\nQtd: "
-						+ "%d\nValor: R$%.2f\n", id, nome,
+		return String.format("""
+						---Produto----
+						ID: %d
+						Nome: %s
+						Categoria: %s
+						Qtd: %d
+						Valor: R$%.2f
+						""", id, nome,
 				categoria, quantidade, valor);
 	}
 	public String getNome() {
@@ -86,4 +98,7 @@ public  class Item {
 	public void setRestrito(boolean restrito) {
 		this.restrito = restrito;
 	}
+
+	public abstract void restringir();
+	public abstract void liberar();
 }
