@@ -12,7 +12,7 @@ public class Filial {
 		this.nome = nome;
 		this.local = local;
 		this.id = id;
-		itens = new ArrayList<Item>();
+		itens = new ArrayList<>();
 	}
 	
 	public void adicionarItem(Item i) {
@@ -50,7 +50,7 @@ public class Filial {
 	
 	public ArrayList<Item> getEstoqueVazio() {
 		// Returns a list of all items out of stock
-		ArrayList<Item> itensVazios = new ArrayList<Item>();
+		ArrayList<Item> itensVazios = new ArrayList<>();
 		for (Item item : itens) {
 			if (item.getQuantidade() == 0) {
 				itensVazios.add(item);

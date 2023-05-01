@@ -66,15 +66,15 @@ public class Farmaceutico extends Item {
 	//Outros metodos
     //METODO RESTRINGIR
 	public void restringir(){
-		// É necessário usar um setter para restringir pois o atributo herdado do pai é privadao
-    	if(tarja.equals("preta")&&retencaoDeReceita == true){
+		// É necessário usar um setter para restringir, pois o atributo herdado do pai é privado
+    	if(tarja.equals("preta")&&retencaoDeReceita){
         	this.setRestrito(true);
     	}
     }
 
 	//METODO LIBERAR
     public void liberar(){
-    	if(tarja.equals("preta")&&retencaoDeReceita == false){
+    	if(tarja.equals("preta")&&retencaoDeReceita){
         	this.setRestrito(false);
     	}
     }
