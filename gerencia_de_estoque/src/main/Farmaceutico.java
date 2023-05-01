@@ -22,43 +22,47 @@ public class Farmaceutico extends Item {
     	this.generico = generico;
     }
 
+	public String toString() {
+		return super.toString()+String.format("""
+				---Farmacêutico---
+				Tarja: %s
+				Necessita de receita: %b
+				Retenção de receita: %b
+				Composição: %s
+				genérico: %b
+				restrito: %b
+				""", tarja, receita, retencaoDeReceita,
+				composicao, generico, getRestrito());
+	}
+
   	//gets & sets
 	public String getTarja() {
 		return tarja;
 	}
-
 	public void setTarja(String tarja) {
 		this.tarja = tarja;
 	}
-
 	public boolean isReceita() {
 		return receita;
 	}
-
 	public void setReceita(boolean receita) {
 		this.receita = receita;
 	}
-
 	public boolean isRetencaoDeReceita() {
 		return retencaoDeReceita;
 	}
-
 	public void setRetencaoDeReceita(boolean retencaoDeReceita) {
 		this.retencaoDeReceita = retencaoDeReceita;
 	}
-
 	public String[] getComposicao() {
 		return composicao;
 	}
-
 	public void setComposicao(String[] composicao) {
 		this.composicao = composicao;
 	}
-
 	public boolean isGenerico() {
 		return generico;
 	}
-
 	public void setGenerico(boolean generico) {
 		this.generico = generico;
 	}
