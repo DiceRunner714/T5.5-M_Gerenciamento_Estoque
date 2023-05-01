@@ -10,7 +10,8 @@ public class ProdutoQuimico extends Item {
     private boolean restrito;
 
     //metodo construtor
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id, int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
+    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id,
+                          int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
         super(nome, quantidade, categoria, valor, id);
         //atributos do filho
         this.perigoaSaude = perigoaSaude;
@@ -20,7 +21,7 @@ public class ProdutoQuimico extends Item {
         this.restrito = false;
     }
 
-    public ProdutoQuimico(String nome, int quantidade, String categoria, int valor, int id) {
+    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id) {
         super(nome, quantidade, categoria, valor, id);
         this.restrito = false;
     }
@@ -34,21 +35,21 @@ public class ProdutoQuimico extends Item {
                         Perigo específico: %s
                         restrito: %b
                         """, perigoaSaude, riscoDeFogo, reatividade,
-                perigoEspecifico, getRestrito());
+                perigoEspecifico, restrito);
     }
 
     //Outros metodos
     //METODO RESTRINGIR
     public void restringir() {
         if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
-            setRestrito(true);
+            restrito = true;
         }
     }
 
     //METODO LIBERAR
     public void liberar() {
         if (perigoaSaude <= 2 && riscoDeFogo <= 2 && reatividade <= 2) {
-            setRestrito(false);
+            restrito = false;
         }
     }
 

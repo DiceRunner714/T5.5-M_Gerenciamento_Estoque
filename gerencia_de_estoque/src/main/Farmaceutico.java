@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Arrays;
+
 public class Farmaceutico extends Item {
     //variaveis da classe
     private String tarja;
@@ -30,6 +32,15 @@ public class Farmaceutico extends Item {
 
 
     public String toString() {
+        /*  Operador ternário para não travar o programa quando não houver composição:
+                composição == null ? "" : Arrays.toString(composição)
+            é equivalente a:
+                if (composição == null) {
+                    return ""
+                else {
+                    return Arrays.toString(composição)
+                }
+         */
         return super.toString() + String.format("""
                         ---Farmacêutico---
                         Tarja: %s
@@ -39,7 +50,7 @@ public class Farmaceutico extends Item {
                         genérico: %b
                         restrito: %b
                         """, tarja, receita, retencaoDeReceita,
-                composicao, generico, restrito);
+                composicao == null ? "" : Arrays.toString(composicao), generico, restrito);
     }
 
 	//Outros metodos
