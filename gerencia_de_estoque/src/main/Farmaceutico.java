@@ -5,28 +5,25 @@ public class Farmaceutico extends Item {
 	private String tarja;
     private boolean receita;
     private boolean retencaoDeReceita;
-    private composicao String[];
+    private  String[] composicao;
     private boolean generico;
 
-    //metodo construtor
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id, boolean restrito, String tarja, boolean receita, boolean retencaoDeReceita, String[], generico boolean) {
-    	//atributos do pai
-    	this.setNome(nome);
-    	this.setQuantidade(quantidade);
-    	this.setCategoria(categoria);
-    	this.setValor(valor);
-    	this.setId(id);
-    	this.setRestrito(restrito);
-    	//atributos do filho
+
+    // método construtor
+    public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id,
+						String tarja, boolean receita, boolean retencaoDeReceita, String[] composicao, boolean generico) {
+		// Construtor da classe geral
+		super(nome, quantidade, categoria, valor, id);
+    	// atributos da classe filha
     	this.tarja = tarja;
     	this.receita = receita;
     	this.retencaoDeReceita = retencaoDeReceita;
     	this.composicao = composicao;
     	this.generico = generico;
     }
-    
-  //gets & sets
-    public String getTarja() {
+
+  	//gets & sets
+	public String getTarja() {
 		return tarja;
 	}
 
@@ -50,12 +47,12 @@ public class Farmaceutico extends Item {
 		this.retencaoDeReceita = retencaoDeReceita;
 	}
 
-	public composicao[] getString() {
-		return String;
+	public String[] getComposicao() {
+		return composicao;
 	}
 
-	public void setString(composicao[] string) {
-		String = string;
+	public void setComposicao(String[] composicao) {
+		this.composicao = composicao;
 	}
 
 	public boolean isGenerico() {
@@ -65,19 +62,20 @@ public class Farmaceutico extends Item {
 	public void setGenerico(boolean generico) {
 		this.generico = generico;
 	}
-    
-    //Outros metodos
+
+	//Outros metodos
     //METODO RESTRINGIR
 	public void restringir(){
-    	if(tarja string.equals('preta')&&retencaoDeReceita == true){
-        	restrito = true;
+		// É necessário usar um setter para restringir pois o atributo herdado do pai é privadao
+    	if(tarja.equals("preta")&&retencaoDeReceita == true){
+        	this.setRestrito(true);
     	}
     }
 
 	//METODO LIBERAR
     public void liberar(){
-    	if(tarja string.equals('preta')&&retencaoDeReceita == false){
-        	restrito = false;
+    	if(tarja.equals("preta")&&retencaoDeReceita == false){
+        	this.setRestrito(false);
     	}
     }
     	

@@ -8,14 +8,8 @@ public class ProdutoQuimico extends Item {
 	    private String perigoEspecifico;
 
 	    //metodo construtor
-	    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id, boolean restrito, int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
-	    	//atributos do pai
-	    	this.setNome(nome);
-	    	this.setQuantidade(quantidade);
-	    	this.setCategoria(categoria);
-	    	this.setValor(valor);
-	    	this.setId(id);
-	    	this.setRestrito(restrito);
+	    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id, int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
+			super(nome, quantidade, categoria, valor, id);
 	    	//atributos do filho
 	    	this.perigoaSaude = perigoaSaude;
 	    	this.riscoDeFogo = riscoDeFogo;
@@ -86,14 +80,14 @@ public class ProdutoQuimico extends Item {
 	    //METODO RESTRINGIR
 		public void restringir(){
 	    	if(perigoaSaude>=3||riscoDeFogo>=3||reatividade>=3){
-	        	restrito = true;
+	        	 setRestrito(true);
 	    	}
 	    }
 		
 		//METODO LIBERAR
 	    public void liberar(){
 	    	if(perigoaSaude<=2&&riscoDeFogo<=2&&reatividade<=2){
-	        	restrito = false;
+	        	setRestrito(false);
 	    	}
 	    }
 	    	

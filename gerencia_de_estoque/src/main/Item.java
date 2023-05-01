@@ -1,12 +1,13 @@
 package main;
 
-public class Item {
+public  class Item {
 	
 	private String nome;
 	private int quantidade;
 	private String categoria;
 	private double valor;
 	private int id;
+	private boolean restrito;
 	
 	public Item(String nome, int quantidade, String categoria, double valor, int id) {
 		this.nome = nome;
@@ -14,6 +15,7 @@ public class Item {
 		this.categoria = categoria;
 		this.valor = valor;
 		this.id = id;
+		this.restrito = false;
 	}
 	
 	public void atualizarItem(String newNome, int newQuantidade, 
@@ -75,5 +77,13 @@ public class Item {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean getRestrito() {
+		return restrito;
+	}
+
+	public void setRestrito(boolean restrito) {
+		this.restrito = restrito;
 	}
 }
