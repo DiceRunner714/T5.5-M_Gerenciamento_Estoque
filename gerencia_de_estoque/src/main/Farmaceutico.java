@@ -53,8 +53,8 @@ public class Farmaceutico extends Item {
                 composicao == null ? "" : Arrays.toString(composicao), generico, restrito);
     }
 
-	//Outros metodos
-	//METODO RESTRINGIR
+    //Outros metodos
+    //METODO RESTRINGIR
     public void restringir() {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = true;
@@ -108,7 +108,6 @@ public class Farmaceutico extends Item {
     public void setGenerico(boolean generico) {
         this.generico = generico;
     }
-
 
 
 }

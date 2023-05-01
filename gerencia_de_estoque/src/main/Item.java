@@ -25,6 +25,10 @@ public abstract class Item {
         id = newId;
     }
 
+    public abstract void restringir();
+
+    public abstract void liberar();
+
     // TODO: substituir esse método por toString(), redundante
     public String toString() {
         return String.format("""
@@ -78,7 +82,4 @@ public abstract class Item {
         this.id = id;
     }
 
-    public abstract void restringir();
-
-    public abstract void liberar();
 }
