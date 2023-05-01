@@ -28,11 +28,24 @@ public class Filial {
         while (itr.hasNext()) {
             Item currentItem = itr.next();
 
-            if (currentItem.getId() == itemId)
-                itr.remove();
+            if (currentItem.getId() == itemId) {
+            	itr.remove();
+            	break;
+            }	          
         }
     }
-
+    
+    public Item lerItem(String nome) {
+        // Returns an item given its name
+        // returns null if item is not found
+        for (Item item : itens) {
+            if (item.getNome().equals(nome)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
     public Item lerItem(int id) {
         // Returns a specific item given its ID
         // returns null if item is not found

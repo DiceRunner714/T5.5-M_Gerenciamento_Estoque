@@ -112,10 +112,14 @@ public class Main {
         uranio.setPerigoEspecifico("RAD");
         System.out.println(crudlandia.getItens());
 
-        // ler item
-        System.out.println("LER ITEM");
+        // ler item pelo id
+        System.out.println("LER ITEM PELO ID");
         System.out.println(crudlandia.lerItem(69));
-
+        
+        // ler item pelo nome
+        System.out.println("LER ITEM PELO NOME");
+        System.out.println(crudlandia.lerItem("Urânio esgotado"));
+        
         // remover item
         System.out.println("DELETAR ITEM");
         crudlandia.removerItem(69);

@@ -28,7 +28,7 @@ public class ProdutoQuimico extends Item {
 
     public String toString() {
         return super.toString() + String.format("""
-                        ---Farmacêutico---
+                        ---Produto Químico---
                         Perigo à saúde: %d
                         Risco de Fogo: %d
                         Reatividade : %d
