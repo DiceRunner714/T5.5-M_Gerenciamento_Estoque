@@ -4,23 +4,6 @@ public class Main {
 
 	public static void main(String[] args) {
 
-/*
-		Filial filial1 = new Filial("ACME inc.", "Brazil", 0);
-		Filial filial2 = new Filial("Lockheed martin inc.", "US", 1);
-		Filial filial3 = new Filial("Modestos inc.", "Mexico", 6);
-
-		Item item1 = new Farmaceutico("Benzodiapeno", 15, "analgésico", 110, 0);
-		Item item2 = new ProdutoQuimico("Ácido sulfúrico", 34, "ácido", 3860, 4);
-		
-		filial1.adicionarItem(item1);
-		System.out.println(filial1.getItem(0).getCaracteristicasBasicas());
-		filial1.adicionarItem(item2);
-		System.out.println(filial1.getItem(4).getCaracteristicasBasicas());
-		filial1.getItem(4).atualizarCaracteristicasBasicas("Soda cáustica", 345,
-				"Base", 2.10, 4);
-		System.out.println(filial1.getItem(4).getCaracteristicasBasicas());
-*/
-
 		// --REQUISITOS MÍNIMOS--
 
 		// <---Testes de empresa-->
@@ -147,7 +130,6 @@ public class Main {
 		System.out.println("CRUD DE ITEM FINALIZADO");
 
 		// TODO: Teste restringir
-
 	}
 
 }
