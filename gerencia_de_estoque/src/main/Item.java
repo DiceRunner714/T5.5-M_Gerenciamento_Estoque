@@ -18,8 +18,8 @@ public abstract class Item {
 		this.restrito = false;
 	}
 	
-	public void atualizarItem(String newNome, int newQuantidade, 
-			String newCategoria, double newValor, int newId) {
+	public void atualizarCaracteristicasBasicas(String newNome, int newQuantidade,
+												String newCategoria, double newValor, int newId) {
 		nome = newNome;
 		quantidade = newQuantidade;
 		categoria = newCategoria;
@@ -27,9 +27,9 @@ public abstract class Item {
 		id = newId;
 	}
 
-	// TODO: substituir esse método por toString()
-	public void listarCaracteristicasBasicas() {
-		System.out.printf("""
+	// TODO: substituir esse método por toString(), redundante
+	public String getCaracteristicasBasicas() {
+		return String.format("""
 						---Produto----
 						ID: %d
 						Nome: %s

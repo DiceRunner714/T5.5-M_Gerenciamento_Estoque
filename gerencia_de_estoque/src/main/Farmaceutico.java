@@ -22,6 +22,11 @@ public class Farmaceutico extends Item {
     	this.generico = generico;
     }
 
+	public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id) {
+		super(nome, quantidade, categoria, valor, id);
+	}
+
+
 	public String toString() {
 		return super.toString()+String.format("""
 				---Farmacêutico---
