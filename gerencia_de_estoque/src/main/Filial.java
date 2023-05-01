@@ -32,7 +32,7 @@ public class Filial {
 		}
 	}
 	
-	public Item getItem(int id) {
+	public Item lerItem(int id) {
 		// Returns a specific item given its ID
 		// returns null if item is not found
 		for (Item item : itens) {
@@ -51,7 +51,7 @@ public class Filial {
  			id: %d
  			""", nome, local, id);
 	}
-	public ArrayList<Item> getAllItens() {
+	public ArrayList<Item> getItens() {
 		// Returns an item list of this branch
 		return itens;
 	}

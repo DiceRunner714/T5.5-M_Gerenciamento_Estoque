@@ -15,7 +15,7 @@ public class Empresa {
 	public ArrayList<Item> lerTodoEstoque() {
 		ArrayList<Item> todosItens = new ArrayList<>();
 		for (Filial filial : filiais) {
-			todosItens.addAll(filial.getAllItens());
+			todosItens.addAll(filial.getItens());
 		}
 		return todosItens;
 	}

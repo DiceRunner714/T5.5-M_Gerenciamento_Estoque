@@ -28,18 +28,6 @@ public abstract class Item {
 	}
 
 	// TODO: substituir esse método por toString(), redundante
-	public String getCaracteristicasBasicas() {
-		return String.format("""
-						---Produto----
-						ID: %d
-						Nome: %s
-						Categoria: %s
-						Qtd: %d
-						Valor: R$%.2f
-						%n""", id, nome,
-				categoria, quantidade, valor);
-	}
-
 	public String toString() {
 		return String.format("""
 						---Produto----
