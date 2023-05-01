@@ -67,7 +67,8 @@ public class Main {
         // Filtro de todos os itens de estoque de uma filial
         System.out.println("LISTAGEM DE ITEMS POR FILIAL INICIADO");
 
-        dreamworks.lerFilial(6).adicionarItem(new Farmaceutico("aspirina", 5, "analgésico", 599.5, 60));
+        dreamworks.lerFilial(6).adicionarItem(new Farmaceutico("aspirina",
+                5, "analgésico", 599.5, 60));
 
         System.out.println("<--ITEMS DA FILIAL 0-->");
         System.out.println(dreamworks.lerFilial(0).getItens());

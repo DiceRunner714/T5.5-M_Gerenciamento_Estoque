@@ -29,7 +29,6 @@ public abstract class Item {
 
     public abstract void liberar();
 
-    // TODO: substituir esse método por toString(), redundante
     public String toString() {
         return String.format("""
                         ---Produto----

@@ -13,7 +13,8 @@ public class Farmaceutico extends Item {
 
     // método construtor
     public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id,
-                        String tarja, boolean receita, boolean retencaoDeReceita, String[] composicao, boolean generico) {
+                        String tarja, boolean receita, boolean retencaoDeReceita,
+                        String[] composicao, boolean generico) {
         // Construtor da classe geral
         super(nome, quantidade, categoria, valor, id);
         // atributos da classe filha
