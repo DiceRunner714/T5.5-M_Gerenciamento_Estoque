@@ -127,7 +127,7 @@ public class Main {
 
 		// atualizar item
 		System.out.println("ATUALIZAR ITEM");
-		ProdutoQuimico uranio = (ProdutoQuimico) crudlandia.getItem(69); // Usar typecasting aqui talvez não seja a melhor idéia
+		ProdutoQuimico uranio = (ProdutoQuimico) crudlandia.lerItem(69); // Usar typecasting aqui talvez não seja a melhor idéia
 		uranio.atualizarCaracteristicasBasicas("Urânio esgotado", 100,
 				"Metal", 90, 69);
 		uranio.setReatividade(0);
@@ -146,7 +146,7 @@ public class Main {
 		System.out.println(crudlandia);
 		System.out.println("CRUD DE ITEM FINALIZADO");
 
-		// Teste restringir
+		// TODO: Teste restringir
 
 	}
 

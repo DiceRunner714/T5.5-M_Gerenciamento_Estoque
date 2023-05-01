@@ -1,92 +1,84 @@
 package main;
 
 public abstract class Item {
-	
-	private String nome;
-	private int quantidade;
-	private String categoria;
-	private double valor;
-	private int id;
-	private boolean restrito;
-	
-	public Item(String nome, int quantidade, String categoria, double valor, int id) {
-		this.nome = nome;
-		this.quantidade = quantidade;
-		this.categoria = categoria;
-		this.valor = valor;
-		this.id = id;
-		this.restrito = false;
-	}
-	
-	public void atualizarCaracteristicasBasicas(String newNome, int newQuantidade,
-												String newCategoria, double newValor, int newId) {
-		nome = newNome;
-		quantidade = newQuantidade;
-		categoria = newCategoria;
-		valor = newValor;
-		id = newId;
-	}
 
-	// TODO: substituir esse método por toString(), redundante
-	public String toString() {
-		return String.format("""
-						---Produto----
-						ID: %d
-						Nome: %s
-						Categoria: %s
-						Qtd: %d
-						Valor: R$%.2f
-						""", id, nome,
-				categoria, quantidade, valor);
-	}
-	public String getNome() {
-		return nome;
-	}
+    private String nome;
+    private int quantidade;
+    private String categoria;
+    private double valor;
+    private int id;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Item(String nome, int quantidade, String categoria, double valor, int id) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.categoria = categoria;
+        this.valor = valor;
+        this.id = id;
+    }
 
-	public int getQuantidade() {
-		return quantidade;
-	}
+    public void atualizarCaracteristicasBasicas(String newNome, int newQuantidade,
+                                                String newCategoria, double newValor, int newId) {
+        nome = newNome;
+        quantidade = newQuantidade;
+        categoria = newCategoria;
+        valor = newValor;
+        id = newId;
+    }
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
+    // TODO: substituir esse método por toString(), redundante
+    public String toString() {
+        return String.format("""
+                        ---Produto----
+                        ID: %d
+                        Nome: %s
+                        Categoria: %s
+                        Qtd: %d
+                        Valor: R$%.2f
+                        """, id, nome,
+                categoria, quantidade, valor);
+    }
 
-	public String getCategoria() {
-		return categoria;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public double getValor() {
-		return valor;
-	}
+    public int getQuantidade() {
+        return quantidade;
+    }
 
-	public void setValor(double valor) {
-		this.valor = valor;
-	}
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
-	public boolean getRestrito() {
-		return restrito;
-	}
+    public double getValor() {
+        return valor;
+    }
 
-	public void setRestrito(boolean restrito) {
-		this.restrito = restrito;
-	}
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
 
-	public abstract void restringir();
-	public abstract void liberar();
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public abstract void restringir();
+
+    public abstract void liberar();
 }
