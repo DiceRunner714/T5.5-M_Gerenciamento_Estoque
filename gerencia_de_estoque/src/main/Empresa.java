@@ -24,11 +24,12 @@ public class Empresa {
     public ArrayList<Item> lerTodoEstoque() {
         ArrayList<Item> todosItens = new ArrayList<>();
         for (Filial filial : filiais) {
-            todosItens.addAll(filial.getItens());
+            todosItens.addAll(filial.getEstoque());
         }
         return todosItens;
     }
 
+    // TODO: remover buscarItem
     public Item buscarItem(String nome) {
         ArrayList<Item> todoEstoque = this.lerTodoEstoque();
         Item itemBuscado = null;

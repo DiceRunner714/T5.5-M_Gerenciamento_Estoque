@@ -71,10 +71,10 @@ public class Main {
                 5, "analgésico", 599.5, 60));
 
         System.out.println("<--ITEMS DA FILIAL 0-->");
-        System.out.println(dreamworks.lerFilial(0).getItens());
+        System.out.println(dreamworks.lerFilial(0).getEstoque());
 
         System.out.println("<--ITEMS DA FILIAL 6-->");
-        System.out.println(dreamworks.lerFilial(6).getItens());
+        System.out.println(dreamworks.lerFilial(6).getEstoque());
         System.out.println("LISTAGEM DE ITEMS POR FILIAL FINALIZADO");
 
 
@@ -87,7 +87,7 @@ public class Main {
         filialEstoqueVazio.adicionarItem(new Farmaceutico("Minoxidil", 5, "Loção capilar", 500, 120));
 
         System.out.println("TODOS OS ITEMS:");
-        System.out.println(filialEstoqueVazio.getItens());
+        System.out.println(filialEstoqueVazio.getEstoque());
         System.out.println("APENAS ESTOQUE VAZIO:");
         System.out.println(filialEstoqueVazio.getEstoqueVazio());
         System.out.println("FILTRO DE ITENS COM ESTOQUE VAZIO FINALIZADO");
@@ -101,25 +101,25 @@ public class Main {
         // adicionar item
         System.out.println("ADICIONAR ITEM");
         crudlandia.adicionarItem(new ProdutoQuimico("Urânio Enriquecido", 123, "Metal", 90, 69));
-        System.out.println(crudlandia.getItens());
+        System.out.println(crudlandia.getEstoque());
 
         // atualizar item
         System.out.println("ATUALIZAR ITEM");
-        ProdutoQuimico uranio = (ProdutoQuimico) crudlandia.lerItem(69); // Usar typecasting aqui talvez não seja a melhor idéia
+        ProdutoQuimico uranio = (ProdutoQuimico) crudlandia.buscarItem(69); // Usar typecasting aqui talvez não seja a melhor idéia
         uranio.atualizarCaracteristicasBasicas("Urânio esgotado", 100, "Metal", 90, 69);
         uranio.setReatividade(0);
         uranio.setPerigoaSaude(5);
         uranio.setRiscoDeFogo(0);
         uranio.setPerigoEspecifico("RAD");
-        System.out.println(crudlandia.getItens());
+        System.out.println(crudlandia.getEstoque());
 
         // ler item pelo id
         System.out.println("LER ITEM PELO ID");
-        System.out.println(crudlandia.lerItem(69));
+        System.out.println(crudlandia.buscarItem(69));
         
         // ler item pelo nome
         System.out.println("LER ITEM PELO NOME");
-        System.out.println(crudlandia.lerItem("Urânio esgotado"));
+        System.out.println(crudlandia.buscarItem("Urânio esgotado"));
         
         // remover item
         System.out.println("DELETAR ITEM");
@@ -136,24 +136,24 @@ public class Main {
 
         restricoes.adicionarItem(
                 new Farmaceutico("Risperidon", 5, "antipsicótico", 53.94, 0,
-                        "preta", true, true, new String[]{"Risperidona 1mg"}, false)
+                        "preta", true, true, new String[]{"Risperidona 1mg", "azdio 2mg"}, false)
         );
         restricoes.adicionarItem(
                 new ProdutoQuimico("Azidoazide azide", 1, "composto inorgânico",
                         999.99, 1, 5, 5, 5, null)
         );
 
-        Farmaceutico risperidon = (Farmaceutico) restricoes.lerItem(0);
-        ProdutoQuimico azido = (ProdutoQuimico) restricoes.lerItem(1);
-        System.out.println(restricoes.getItens());
+        Farmaceutico risperidon = (Farmaceutico) restricoes.buscarItem(0);
+        ProdutoQuimico azido = (ProdutoQuimico) restricoes.buscarItem(1);
+        System.out.println(restricoes.getEstoque());
 
         risperidon.restringir();    // Produtos perigosos serão restritos
         azido.restringir();
-        System.out.println(restricoes.getItens());
+        System.out.println(restricoes.getEstoque());
 
         risperidon.liberar();       //Produtos não serão liberados, pois ainda são classificados como perigosos
         azido.liberar();
-        System.out.println(restricoes.getItens());
+        System.out.println(restricoes.getEstoque());
 
         System.out.println("TESTE DE RESTRIÇÕES FINALIZADO");
     }

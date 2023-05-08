@@ -3,7 +3,7 @@ Eles precisam gerenciar os itens de estoque e as filiais responsáveis e para is
 remover, alterar e ler dados sobre as filiais e os itens.
 
 Cada item deve ter cadastrado: nome, id, categoria, valor e quantidade em estoque.
-Além disso, cada item estará associado à uma filial, que terá identificação, nome e localização geográfica.
+Além disso, cada item estará associado a uma filial, que terá identificação, nome e localização geográfica.
 
 Para facilitar a manutenção do estoque,
 é importante que se possa buscar um item pelo nome ou id e visualizar todos os itens.
@@ -12,5 +12,5 @@ Para evitar problemas com filiais e estoques vazios,
 também deve ser possível verificar todos os itens de uma filial com estoque zerado,
 e filtrar todo o estoque disponível de uma determinada filial.
 
-Devido ao fato de que este empreendimento tem acesso a substâncias e produtos que podem causar danos materiais e humanos,
+Porque este empreendimento tem acesso a substâncias e produtos que podem causar danos materiais e humanos,
 é preciso uma forma de restringir o acesso ao gerenciamento dos itens de alto risco.
