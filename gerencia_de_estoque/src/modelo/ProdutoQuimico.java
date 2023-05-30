@@ -1,4 +1,4 @@
-package main;
+package modelo;
 
 public class ProdutoQuimico extends Item {
 
