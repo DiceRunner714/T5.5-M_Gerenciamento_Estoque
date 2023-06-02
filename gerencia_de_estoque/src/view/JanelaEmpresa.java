@@ -5,33 +5,36 @@ import javax.swing.*;
 
 public class JanelaEmpresa {
 	private static JFrame janela = new JFrame("Empresa");
-	private static JButton botao = new JButton("clique aqui");
-	private static JButton botao2 = new JButton("clique aqui");
+	private static JButton verFil = new JButton("Ver Filiais");
+	private static JButton verEst = new JButton("Ver Estoque");
 	private static JLabel titulo = new JLabel("Empresa");
-	private static JLabel texto = new JLabel("texto");
+	private static JLabel texto = new JLabel("<html>Um empreendimento de vendas on-line necessita de um sistema de controle e gerenciamento de seu estoque.\r\n"
+			+ "Eles precisam gerenciar os itens de estoque e as filiais responsáveis e para isso precisam poder cadastrar,\r\n"
+			+ "remover, alterar e ler dados sobre as filiais e os itens. </html>");
 	
 	public JanelaEmpresa() {
-		botao.setBounds(100, 100, 250, 50);
-		botao.setFont(new Font("Arial", Font.BOLD, 20));
-		botao2.setBounds(100, 200, 250, 50);
-		botao2.setFont(new Font("Arial", Font.BOLD, 20));
-		titulo.setBounds(200, 0, 100, 50);
+		verFil.setBounds(40, 200, 120, 30);
+		verEst.setBounds(200, 200, 120, 30);
+		titulo.setBounds(140, 0, 90, 50);
 		titulo.setFont(new Font("Arial", Font.BOLD, 20));
-		texto.setBounds(100, 400, 250, 50);
-		texto.setFont(new Font("Arial", Font.BOLD, 20));
-		janela.add(botao);
-		janela.add(botao2);
-		janela.add(titulo);
-		janela.add(texto);
-		janela.setSize(500, 500);
-		janela.setVisible(true);
+		texto.setBounds(20, 70, 330, 90);
 		
 		janela.setLayout(null);
+		
+		janela.add(verFil);
+		janela.add(verEst);
+		janela.add(titulo);
+		janela.add(texto);
+		janela.setSize(400, 400);
+		janela.setVisible(true);
+		
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JanelaEmpresa j = new JanelaEmpresa();
+		JanelaEmpresa j1 = new JanelaEmpresa();
+		JanelaFilial j2 = new JanelaFilial();
+		JanelaEstoque j3 = new JanelaEstoque();
 	}
 
 }
