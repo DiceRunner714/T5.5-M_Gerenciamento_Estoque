@@ -8,9 +8,12 @@ public class JanelaEmpresa {
 	private static JButton verFil = new JButton("Ver Filiais");
 	private static JButton verEst = new JButton("Ver Estoque");
 	private static JLabel titulo = new JLabel("Empresa");
-	private static JLabel texto = new JLabel("<html>Um empreendimento de vendas on-line necessita de um sistema de controle e gerenciamento de seu estoque.\r\n"
-			+ "Eles precisam gerenciar os itens de estoque e as filiais responsáveis e para isso precisam poder cadastrar,\r\n"
-			+ "remover, alterar e ler dados sobre as filiais e os itens. </html>");
+	private static JLabel texto = new JLabel("<html>Um empreendimento de "
+			+ "vendas on-line necessita de um sistema de controle e "
+			+ "gerenciamento de seu estoque. Eles precisam gerenciar"
+			+ " os itens de estoque e as filiais responsáveis e para isso"
+			+ " precisam poder cadastrar, remover, alterar e ler dados sobre"
+			+ " as filiais e os itens. </html>");
 	
 	public JanelaEmpresa() {
 		verFil.setBounds(40, 200, 120, 30);
