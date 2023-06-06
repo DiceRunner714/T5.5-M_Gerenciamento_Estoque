@@ -38,6 +38,7 @@ public class JanelaEmpresa {
 		JanelaFilial j2 = new JanelaFilial();
 		//JanelaEstoque j3 = new JanelaEstoque();
 		DetalheFilial j4 = new DetalheFilial();
+		DetalheItem j5 = new DetalheItem();
 	}
 
 }
