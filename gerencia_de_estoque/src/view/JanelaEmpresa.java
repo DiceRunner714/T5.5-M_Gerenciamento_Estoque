@@ -36,7 +36,7 @@ public class JanelaEmpresa {
 		// TODO Auto-generated method stub
 		JanelaEmpresa j1 = new JanelaEmpresa();
 		JanelaFilial j2 = new JanelaFilial();
-		//JanelaEstoque j3 = new JanelaEstoque();
+		JanelaEstoque j3 = new JanelaEstoque();
 		DetalheFilial j4 = new DetalheFilial();
 		DetalheItem j5 = new DetalheItem();
 	}
