@@ -2,14 +2,6 @@ package controle;
 import modelo.*;
 
 public class ControleEmpresa {
-    public Empresa getEmpresaMain() {
-        return empresaMain;
-    }
-
-    public void setEmpresaMain(Empresa empresaMain) {
-        this.empresaMain = empresaMain;
-    }
-
     private Empresa empresaMain;
 
     public ControleEmpresa(String nome) {
@@ -22,6 +14,13 @@ public class ControleEmpresa {
 
     public String getNomeEmpresa() {
         return empresaMain.getNome();
+    }
+    public Empresa getEmpresaMain() {
+        return empresaMain;
+    }
+
+    public void setEmpresaMain(Empresa empresaMain) {
+        this.empresaMain = empresaMain;
     }
 
     public int getQtdFilial() {
