@@ -1,5 +1,6 @@
 package view;
 
+import controle.ControleEmpresa;
 import controle.ControleEstoque;
 import controle.ControleFilial;
 import modelo.Filial;
@@ -55,6 +56,8 @@ public class JanelaPesquisa implements ActionListener {
         janela.add(botaoVerEst);
 
         botaoVerDetalhes.addActionListener(this);
+        botaoAdicionar.addActionListener(this);
+        botaoVerEst.addActionListener(this);
 
         janela.setSize(400, 400);
         janela.setVisible(true);
@@ -92,6 +95,7 @@ public class JanelaPesquisa implements ActionListener {
         janela.add(filtroEstoqueVazio);
 
         botaoVerDetalhes.addActionListener(this);
+        botaoAdicionar.addActionListener(this);
 
         janela.setSize(400, 400);
         janela.setVisible(true);
@@ -102,11 +106,22 @@ public class JanelaPesquisa implements ActionListener {
         Object src = e.getSource();
 
         if (controleFilial != null) {
+            System.out.println("hello");
             if (src == botaoVerDetalhes) {
                 new DetalheFilial();
+                // Adicionar construtor que recebe um objeto filial para ler detalhes
+                // new DetalheFilial(listaFiliais.getSelected);
+            } else if (src == botaoAdicionar) {
+                new DetalheFilial();
+            } else if (src == botaoVerEst) {
+                // TODO: como ver o estoque de uma filial??
+                // new JanelaPesquisa(Estoque);
             }
         } else {
             if (src == botaoVerDetalhes) {
+                new DetalheItem();
+                // new DetalheItem(listaFiliais.getSelected);
+            } else if (src == botaoAdicionar) {
                 new DetalheItem();
             }
         }
