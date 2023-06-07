@@ -1,4 +1,6 @@
 package view;
+import modelo.Item;
+
 import java.awt.Font;
 import javax.swing.*;
 
@@ -19,7 +21,9 @@ public class DetalheItem {
 	private JButton botaoAtualizar = new JButton("Atualizar");
 	private JButton botaoExcluir = new JButton("Excluir");
 	
-	
+
+	// Construtor vazio, adicionar item
+	// TODO: adicionar card para escolher tipo de item
 	public DetalheItem() {
 		descricao.setBounds(90, 10, 200, 30);
 		descricao.setFont(new Font("Arial", Font.BOLD, 20));
@@ -53,5 +57,11 @@ public class DetalheItem {
 		
 		janela.setSize(400, 400);
 		janela.setVisible(true);
+	}
+
+	// Construtor n�o vazio, item escolhido para modificar
+	// modificar depois para utilizar apenas classes controle
+	public DetalheItem(Item item) {
+
 	}
 }

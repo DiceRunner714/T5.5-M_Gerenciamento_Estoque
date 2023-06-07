@@ -1,4 +1,7 @@
 package view;
+import modelo.Filial;
+import modelo.Item;
+
 import java.awt.Font;
 import javax.swing.*;
 
@@ -13,7 +16,8 @@ public class DetalheFilial {
 	private JTextField valorId = new JTextField();
 	private JButton botaoAtualizar = new JButton("Atualizar");
 	private JButton botaoExcluir = new JButton("Excluir");
-	
+
+	// Nenhuma filial escolhida, adicionar uma nova
 	public DetalheFilial() {
 		descricao.setBounds(90, 10, 200, 30);
 		descricao.setFont(new Font("Arial", Font.BOLD, 20));
@@ -39,5 +43,10 @@ public class DetalheFilial {
 		
 		janela.setSize(400, 400);
 		janela.setVisible(true);
+	}
+
+	// Filial escolhida para modificaç�o
+	public DetalheFilial(Filial filial) {
+
 	}
 }
