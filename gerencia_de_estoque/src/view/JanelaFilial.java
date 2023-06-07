@@ -1,15 +1,18 @@
 package view;
+import modelo.Filial;
+
 import java.awt.Font;
 import javax.swing.*;
 
+@Deprecated
 public class JanelaFilial {
 	private JLabel texto = new JLabel("Pesquisar filial");
-	private JList<String> listaFiliais = new JList<String>();
+	private JList<Filial> listaFiliais = new JList<>();
 	private JButton botaoCriarFil = new JButton("Adicionar Filial");
 	private JButton botaoVerFil = new JButton("Ver filial");
 	private JButton botaoVerEst = new JButton("Ver estoque");
 	private JFrame janela = new JFrame("Filiais");
-	
+
 	public JanelaFilial() {
 		texto.setBounds(20, 10, 150, 20);
 		texto.setFont(new Font("Arial", Font.BOLD, 20));

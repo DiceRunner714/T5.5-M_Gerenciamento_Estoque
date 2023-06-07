@@ -1,11 +1,14 @@
 package view;
+import modelo.Item;
+
 import java.awt.Font;
 import javax.swing.*;
 
+@Deprecated
 public class JanelaEstoque {
 	private JFrame janela = new JFrame("Estoque");
 	private JLabel descricao = new JLabel("Pesquisar item");
-	private JList<String> listaEstoque = new JList<String>();
+	private JList<Item> listaEstoque = new JList<>();
 	private JCheckBox filtroEstoqueVazio = new JCheckBox("Filtro de estoque vazio");
 	private JButton createItem = new JButton("Adicionar Item");
 	private JButton botaoVerItem = new JButton("Ver Item");

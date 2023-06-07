@@ -1,8 +1,17 @@
 package view;
-import java.awt.Font;
+import controle.ControleEmpresa;
+import controle.ControleEstoque;
+import controle.ControleFilial;
+import modelo.Filial;
+import modelo.Item;
+import modelo.ProdutoQuimico;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
-public class JanelaEmpresa {
+public class JanelaEmpresa implements ActionListener {
 	private static JFrame janela = new JFrame("Empresa");
 	private static JButton verFil = new JButton("Ver Filiais");
 	private static JButton verEst = new JButton("Ver Estoque");
@@ -13,7 +22,10 @@ public class JanelaEmpresa {
 			+ " os itens de estoque e as filiais responsáveis e para isso"
 			+ " precisam poder cadastrar, remover, alterar e ler dados sobre"
 			+ " as filiais e os itens. </html>");
-	
+
+	private static ControleEmpresa controleEmpresa = new ControleEmpresa("Lixo");
+	private static ControleFilial controleFilial = new ControleFilial(controleEmpresa);
+
 	public JanelaEmpresa() {
 		verFil.setBounds(40, 200, 120, 30);
 		verEst.setBounds(200, 200, 120, 30);
@@ -34,11 +46,21 @@ public class JanelaEmpresa {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JanelaEmpresa j1 = new JanelaEmpresa();
-		JanelaFilial j2 = new JanelaFilial();
-		JanelaEstoque j3 = new JanelaEstoque();
-		DetalheFilial j4 = new DetalheFilial();
-		DetalheItem j5 = new DetalheItem();
+		JanelaEmpresa empresa = new JanelaEmpresa();
+		verFil.addActionListener(empresa);
+		verEst.addActionListener(empresa);
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+
+		if (src == verFil) {
+			new JanelaPesquisa(new ControleFilial(controleEmpresa));
+		}
+
+		if (src == verEst) {
+			new JanelaPesquisa(new ControleEstoque(controleEmpresa));
+		}
+	}
 }
