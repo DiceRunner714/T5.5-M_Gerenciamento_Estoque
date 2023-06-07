@@ -26,8 +26,8 @@ public class ProdutoQuimico extends Item {
         this.restrito = false;
     }
 
-    public String toString() {
-        return super.toString() + String.format("""
+    public String listarCaracteristicasBasicas() {
+        return super.listarCaracteristicasBasicas() + String.format("""
                         ---Produto Químico---
                         Perigo à saúde: %d
                         Risco de Fogo: %d
