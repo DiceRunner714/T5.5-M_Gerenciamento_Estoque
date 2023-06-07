@@ -57,13 +57,18 @@ public class Filial {
         return null;
     }
 
-    public String toString() {
+    public String listarCaracteristicasBasicacs() {
         return String.format("""
                 ---Filial---
                 nome: %s
                 local: %s
                 id: %d
                 """, nome, local, id);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d_%s", id, nome);
     }
 
     public ArrayList<Item> getEstoque() {

@@ -32,7 +32,7 @@ public class Farmaceutico extends Item {
     }
 
 
-    public String toString() {
+    public String listarCaracteristicasBasicas() {
         /*  Operador ternário para não travar o programa quando não houver composição:
                 composição == null ? "" : Arrays.toString(composição)
             é equivalente a:
@@ -42,7 +42,7 @@ public class Farmaceutico extends Item {
                     return Arrays.toString(composição)
                 }
          */
-        return super.toString() + String.format("""
+        return super.listarCaracteristicasBasicas() + String.format("""
                         ---Farmacêutico---
                         Tarja: %s
                         Necessita de receita: %b

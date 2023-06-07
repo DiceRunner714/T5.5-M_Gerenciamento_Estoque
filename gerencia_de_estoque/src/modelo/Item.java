@@ -29,7 +29,7 @@ public abstract class Item {
 
     public abstract void liberar();
 
-    public String toString() {
+    public String listarCaracteristicasBasicas() {
         return String.format("""
                         ---Produto----
                         ID: %d
@@ -39,6 +39,10 @@ public abstract class Item {
                         Valor: R$%.2f
                         """, id, nome,
                 categoria, quantidade, valor);
+    }
+
+    public String toString() {
+        return String.format("%d_%s", id, nome);
     }
 
     public String getNome() {
