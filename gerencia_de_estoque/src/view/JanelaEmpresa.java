@@ -24,7 +24,6 @@ public class JanelaEmpresa implements ActionListener {
 			+ " as filiais e os itens. </html>");
 
 	private static ControleEmpresa controleEmpresa = new ControleEmpresa("Lixo");
-	private static ControleFilial controleFilial = new ControleFilial(controleEmpresa);
 
 	public JanelaEmpresa() {
 		verFil.setBounds(40, 200, 120, 30);
@@ -47,6 +46,12 @@ public class JanelaEmpresa implements ActionListener {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		JanelaEmpresa empresa = new JanelaEmpresa();
+		controleEmpresa.adicionarFilial(
+				new Filial("abr", "brasil", 6)
+		);
+		controleEmpresa.adicionarFilial(
+				new Filial("sussy baki", "xina", 7)
+		);
 		verFil.addActionListener(empresa);
 		verEst.addActionListener(empresa);
 	}
@@ -56,11 +61,11 @@ public class JanelaEmpresa implements ActionListener {
 		Object src = e.getSource();
 
 		if (src == verFil) {
-			new JanelaPesquisa(new ControleFilial(controleEmpresa));
+			new JanelaPesquisa(controleEmpresa, 1);
 		}
 
 		if (src == verEst) {
-			new JanelaPesquisa(new ControleEstoque(controleEmpresa));
+			new JanelaPesquisa(controleEmpresa, 2);
 		}
 	}
 }
