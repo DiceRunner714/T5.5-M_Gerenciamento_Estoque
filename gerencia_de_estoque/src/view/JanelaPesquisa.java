@@ -124,7 +124,9 @@ public class JanelaPesquisa implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
+
         if (modo == 1) {
+            // Modo filial
             if (src == botaoVerDetalhes) {
                 new DetalheFilial(controleEmpresa, this);
                 // Adicionar construtor que recebe um objeto filial para ler detalhes
@@ -136,6 +138,7 @@ public class JanelaPesquisa implements ActionListener {
                 // new JanelaPesquisa(Estoque);
             }
         } else {
+            // Modo estoque
             if (src == botaoVerDetalhes) {
                 new DetalheItem();
                 // new DetalheItem(listaFiliais.getSelected);
