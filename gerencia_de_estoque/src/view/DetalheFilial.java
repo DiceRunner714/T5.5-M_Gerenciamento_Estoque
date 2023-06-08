@@ -25,15 +25,15 @@ public class DetalheFilial implements ActionListener {
     private ControleEmpresa controleEmpresa;
     private JanelaPesquisa janelaPesquisa;
     private Filial filialEscholida;
-    private int modo;
+    private Modos modo;
 
 
-    // Nenhuma filial escolhida, adicionar uma nova
+    // Construtor para adicionar uma filial nova
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         // Modo de adicionar
         this.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
-        modo = 1;
+        modo = Modos.ADICIONAR;
 
         criarElementosBasicos();
 
@@ -54,13 +54,13 @@ public class DetalheFilial implements ActionListener {
         janela.setVisible(true);
     }
 
-
+    // Construtor para editar uma filial
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscholida) {
         // Modo de atualizar
         this.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
         this.filialEscholida = filialEscholida;
-        modo = 2;
+        modo = Modos.EDITAR;
 
         criarElementosBasicos();
 
@@ -118,10 +118,9 @@ public class DetalheFilial implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        // TODO: implementar checagem de entrada válida
         switch (modo) {
-            // Modo adicionar filial, mas o botão está com o nome errado
-            case 1:
+
+            case ADICIONAR:
                 if (src == botaoAtualizar) {
                     try {
                         Filial f = new Filial(
@@ -143,8 +142,8 @@ public class DetalheFilial implements ActionListener {
                     janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
                 }
                 break;
-            // Modo alterar filial
-            case 2:
+
+            case EDITAR:
                 if (src == botaoAtualizar) {
                     try {
                         controleEmpresa.atualizarFilial(

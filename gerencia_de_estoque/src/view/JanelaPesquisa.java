@@ -24,16 +24,16 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     private JButton botaoAdicionar;
     private ArrayList<Item> estoque;
     private ArrayList<Filial> filiais;
-    private int modo;
+    private Modos modo;
 
-    public JanelaPesquisa(ControleEmpresa controleEmpresa, int modo) {
+    public JanelaPesquisa(ControleEmpresa controleEmpresa, Modos modo) {
         this.modo = modo;
         this.controleEmpresa = controleEmpresa;
 
         // Escolha de modo
         switch (modo) {
             // operação 1 - filial
-            case 1:
+            case LISTAR_FILIAIS:
 
                 filiais = controleEmpresa.getFiliais();
 
@@ -63,7 +63,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                 botaoVerEst.addActionListener(this);
 
                 break;
-            case 2:
+            case LISTAR_ESTOQUE_GERAL:
 
                 estoque = controleEmpresa.getEstoque();
                 // Operação 2 - estoque
@@ -107,16 +107,16 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
 
     }
 
+
     public void refresh() {
         switch (modo) {
-            //Modo filial
-            case 1:
+
+            case LISTAR_FILIAIS:
                 listaFiliais.setListData(filiais.toArray(new Filial[filiais.size()]));
                 listaFiliais.updateUI();
                 break;
 
-            //Modo estoque
-            case 2:
+            case LISTAR_ESTOQUE_GERAL:
                 ArrayList<Item> estoqueEmDisplay;
                 if (filtroEstoqueVazio.isSelected()) {
                     estoqueEmDisplay = controleEmpresa.getEstoqueVazio();
@@ -133,9 +133,8 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-
         switch (modo) {
-            case 1:
+            case LISTAR_FILIAIS:
                 if (src == botaoAdicionar) {
                     new DetalheFilial(controleEmpresa, this);
                 } else {
@@ -151,8 +150,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                     }
                 }
                 break;
-            case 2:
-                // Modo estoque
+            case LISTAR_ESTOQUE_GERAL:
                 if (src == botaoVerDetalhes) {
                     new DetalheItem();
                     // new DetalheItem(listaFiliais.getSelected);
@@ -170,7 +168,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     public void itemStateChanged(ItemEvent e) {
         Object src = e.getSource();
         switch (modo) {
-            case 2:
+            case LISTAR_ESTOQUE_GERAL:
                 if (src == filtroEstoqueVazio) {
                     refresh();
                 }
@@ -182,10 +180,10 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     public void mensagemErroEscolhaVazia() {
         String mensagem = null;
         switch (modo) {
-            case 1:
+            case LISTAR_FILIAIS:
                 mensagem = "Erro de escolha: uma filial não foi selecionada";
                 break;
-            case 2:
+            case LISTAR_ESTOQUE_GERAL:
                 mensagem = "Erro de escolha: um item não foi selecionado";
                 break;
         }
