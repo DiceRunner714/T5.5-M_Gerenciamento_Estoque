@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 public class DetalheFilial implements ActionListener {
+    private static ControleEmpresa controleEmpresa;
     private JFrame janela = new JFrame("Filial");
     private JLabel descricao = new JLabel("Informações da Filial");
     private JLabel labelNome = new JLabel("Nome: ");
@@ -22,7 +23,8 @@ public class DetalheFilial implements ActionListener {
     private JTextField valorId = new JTextField();
     private JButton botaoAtualizar;
     private JButton botaoExcluir;
-    private ControleEmpresa controleEmpresa;
+    private JButton botaoAdicionar;
+    private JButton botaoCancelar;
     private JanelaPesquisa janelaPesquisa;
     private Filial filialEscholida;
     private Modos modo;
@@ -37,18 +39,18 @@ public class DetalheFilial implements ActionListener {
 
         criarElementosBasicos();
 
-        botaoAtualizar = new JButton("Adicionar");
-        botaoAtualizar.setBounds(70, 170, 100, 30);
+        botaoAdicionar = new JButton("Adicionar");
+        botaoAdicionar.setBounds(70, 170, 100, 30);
 
         // TODO: este botão está com o tamanho errado para o texto
-        botaoExcluir = new JButton("Cancelar");
-        botaoExcluir.setBounds(220, 170, 80, 30);
+        botaoCancelar = new JButton("Cancelar");
+        botaoCancelar.setBounds(220, 170, 80, 30);
 
-        janela.add(botaoAtualizar);
-        janela.add(botaoExcluir);
+        janela.add(botaoAdicionar);
+        janela.add(botaoCancelar);
 
-        botaoAtualizar.addActionListener(this);
-        botaoExcluir.addActionListener(this);
+        botaoAdicionar.addActionListener(this);
+        botaoCancelar.addActionListener(this);
 
         janela.setSize(400, 400);
         janela.setVisible(true);
@@ -118,55 +120,47 @@ public class DetalheFilial implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        switch (modo) {
-
-            case ADICIONAR:
-                if (src == botaoAtualizar) {
-                    try {
-                        Filial f = new Filial(
-                                valorNome.getText(),
-                                valorLocalizacao.getText(),
-                                Integer.parseInt(valorId.getText())
-                        );
-                        controleEmpresa.adicionarFilial(f);
-                        janelaPesquisa.refresh();
-                    } catch (NumberFormatException e1) {
-                        mensagemErrodeFormatacao();
-                    } catch (NullPointerException e2) {
-                        mensagemErroFormularioVazio();
-                    } catch (IdRepetidoException e3) {
-                        mensagemErroIdrepetido(e3);
-                    }
-                } else if (src == botaoExcluir) {
-                    // Fechar a janela atual
-                    janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-                }
-                break;
-
-            case EDITAR:
-                if (src == botaoAtualizar) {
-                    try {
-                        controleEmpresa.atualizarFilial(
-                                valorNome.getText(),
-                                valorLocalizacao.getText(),
-                                Integer.parseInt(valorId.getText()),
-                                filialEscholida
-                        );
-                        janelaPesquisa.refresh();
-                    } catch (NumberFormatException e1) {
-                        mensagemErrodeFormatacao();
-                    } catch (NullPointerException e2) {
-                        mensagemErroFormularioVazio();
-                    } catch (IdRepetidoException e3) {
-                        mensagemErroIdrepetido(e3);
-                    }
-                } else if (src == botaoExcluir) {
-                    controleEmpresa.excluirFilial(filialEscholida);
-                    janelaPesquisa.refresh();
-                    janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-                }
-
+        if (src == botaoAdicionar) {
+            try {
+                Filial f = new Filial(
+                        valorNome.getText(),
+                        valorLocalizacao.getText(),
+                        Integer.parseInt(valorId.getText())
+                );
+                controleEmpresa.adicionarFilial(f);
+                janelaPesquisa.refresh();
+            } catch (NumberFormatException e1) {
+                mensagemErrodeFormatacao();
+            } catch (NullPointerException e2) {
+                mensagemErroFormularioVazio();
+            } catch (IdRepetidoException e3) {
+                mensagemErroIdrepetido(e3);
+            }
+        } else if (src == botaoCancelar) {
+            // Fechar a janela atual
+            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+        } else if (src == botaoAtualizar) {
+            try {
+                controleEmpresa.atualizarFilial(
+                        valorNome.getText(),
+                        valorLocalizacao.getText(),
+                        Integer.parseInt(valorId.getText()),
+                        filialEscholida
+                );
+                janelaPesquisa.refresh();
+            } catch (NumberFormatException e1) {
+                mensagemErrodeFormatacao();
+            } catch (NullPointerException e2) {
+                mensagemErroFormularioVazio();
+            } catch (IdRepetidoException e3) {
+                mensagemErroIdrepetido(e3);
+            }
+        } else if (src == botaoExcluir) {
+            controleEmpresa.excluirFilial(filialEscholida);
+            janelaPesquisa.refresh();
+            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
         }
+
     }
 
     // --POP UPS--

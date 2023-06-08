@@ -1,16 +1,22 @@
 package view;
 
 import controle.ControleEmpresa;
+import controle.ControleEstoque;
+import controle.IdRepetidoException;
 import modelo.Farmaceutico;
+import modelo.Filial;
 import modelo.Item;
 import modelo.ProdutoQuimico;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class DetalheItem implements ActionListener {
+    private static ControleEmpresa controleEmpresa;
     // TODO: criar os componentes das classes filhas
     private JFrame janela = new JFrame("Item");
     private JLabel descricao = new JLabel("Informações do Item");
@@ -26,21 +32,31 @@ public class DetalheItem implements ActionListener {
     private JTextField valorValor = new JTextField();
     private JButton botaoAtualizar;
     private JButton botaoExcluir;
+    private JLabel labelFilial = new JLabel("Filial: ");
+    private JComboBox<Filial> filialJComboBox;
     private CategoriasItens tipoDeItem;
     private Modos modo;
-    private ControleEmpresa controleEmpresa;
     private JanelaPesquisa janelaPesquisa;
+    private Filial filialdoItem;
     private Item itemEscolhido;
+    private ControleEstoque controleEstoque;
 
     // Construtor vazio, adicionar item
     // TODO: como adicionar item se não foi selecionada uma filial?
 
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-
-        this.controleEmpresa = controleEmpresa;
+        modo = Modos.ADICIONAR;
+        DetalheItem.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
 
         criarElementosBasicos();
+
+        labelFilial.setBounds(10, 220, 80, 30);
+        ArrayList<Filial> filiaisDisponiveis = controleEmpresa.getFiliais();
+        filialJComboBox = new JComboBox<>(
+                filiaisDisponiveis.toArray(new Filial[filiaisDisponiveis.size()])
+        );
+        filialJComboBox.setBounds(120, 220, 80, 80);
 
         botaoExcluir = new JButton("Cancelar");
         botaoExcluir.setBounds(220, 300, 80, 30);
@@ -50,15 +66,24 @@ public class DetalheItem implements ActionListener {
 
         janela.add(botaoAtualizar);
         janela.add(botaoExcluir);
+        janela.add(filialJComboBox);
+        janela.add(labelFilial);
 
         janela.setSize(400, 400);
         janela.setVisible(true);
     }
 
-    // Construtor n�o vazio, item escolhido para modificar
-    // modificar depois para utilizar apenas classes controle
-    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item item) {
+    // Construtor não vazio, item escolhido para modificar
+    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
         this.modo = Modos.EDITAR;
+        this.janelaPesquisa = janelaPesquisa;
+        this.itemEscolhido = itemEscolhido;
+        DetalheItem.controleEmpresa = controleEmpresa;
+        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+        controleEstoque = new ControleEstoque(controleEmpresa, filialdoItem);
+
+        descricao.setText("Filial: " + filialdoItem.getNome());
+
         Farmaceutico farmaceutico;
         ProdutoQuimico produtoQuimico;
 
@@ -70,22 +95,25 @@ public class DetalheItem implements ActionListener {
         botaoAtualizar = new JButton("Atualizar");
         botaoAtualizar.setBounds(70, 300, 100, 30);
 
-        valorNome.setText(item.getNome());
-        valorCategoria.setText(item.getCategoria());
-        valorValor.setText(String.valueOf(item.getValor()));
-        valorId.setText(String.valueOf(item.getId()));
-        valorQuantidade.setText(String.valueOf(item.getQuantidade()));
+        valorNome.setText(itemEscolhido.getNome());
+        valorCategoria.setText(itemEscolhido.getCategoria());
+        valorValor.setText(String.valueOf(itemEscolhido.getValor()));
+        valorId.setText(String.valueOf(itemEscolhido.getId()));
+        valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
 
         janela.add(botaoAtualizar);
         janela.add(botaoExcluir);
 
-        if (item instanceof Farmaceutico) {
+        botaoAtualizar.addActionListener(this);
+        botaoExcluir.addActionListener(this);
+
+        if (itemEscolhido instanceof Farmaceutico) {
             // Adicionar campos de farmaceutico
-            farmaceutico = (Farmaceutico) item;
+            farmaceutico = (Farmaceutico) itemEscolhido;
             tipoDeItem = CategoriasItens.FARMACEUTICO;
         } else {
             // Adicionar campos de produtoquimico
-            produtoQuimico = (ProdutoQuimico) item;
+            produtoQuimico = (ProdutoQuimico) itemEscolhido;
             tipoDeItem = CategoriasItens.PRODUTO_QUIMICO;
         }
 
@@ -130,8 +158,51 @@ public class DetalheItem implements ActionListener {
         switch (modo) {
             case EDITAR:
                 if (src == botaoAtualizar) {
-
+                    try {
+                        controleEstoque.atualizarItem(
+                                valorNome.getText(),
+                                valorCategoria.getText(),
+                                Double.parseDouble(valorValor.getText()),
+                                Integer.parseInt(valorQuantidade.getText()),
+                                Integer.parseInt(valorId.getText()),
+                                itemEscolhido
+                        );
+                        janelaPesquisa.refresh();
+                    } catch (NumberFormatException e1) {
+                        mensagemErrodeFormatacao();
+                    } catch (NullPointerException e2) {
+                        mensagemErroFormularioVazio();
+                    } catch (IdRepetidoException e3) {
+                        mensagemErroIdrepetido(e3);
+                    }
+                } else if (src == botaoExcluir) {
+                    controleEstoque.removerItem(itemEscolhido);
+                    janelaPesquisa.refresh();
+                    janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
                 }
+                break;
+            case ADICIONAR:
+                break;
         }
+    }
+
+
+    // --POP UPS--
+    public void mensagemErroIdrepetido(IdRepetidoException e3) {
+        JOptionPane.showMessageDialog(null,
+                e3.getMessage(),
+                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mensagemErrodeFormatacao() {
+        JOptionPane.showMessageDialog(null,
+                "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
+                "Erro de formatação", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mensagemErroFormularioVazio() {
+        JOptionPane.showMessageDialog(null,
+                "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
+                "Erro de entrada", JOptionPane.ERROR_MESSAGE);
     }
 }

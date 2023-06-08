@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class JanelaPesquisa implements ActionListener, ItemListener {
     private static ControleEmpresa controleEmpresa;
@@ -134,10 +135,10 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
         Object src = e.getSource();
 
         switch (modo) {
-            case LISTAR_FILIAIS:
+            case LISTAR_FILIAIS -> {
                 if (src == botaoAdicionar) {
                     new DetalheFilial(controleEmpresa, this);
-                } else {
+                } else if (src == botaoVerDetalhes) {
                     try {
                         Filial filialSelecionada = listaFiliais.getSelectedValue();
                         if (src == botaoVerDetalhes) {
@@ -149,27 +150,25 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                         mensagemErroEscolhaVazia();
                     }
                 }
-                break;
-            case LISTAR_ESTOQUE_GERAL:
+            }
+            case LISTAR_ESTOQUE_GERAL -> {
                 if (src == botaoAdicionar) {
                     new DetalheItem(controleEmpresa, this);
-                } else {
+                } else if (src == botaoVerDetalhes) {
                     try {
-                        Item itemselecionado = listaEstoque.getSelectedValue();
-                        if (src == botaoVerDetalhes) {
-                            new DetalheItem(controleEmpresa, this, itemselecionado);
-                        }
+                        Item itemEscolhido = listaEstoque.getSelectedValue();
+                        new DetalheItem(controleEmpresa, this, itemEscolhido);
                     } catch (NullPointerException exc1) {
+                        mensagemErroEscolhaVazia();
+                    } catch (NoSuchElementException exc2) {
                         mensagemErroEscolhaVazia();
                     }
                 }
-                break;
+            }
         }
 
     }
 
-    // Não sei se devo usar um actionPerformed ou ItemstateChanged pro checkbox
-    // TODO: actionPerformed ou ItemstateChanged?
     @Override
     public void itemStateChanged(ItemEvent e) {
         Object src = e.getSource();

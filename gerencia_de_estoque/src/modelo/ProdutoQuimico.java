@@ -10,9 +10,9 @@ public class ProdutoQuimico extends Item {
     private boolean restrito;
 
     //metodo construtor
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id,
-                          int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
-        super(nome, quantidade, categoria, valor, id);
+    public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
+                          String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude) {
+        super(nome, categoria, valor, quantidade, id);
         //atributos do filho
         this.perigoaSaude = perigoaSaude;
         this.riscoDeFogo = riscoDeFogo;
@@ -21,8 +21,8 @@ public class ProdutoQuimico extends Item {
         this.restrito = false;
     }
 
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id) {
-        super(nome, quantidade, categoria, valor, id);
+    public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
+        super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
     }
 

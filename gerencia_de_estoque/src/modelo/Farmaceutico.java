@@ -12,11 +12,11 @@ public class Farmaceutico extends Item {
     private boolean restrito;
 
     // método construtor
-    public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id,
-                        String tarja, boolean receita, boolean retencaoDeReceita,
-                        String[] composicao, boolean generico) {
+    public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
+                        String tarja, String[] composicao, boolean receita, boolean retencaoDeReceita,
+                        boolean generico) {
         // Construtor da classe geral
-        super(nome, quantidade, categoria, valor, id);
+        super(nome, categoria, valor, quantidade, id);
         // atributos da classe filha
         this.tarja = tarja;
         this.receita = receita;
@@ -26,8 +26,8 @@ public class Farmaceutico extends Item {
         this.restrito = false;
     }
 
-    public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id) {
-        super(nome, quantidade, categoria, valor, id);
+    public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
+        super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
     }
 

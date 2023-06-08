@@ -26,6 +26,10 @@ public class Filial {
         estoque.removeIf(item -> item.getId() == id);
     }
 
+    public void removerItem(Item itemEscolhido) {
+        estoque.removeIf(item -> item.equals(itemEscolhido));
+    }
+
     public Item buscarItem(String nome) {
         return estoque
                 .stream()

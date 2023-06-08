@@ -8,7 +8,7 @@ public abstract class Item {
     private double valor;
     private int id;
 
-    public Item(String nome, int quantidade, String categoria, double valor, int id) {
+    public Item(String nome, String categoria, double valor, int quantidade, int id) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.categoria = categoria;
@@ -16,8 +16,7 @@ public abstract class Item {
         this.id = id;
     }
 
-    public void atualizarCaracteristicasBasicas(String newNome, int newQuantidade,
-                                                String newCategoria, double newValor, int newId) {
+    public void atualizarCaracteristicasBasicas(String newNome, String newCategoria, double newValor, int newQuantidade, int newId) {
         nome = newNome;
         quantidade = newQuantidade;
         categoria = newCategoria;

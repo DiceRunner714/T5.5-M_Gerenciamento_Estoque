@@ -60,6 +60,15 @@ public class ControleEmpresa {
 
     }
 
+    // Essa função assume que todos os itens têm identificação única
+    // TODO: atualizar o método equals de cada item para ter uma função mais flexível
+    public Filial buscarFilialaPartirdeItem(Item item) {
+        return filiais.stream()
+                .filter(filial -> filial.getEstoque().contains(item))
+                .findFirst()
+                .get();
+    }
+
     public Filial buscarFilial(int id) {
         return empresa.lerFilial(id);
     }
@@ -71,5 +80,6 @@ public class ControleEmpresa {
     public void excluirFilial(int id) {
         empresa.removerFilial(id);
     }
+
 
 }

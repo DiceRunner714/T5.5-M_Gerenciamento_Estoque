@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class ControleEstoque {
     private ArrayList<Item> estoqueFilial;
+    private Filial filialEscolhida;
     private ControleEmpresa controleEmpresa;
 
     /* Coloquei um controleEmpresa pois essa classe precisa estar ciente do estoque inteiro
@@ -16,6 +17,7 @@ public class ControleEstoque {
     public ControleEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         this.controleEmpresa = controleEmpresa;
         estoqueFilial = filialEscolhida.getEstoque();
+        this.filialEscolhida = filialEscolhida;
     }
 
     public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id)
@@ -29,7 +31,7 @@ public class ControleEstoque {
         if (idRepetido) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
-            Item newFarmaceutico = new Farmaceutico(nome, quantidade, categoria, valor, id);
+            Item newFarmaceutico = new Farmaceutico(nome, categoria, valor, quantidade, id);
             estoqueFilial.add(newFarmaceutico);
         }
     }
@@ -47,6 +49,31 @@ public class ControleEstoque {
         } else {
             estoqueFilial.add(newFarmaceutico);
         }
+    }
+
+    // Altera apenas as caraccterísticas básicas definidas na class Item
+    public void atualizarItem(String newNome, String newCategoria, double newValor,
+                              int newQuantidade, int newId, Item itemEscolhido) throws IdRepetidoException {
+        boolean idRepetido = controleEmpresa.getEstoque()
+                .stream()
+                .anyMatch(
+                        item -> (item.getId() == newId) && !item.equals(itemEscolhido)
+                );
+        if (!idRepetido) {
+            itemEscolhido.atualizarCaracteristicasBasicas(
+                    newNome, newCategoria, newValor, newQuantidade, newId
+            );
+        } else {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        }
+    }
+
+    public void removerItem(int id) {
+        filialEscolhida.removerItem(id);
+    }
+
+    public void removerItem(Item i) {
+        filialEscolhida.removerItem(i);
     }
 
 }
