@@ -23,39 +23,23 @@ public class Filial {
     }
 
     public void removerItem(int itemId) {
-        // Removes an item from branch item list, given its ID
-        Iterator<Item> itr = estoque.iterator();
-
-        while (itr.hasNext()) {
-            Item currentItem = itr.next();
-
-            if (currentItem.getId() == itemId) {
-                itr.remove();
-                break;
-            }
-        }
+        estoque.removeIf(item -> item.getId() == id);
     }
 
     public Item buscarItem(String nome) {
-        // Returns an item given its name
-        // returns null if item is not found
-        for (Item item : estoque) {
-            if (item.getNome().equals(nome)) {
-                return item;
-            }
-        }
-        return null;
+        return estoque
+                .stream()
+                .filter(item -> item.getNome() == nome)
+                .findFirst()
+                .get();
     }
 
     public Item buscarItem(int id) {
-        // Returns a specific item given its ID
-        // returns null if item is not found
-        for (Item item : estoque) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
+        return estoque
+                .stream()
+                .filter(item -> item.getId() == id)
+                .findFirst()
+                .get();
     }
 
     public String listarCaracteristicasBasicacs() {
@@ -73,18 +57,13 @@ public class Filial {
     }
 
     public ArrayList<Item> getEstoque() {
-        // Returns an item list of this branch
         return estoque;
     }
 
     public ArrayList<Item> getEstoqueVazio() {
-        // Returns a list of all items out of stock
-        ArrayList<Item> itensVazios = new ArrayList<>();
-        for (Item item : estoque) {
-            if (item.getQuantidade() == 0) {
-                itensVazios.add(item);
-            }
-        }
+        ArrayList<Item> itensVazios = new ArrayList<>(
+                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
+        );
         return itensVazios;
     }
 
