@@ -151,11 +151,17 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                 }
                 break;
             case LISTAR_ESTOQUE_GERAL:
-                if (src == botaoVerDetalhes) {
-                    new DetalheItem();
-                    // new DetalheItem(listaFiliais.getSelected);
-                } else if (src == botaoAdicionar) {
-                    new DetalheItem();
+                if (src == botaoAdicionar) {
+                    new DetalheItem(controleEmpresa, this);
+                } else {
+                    try {
+                        Item itemselecionado = listaEstoque.getSelectedValue();
+                        if (src == botaoVerDetalhes) {
+                            new DetalheItem(controleEmpresa, this, itemselecionado);
+                        }
+                    } catch (NullPointerException exc1) {
+                        mensagemErroEscolhaVazia();
+                    }
                 }
                 break;
         }
