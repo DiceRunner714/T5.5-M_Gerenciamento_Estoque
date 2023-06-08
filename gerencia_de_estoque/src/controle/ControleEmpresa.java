@@ -7,13 +7,15 @@ import java.util.ArrayList;
 
 public class ControleEmpresa {
     private Empresa empresa;
+    private ArrayList<Filial> filiais;
 
     public ControleEmpresa(String nome) {
         empresa = new Empresa(nome);
+        filiais = empresa.getFiliais();
     }
 
     public ArrayList<Filial> getFiliais() {
-        return empresa.getFiliais();
+        return filiais;
     }
 
     public ArrayList<Item> getEstoque() {
@@ -22,7 +24,7 @@ public class ControleEmpresa {
 
     //TODO: essa função é de teste
     public void adicionarFilial(Filial f) throws IdRepetidoException {
-        boolean idRepetido = empresa.getFiliais().stream().anyMatch(filial -> filial.getId() == f.getId());
+        boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == f.getId());
         if (idRepetido) {
             throw new IdRepetidoException("Id repetido: a empresa já contém uma filial com esse Id");
         } else {
@@ -31,8 +33,7 @@ public class ControleEmpresa {
     }
 
     public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException {
-        boolean idRepetido = empresa
-                .getFiliais()
+        boolean idRepetido = filiais
                 .stream()
                 // Atualizar se não houver uma filial na lista com o mesmo id, *Exceto ela mesma*
                 .anyMatch(filial -> (filial.getId() == newId) && (!filial.equals(f)));
@@ -48,6 +49,10 @@ public class ControleEmpresa {
             f.setLocal(newLocal);
         }
 
+    }
+
+    public Filial buscarFilial(int id) {
+        return empresa.lerFilial(id);
     }
 
     public void excluirFilial(Filial f) {
