@@ -8,9 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-public class JanelaPesquisa implements ActionListener {
+public class JanelaPesquisa implements ActionListener, ItemListener {
     private static ControleEmpresa controleEmpresa;
     private JLabel textoGenerico;
     private JList<Filial> listaFiliais;
@@ -83,6 +85,8 @@ public class JanelaPesquisa implements ActionListener {
                 botaoAdicionar = new JButton("Adicionar item");
                 botaoAdicionar.setBounds(250, 170, 120, 30);
 
+                filtroEstoqueVazio.addItemListener(this);
+
                 janela = new JFrame("Filiais");
                 janela.setLayout(null);
                 janela.add(listaEstoque);
@@ -105,12 +109,21 @@ public class JanelaPesquisa implements ActionListener {
 
     public void refresh() {
         switch (modo) {
+            //Modo filial
             case 1:
                 listaFiliais.setListData(filiais.toArray(new Filial[filiais.size()]));
                 listaFiliais.updateUI();
                 break;
+
+            //Modo estoque
             case 2:
-                listaEstoque.setListData(estoque.toArray(new Item[estoque.size()]));
+                ArrayList<Item> estoqueEmDisplay;
+                if (filtroEstoqueVazio.isSelected()) {
+                    estoqueEmDisplay = controleEmpresa.getEstoqueVazio();
+                } else {
+                    estoqueEmDisplay = controleEmpresa.getEstoque();
+                }
+                listaEstoque.setListData(estoqueEmDisplay.toArray(new Item[estoque.size()]));
                 listaEstoque.updateUI();
                 break;
         }
@@ -121,32 +134,48 @@ public class JanelaPesquisa implements ActionListener {
         Object src = e.getSource();
 
 
-        if (modo == 1) {
-
-            if (src == botaoAdicionar) {
-                new DetalheFilial(controleEmpresa, this);
-            } else {
-                try {
-                    Filial filialSelecionada = listaFiliais.getSelectedValue();
-                    if (src == botaoVerDetalhes) {
-                        new DetalheFilial(controleEmpresa, this, filialSelecionada);
-                    } else if (src == botaoVerEst) {
-                        // TODO: adicionar visualização de estoque
+        switch (modo) {
+            case 1:
+                if (src == botaoAdicionar) {
+                    new DetalheFilial(controleEmpresa, this);
+                } else {
+                    try {
+                        Filial filialSelecionada = listaFiliais.getSelectedValue();
+                        if (src == botaoVerDetalhes) {
+                            new DetalheFilial(controleEmpresa, this, filialSelecionada);
+                        } else if (src == botaoVerEst) {
+                            // TODO: adicionar visualização de estoque
+                        }
+                    } catch (NullPointerException exc1) {
+                        mensagemErroEscolhaVazia();
                     }
-                } catch (NullPointerException exc1) {
-                    mensagemErroEscolhaVazia();
                 }
-            }
-        } else {
-            // Modo estoque
-            if (src == botaoVerDetalhes) {
-                new DetalheItem();
-                // new DetalheItem(listaFiliais.getSelected);
-            } else if (src == botaoAdicionar) {
-                new DetalheItem();
-            }
+                break;
+            case 2:
+                // Modo estoque
+                if (src == botaoVerDetalhes) {
+                    new DetalheItem();
+                    // new DetalheItem(listaFiliais.getSelected);
+                } else if (src == botaoAdicionar) {
+                    new DetalheItem();
+                }
+                break;
         }
 
+    }
+
+    // Não sei se devo usar um actionPerformed ou ItemstateChanged pro checkbox
+    // TODO: actionPerformed ou ItemstateChanged?
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        Object src = e.getSource();
+        switch (modo) {
+            case 2:
+                if (src == filtroEstoqueVazio) {
+                    refresh();
+                }
+                break;
+        }
     }
 
     // --POP UPS--
@@ -164,4 +193,6 @@ public class JanelaPesquisa implements ActionListener {
                 mensagem,
                 "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
+
+
 }

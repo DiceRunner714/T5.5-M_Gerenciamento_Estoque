@@ -60,7 +60,7 @@ public class JanelaEmpresa implements ActionListener {
             );
             ControleEstoque meuEstoque = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(7));
             meuEstoque.adicionarFarmaceutico("Ablublublé", "né", 50.99, 5, 9);
-            meuEstoque.adicionarFarmaceutico("s", "né", 50.99, 5, 9);
+            meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
 
         } catch (IdRepetidoException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import modelo.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ControleEmpresa {
     private Empresa empresa;
@@ -20,6 +21,14 @@ public class ControleEmpresa {
 
     public ArrayList<Item> getEstoque() {
         return empresa.lerTodoEstoque();
+    }
+
+    public ArrayList<Item> getEstoqueVazio() {
+        List<Item> estoqueLista = empresa
+                .lerTodoEstoque()
+                .stream()
+                .filter(item -> item.getQuantidade() == 0).toList();
+        return new ArrayList<>(estoqueLista);
     }
 
     //TODO: essa função é de teste
