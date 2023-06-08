@@ -24,6 +24,7 @@ public class DetalheFilial implements ActionListener {
     private JButton botaoExcluir;
     private ControleEmpresa controleEmpresa;
     private JanelaPesquisa janelaPesquisa;
+    private Filial filialEscholida;
     private int modo;
 
 
@@ -34,6 +35,58 @@ public class DetalheFilial implements ActionListener {
         this.janelaPesquisa = janelaPesquisa;
         modo = 1;
 
+        criarElementosBasicos();
+
+        botaoAtualizar = new JButton("Adicionar");
+        botaoAtualizar.setBounds(70, 170, 100, 30);
+
+        // TODO: este botão está com o tamanho errado para o texto
+        botaoExcluir = new JButton("Cancelar");
+        botaoExcluir.setBounds(220, 170, 80, 30);
+
+        janela.add(botaoAtualizar);
+        janela.add(botaoExcluir);
+
+        botaoAtualizar.addActionListener(this);
+        botaoExcluir.addActionListener(this);
+
+        janela.setSize(400, 400);
+        janela.setVisible(true);
+    }
+
+
+    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscholida) {
+        // Modo de atualizar
+        this.controleEmpresa = controleEmpresa;
+        this.janelaPesquisa = janelaPesquisa;
+        this.filialEscholida = filialEscholida;
+        modo = 2;
+
+        criarElementosBasicos();
+
+        valorNome.setText(filialEscholida.getNome());
+        valorLocalizacao.setText(filialEscholida.getLocal());
+        valorId.setText(String.valueOf(filialEscholida.getId()));
+
+        botaoAtualizar = new JButton("Atualizar");
+        botaoAtualizar.setBounds(70, 170, 100, 30);
+
+        // TODO: botão está com o tamanho errado para o texto
+        botaoExcluir = new JButton("Excluir");
+        botaoExcluir.setBounds(220, 170, 80, 30);
+
+        janela.add(botaoAtualizar);
+        janela.add(botaoExcluir);
+
+        botaoAtualizar.addActionListener(this);
+        botaoExcluir.addActionListener(this);
+
+        janela.setSize(400, 400);
+        janela.setVisible(true);
+    }
+
+    //Cria elementos comuns as duas janelas
+    public void criarElementosBasicos() {
         descricao.setBounds(90, 10, 200, 30);
         descricao.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -49,12 +102,6 @@ public class DetalheFilial implements ActionListener {
 
         valorId.setBounds(120, 130, 50, 18);
 
-        botaoAtualizar = new JButton("Adicionar");
-        botaoAtualizar.setBounds(70, 170, 100, 30);
-
-        // TODO: botão está com o tamanho errado para o texto
-        botaoExcluir = new JButton("Cancelar");
-        botaoExcluir.setBounds(220, 170, 80, 30);
 
         janela.setLayout(null);
         janela.add(descricao);
@@ -64,17 +111,8 @@ public class DetalheFilial implements ActionListener {
         janela.add(valorLocalizacao);
         janela.add(labelId);
         janela.add(valorId);
-        janela.add(botaoAtualizar);
-        janela.add(botaoExcluir);
 
-        botaoAtualizar.addActionListener(this);
-        botaoExcluir.addActionListener(this);
-
-
-        janela.setSize(400, 400);
-        janela.setVisible(true);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -87,7 +125,9 @@ public class DetalheFilial implements ActionListener {
                 if (src == botaoAtualizar) {
                     try {
                         Filial f = new Filial(
-                                valorNome.getText(), valorLocalizacao.getText(), Integer.parseInt(valorId.getText())
+                                valorNome.getText(),
+                                valorLocalizacao.getText(),
+                                Integer.parseInt(valorId.getText())
                         );
                         controleEmpresa.adicionarFilial(f);
                         janelaPesquisa.refresh();
@@ -103,6 +143,30 @@ public class DetalheFilial implements ActionListener {
                     janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
                 }
                 break;
+            // Modo alterar filial
+            case 2:
+                if (src == botaoAtualizar) {
+                    try {
+                        controleEmpresa.atualizarFilial(
+                                valorNome.getText(),
+                                valorLocalizacao.getText(),
+                                Integer.parseInt(valorId.getText()),
+                                filialEscholida
+                        );
+                        janelaPesquisa.refresh();
+                    } catch (NumberFormatException e1) {
+                        mensagemErrodeFormatacao();
+                    } catch (NullPointerException e2) {
+                        mensagemErroFormularioVazio();
+                    } catch (IdRepetidoException e3) {
+                        mensagemErroIdrepetido(e3);
+                    }
+                } else if (src == botaoExcluir) {
+                    controleEmpresa.excluirFilial(filialEscholida);
+                    janelaPesquisa.refresh();
+                    janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+                }
+
         }
     }
 

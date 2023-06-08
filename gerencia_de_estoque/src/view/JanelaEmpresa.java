@@ -47,8 +47,9 @@ public class JanelaEmpresa implements ActionListener {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+
         JanelaEmpresa empresa = new JanelaEmpresa();
+        // TODO: remover essas filiais de exemplo
         try {
             controleEmpresa.adicionarFilial(
                     new Filial("abr", "brasil", 6)

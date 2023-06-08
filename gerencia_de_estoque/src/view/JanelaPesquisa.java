@@ -1,8 +1,6 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.ControleEstoque;
-import controle.ControleFilial;
 import modelo.Filial;
 import modelo.Item;
 
@@ -10,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class JanelaPesquisa implements ActionListener {
     private static ControleEmpresa controleEmpresa;
@@ -126,16 +122,20 @@ public class JanelaPesquisa implements ActionListener {
 
 
         if (modo == 1) {
-            // Modo filial
-            if (src == botaoVerDetalhes) {
+
+            if (src == botaoAdicionar) {
                 new DetalheFilial(controleEmpresa, this);
-                // Adicionar construtor que recebe um objeto filial para ler detalhes
-                // new DetalheFilial(listaFiliais.getSelected);
-            } else if (src == botaoAdicionar) {
-                new DetalheFilial(controleEmpresa, this);
-            } else if (src == botaoVerEst) {
-                // TODO: como ver o estoque de uma filial??
-                // new JanelaPesquisa(Estoque);
+            } else {
+                try {
+                    Filial filialSelecionada = listaFiliais.getSelectedValue();
+                    if (src == botaoVerDetalhes) {
+                        new DetalheFilial(controleEmpresa, this, filialSelecionada);
+                    } else if (src == botaoVerEst) {
+                        // TODO: adicionar visualização de estoque
+                    }
+                } catch (NullPointerException exc1) {
+                    mensagemErroEscolhaVazia();
+                }
             }
         } else {
             // Modo estoque
@@ -147,5 +147,21 @@ public class JanelaPesquisa implements ActionListener {
             }
         }
 
+    }
+
+    // --POP UPS--
+    public void mensagemErroEscolhaVazia() {
+        String mensagem = null;
+        switch (modo) {
+            case 1:
+                mensagem = "Erro de escolha: uma filial não foi selecionada";
+                break;
+            case 2:
+                mensagem = "Erro de escolha: um item não foi selecionado";
+                break;
+        }
+        JOptionPane.showMessageDialog(null,
+                mensagem,
+                "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Filial {
     private String nome;
@@ -29,12 +30,12 @@ public class Filial {
             Item currentItem = itr.next();
 
             if (currentItem.getId() == itemId) {
-            	itr.remove();
-            	break;
-            }	          
+                itr.remove();
+                break;
+            }
         }
     }
-    
+
     public Item buscarItem(String nome) {
         // Returns an item given its name
         // returns null if item is not found
@@ -45,7 +46,7 @@ public class Filial {
         }
         return null;
     }
-    
+
     public Item buscarItem(int id) {
         // Returns a specific item given its ID
         // returns null if item is not found
@@ -85,6 +86,20 @@ public class Filial {
             }
         }
         return itensVazios;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Filial)) {
+            return false;
+        }
+        Filial outraFilial = (Filial) o;
+        return this.nome.equals(outraFilial.getNome()) &&
+                this.local.equals(outraFilial.getLocal()) &&
+                this.id == outraFilial.getId();
     }
 
     public String getNome() {

@@ -37,6 +37,7 @@ public class Empresa {
             if (item.getNome().equals(nome))
                 itemBuscado = item;
         }
+
         return itemBuscado;
     }
 
@@ -50,12 +51,18 @@ public class Empresa {
     }
 
     public void removerFilial(int id) {
-        for (Filial filial : filiais) {
-            if (filial.getId() == id) {
-                filiais.remove(filial);
-                break;
-            }
-        }
+        filiais.removeIf(filial -> filial.getId() == id);
+//        for (Filial filial : filiais) {
+//            if (filial.getId() == id) {
+//                filiais.remove(filial);
+//                break;
+//            }
+//        }
+    }
+
+    // Overloading para remover filial por referência
+    public void removerFilial(Filial f) {
+        filiais.removeIf(filial -> f.equals(filial));
     }
 
     public void atualizarFilial(String nome, String local, int novoId, int id) {
