@@ -3,9 +3,8 @@ package view;
 import controle.ControleEmpresa;
 import controle.IdRepetidoException;
 import modelo.Filial;
-import modelo.Item;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -14,149 +13,156 @@ import javax.swing.*;
 public class DetalheFilial implements ActionListener {
     private static ControleEmpresa controleEmpresa;
     private JFrame janela = new JFrame("Filial");
-    private JLabel descricao = new JLabel("Informações da Filial");
-    private JLabel labelNome = new JLabel("Nome: ");
-    private JLabel labelLocalizacao = new JLabel("Localização: ");
-    private JLabel labelId = new JLabel("ID: ");
+    private JPanel formularios = new JPanel();
+    private JPanel botoes = new JPanel();
     private JTextField valorNome = new JTextField();
     private JTextField valorLocalizacao = new JTextField();
     private JTextField valorId = new JTextField();
-    private JButton botaoAtualizar;
-    private JButton botaoExcluir;
-    private JButton botaoAdicionar;
-    private JButton botaoCancelar;
+    private JButton botaoAtualizar = new JButton("Atualizar");
+    private JButton botaoExcluir = new JButton("Excluir");
+    private JButton botaoAdicionar = new JButton("Adicionar");
+    private JButton botaoCancelar = new JButton("Cancelar");
     private JanelaPesquisa janelaPesquisa;
-    private Filial filialEscholida;
+    private Filial filialEscolhida;
     private Modos modo;
 
 
     // Construtor para adicionar uma filial nova
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        // Modo de adicionar
-        this.controleEmpresa = controleEmpresa;
+        DetalheFilial.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
         modo = Modos.ADICIONAR;
-
-        criarElementosBasicos();
-
-        botaoAdicionar = new JButton("Adicionar");
-        botaoAdicionar.setBounds(70, 170, 100, 30);
-
-        // TODO: este botão está com o tamanho errado para o texto
-        botaoCancelar = new JButton("Cancelar");
-        botaoCancelar.setBounds(220, 170, 80, 30);
-
-        janela.add(botaoAdicionar);
-        janela.add(botaoCancelar);
-
-        botaoAdicionar.addActionListener(this);
-        botaoCancelar.addActionListener(this);
-
-        janela.setSize(400, 400);
-        janela.setVisible(true);
+        criarJanela();
     }
 
     // Construtor para editar uma filial
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscholida) {
-        // Modo de atualizar
-        this.controleEmpresa = controleEmpresa;
+    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
+        DetalheFilial.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
-        this.filialEscholida = filialEscholida;
         modo = Modos.EDITAR;
 
-        criarElementosBasicos();
+        this.filialEscolhida = filialEscolhida;
 
-        valorNome.setText(filialEscholida.getNome());
-        valorLocalizacao.setText(filialEscholida.getLocal());
-        valorId.setText(String.valueOf(filialEscholida.getId()));
+        valorLocalizacao.setText(filialEscolhida.getLocal());
+        valorNome.setText(filialEscolhida.getNome());
+        valorId.setText(String.valueOf(filialEscolhida.getId()));
 
-        botaoAtualizar = new JButton("Atualizar");
-        botaoAtualizar.setBounds(70, 170, 100, 30);
-
-        // TODO: botão está com o tamanho errado para o texto
-        botaoExcluir = new JButton("Excluir");
-        botaoExcluir.setBounds(220, 170, 80, 30);
-
-        janela.add(botaoAtualizar);
-        janela.add(botaoExcluir);
-
-        botaoAtualizar.addActionListener(this);
-        botaoExcluir.addActionListener(this);
-
-        janela.setSize(400, 400);
-        janela.setVisible(true);
+        criarJanela();
     }
 
     //Cria elementos comuns as duas janelas
-    public void criarElementosBasicos() {
-        descricao.setBounds(90, 10, 200, 30);
+    public void criarJanela() {
+
+        JLabel descricao = new JLabel("Informações da Filial");
+        JLabel labelNome = new JLabel("Nome: ");
+        JLabel labelLocalizacao = new JLabel("Localização: ");
+        JLabel labelId = new JLabel("ID: ");
+
+        formularios.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        // Ajuste de título
+        c.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
+        c.weightx = 1;                          // % do espaço horizontal
+        c.gridwidth = 2;                        // quantas células horizontais
+        c.gridx = 0;                            // x da célula
+        c.gridy = 0;                            // y da célula
         descricao.setFont(new Font("Arial", Font.BOLD, 20));
+        formularios.add(descricao, c);
 
-        labelNome.setBounds(10, 70, 50, 10);
+        // Ajuste de labels
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.weightx = 0.3;
+        c.gridwidth = 1;
+        c.insets = new Insets(5, 5, 5, 5);  // Padding
+        c.gridx = 0;
 
-        valorNome.setBounds(120, 70, 150, 18);
+        c.gridy = 1;
+        formularios.add(labelNome, c);
+        c.gridy = 2;
+        formularios.add(labelLocalizacao, c);
+        c.gridy = 3;
+        formularios.add(labelId, c);
 
-        labelLocalizacao.setBounds(10, 100, 80, 10);
+        // Ajuste de campos
+        c.anchor = GridBagConstraints.LINE_END;
+        c.insets = new Insets(5, 0, 5, 5);
+        c.weightx = 0.6;
+        c.gridx = 1;
 
-        valorLocalizacao.setBounds(120, 100, 150, 18);
+        c.gridy = 1;
+        formularios.add(valorNome, c);
+        c.gridy = 2;
+        formularios.add(valorLocalizacao, c);
+        c.gridy = 3;
+        formularios.add(valorId, c);
 
-        labelId.setBounds(10, 130, 50, 10);
+        botoes.setLayout(new FlowLayout());
 
-        valorId.setBounds(120, 130, 50, 18);
+        switch (modo) {
+            case EDITAR -> {
+                botoes.add(botaoAtualizar);
+                botoes.add(botaoExcluir);
 
+                botaoAtualizar.addActionListener(this);
+                botaoExcluir.addActionListener(this);
+            }
+            case ADICIONAR -> {
+                botoes.add(botaoAdicionar);
+                botoes.add(botaoCancelar);
 
-        janela.setLayout(null);
-        janela.add(descricao);
-        janela.add(labelNome);
-        janela.add(valorNome);
-        janela.add(labelLocalizacao);
-        janela.add(valorLocalizacao);
-        janela.add(labelId);
-        janela.add(valorId);
+                botaoAdicionar.addActionListener(this);
+                botaoCancelar.addActionListener(this);
+            }
+        }
 
+        janela.add(formularios, BorderLayout.NORTH);
+        janela.add(botoes, BorderLayout.LINE_END);
+        janela.setSize(400, 200);
+        janela.setResizable(false);
+        janela.setVisible(true);
+    }
+
+    // TODO: essa função deveria ser privada devido ao encapsulamento, perguntar pra professora
+    public void enviarFormulario() {
+        try {
+            switch (modo) {
+                case ADICIONAR -> {
+                    Filial f = new Filial(
+                            valorNome.getText(),
+                            valorLocalizacao.getText(),
+                            Integer.parseInt(valorId.getText())
+                    );
+                    controleEmpresa.adicionarFilial(f);
+                }
+                case EDITAR -> controleEmpresa.atualizarFilial(
+                        valorNome.getText(),
+                        valorLocalizacao.getText(),
+                        Integer.parseInt(valorId.getText()),
+                        filialEscolhida);
+            }
+            janelaPesquisa.refresh();
+        } catch (NumberFormatException e1) {
+            mensagemErrodeFormatacao();
+        } catch (NullPointerException e2) {
+            mensagemErroFormularioVazio();
+        } catch (IdRepetidoException e3) {
+            mensagemErroIdrepetido(e3);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        if (src == botaoAdicionar) {
-            try {
-                Filial f = new Filial(
-                        valorNome.getText(),
-                        valorLocalizacao.getText(),
-                        Integer.parseInt(valorId.getText())
-                );
-                controleEmpresa.adicionarFilial(f);
-                janelaPesquisa.refresh();
-            } catch (NumberFormatException e1) {
-                mensagemErrodeFormatacao();
-            } catch (NullPointerException e2) {
-                mensagemErroFormularioVazio();
-            } catch (IdRepetidoException e3) {
-                mensagemErroIdrepetido(e3);
-            }
+        if (src == botaoAdicionar || src == botaoAtualizar) {
+            enviarFormulario();
         } else if (src == botaoCancelar) {
             // Fechar a janela atual
             janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-        } else if (src == botaoAtualizar) {
-            try {
-                controleEmpresa.atualizarFilial(
-                        valorNome.getText(),
-                        valorLocalizacao.getText(),
-                        Integer.parseInt(valorId.getText()),
-                        filialEscholida
-                );
-                janelaPesquisa.refresh();
-            } catch (NumberFormatException e1) {
-                mensagemErrodeFormatacao();
-            } catch (NullPointerException e2) {
-                mensagemErroFormularioVazio();
-            } catch (IdRepetidoException e3) {
-                mensagemErroIdrepetido(e3);
-            }
         } else if (src == botaoExcluir) {
-            controleEmpresa.excluirFilial(filialEscholida);
+            controleEmpresa.excluirFilial(filialEscolhida);
             janelaPesquisa.refresh();
             janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
         }
