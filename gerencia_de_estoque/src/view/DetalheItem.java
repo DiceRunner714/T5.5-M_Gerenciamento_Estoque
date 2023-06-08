@@ -19,20 +19,17 @@ public class DetalheItem implements ActionListener {
     private static ControleEmpresa controleEmpresa;
     // TODO: criar os componentes das classes filhas
     private JFrame janela = new JFrame("Item");
-    private JLabel descricao = new JLabel("Informações do Item");
-    private JLabel labelNome = new JLabel("Nome: ");
+    private JPanel formularios = new JPanel();
+    private JPanel botoes = new JPanel();
     private JTextField valorNome = new JTextField();
-    private JLabel labelId = new JLabel("ID: ");
     private JTextField valorId = new JTextField();
-    private JLabel labelCategoria = new JLabel("Categoria: ");
     private JTextField valorCategoria = new JTextField();
-    private JLabel labelQuantidade = new JLabel("Quantidade: ");
     private JTextField valorQuantidade = new JTextField();
-    private JLabel labelValor = new JLabel("Valor (R$): ");
     private JTextField valorValor = new JTextField();
-    private JButton botaoAtualizar;
-    private JButton botaoExcluir;
-    private JLabel labelFilial = new JLabel("Filial: ");
+    private JButton botaoAtualizar = new JButton("Atualizar");
+    private JButton botaoExcluir = new JButton("Excluir");
+    private JButton botaoAdicionar = new JButton("Adicionar");
+    private JButton botaoCancelar = new JButton("Cancelar");
     private JComboBox<Filial> filialJComboBox;
     private CategoriasItens tipoDeItem;
     private Modos modo;
@@ -41,36 +38,19 @@ public class DetalheItem implements ActionListener {
     private Item itemEscolhido;
     private ControleEstoque controleEstoque;
 
-    // Construtor vazio, adicionar item
-    // TODO: como adicionar item se não foi selecionada uma filial?
-
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         modo = Modos.ADICIONAR;
         DetalheItem.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
 
-        criarElementosBasicos();
+        formularios.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        labelFilial.setBounds(10, 220, 80, 30);
-        ArrayList<Filial> filiaisDisponiveis = controleEmpresa.getFiliais();
-        filialJComboBox = new JComboBox<>(
-                filiaisDisponiveis.toArray(new Filial[filiaisDisponiveis.size()])
-        );
-        filialJComboBox.setBounds(120, 220, 80, 80);
+        ArrayList<Filial> filiais = controleEmpresa.getFiliais();
+        filialJComboBox = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
 
-        botaoExcluir = new JButton("Cancelar");
-        botaoExcluir.setBounds(220, 300, 80, 30);
+        criarJanela();
 
-        botaoAtualizar = new JButton("Adicionar");
-        botaoAtualizar.setBounds(70, 300, 100, 30);
-
-        janela.add(botaoAtualizar);
-        janela.add(botaoExcluir);
-        janela.add(filialJComboBox);
-        janela.add(labelFilial);
-
-        janela.setSize(400, 400);
-        janela.setVisible(true);
     }
 
     // Construtor não vazio, item escolhido para modificar
@@ -82,72 +62,103 @@ public class DetalheItem implements ActionListener {
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         controleEstoque = new ControleEstoque(controleEmpresa, filialdoItem);
 
-        descricao.setText("Filial: " + filialdoItem.getNome());
-
-        Farmaceutico farmaceutico;
-        ProdutoQuimico produtoQuimico;
-
-        criarElementosBasicos();
-
-        botaoExcluir = new JButton("Excluir");
-        botaoExcluir.setBounds(220, 300, 80, 30);
-
-        botaoAtualizar = new JButton("Atualizar");
-        botaoAtualizar.setBounds(70, 300, 100, 30);
-
-        valorNome.setText(itemEscolhido.getNome());
-        valorCategoria.setText(itemEscolhido.getCategoria());
-        valorValor.setText(String.valueOf(itemEscolhido.getValor()));
-        valorId.setText(String.valueOf(itemEscolhido.getId()));
-        valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
-
-        janela.add(botaoAtualizar);
-        janela.add(botaoExcluir);
-
-        botaoAtualizar.addActionListener(this);
-        botaoExcluir.addActionListener(this);
-
-        if (itemEscolhido instanceof Farmaceutico) {
-            // Adicionar campos de farmaceutico
-            farmaceutico = (Farmaceutico) itemEscolhido;
-            tipoDeItem = CategoriasItens.FARMACEUTICO;
-        } else {
-            // Adicionar campos de produtoquimico
-            produtoQuimico = (ProdutoQuimico) itemEscolhido;
-            tipoDeItem = CategoriasItens.PRODUTO_QUIMICO;
-        }
-
-        janela.setSize(400, 400);
-        janela.setVisible(true);
+        criarJanela();
 
     }
 
-    public void criarElementosBasicos() {
-        descricao.setBounds(90, 10, 200, 30);
-        descricao.setFont(new Font("Arial", Font.BOLD, 20));
-        labelNome.setBounds(10, 70, 50, 20);
-        valorNome.setBounds(120, 70, 150, 18);
-        labelId.setBounds(10, 100, 50, 20);
-        valorId.setBounds(120, 100, 50, 18);
-        labelCategoria.setBounds(10, 130, 80, 20);
-        valorCategoria.setBounds(120, 130, 150, 18);
-        labelQuantidade.setBounds(10, 160, 80, 20);
-        valorQuantidade.setBounds(120, 160, 50, 18);
-        labelValor.setBounds(10, 190, 70, 20);
-        valorValor.setBounds(120, 190, 50, 18);
+    // Construtor vazio, adicionar item
+    // TODO: como adicionar item se não foi selecionada uma filial?
+    public void criarJanela() {
 
-        janela.setLayout(null);
-        janela.add(descricao);
-        janela.add(labelNome);
-        janela.add(valorNome);
-        janela.add(labelCategoria);
-        janela.add(valorCategoria);
-        janela.add(labelId);
-        janela.add(valorId);
-        janela.add(labelQuantidade);
-        janela.add(valorQuantidade);
-        janela.add(labelValor);
-        janela.add(valorValor);
+        JLabel descricao = new JLabel("Informações da Item");
+        JLabel labelNome = new JLabel("Nome: ");
+        JLabel labelId = new JLabel("ID: ");
+        JLabel labelCategoria = new JLabel("Categoria: ");
+        JLabel labelQuantidade = new JLabel("Quantidade: ");
+        JLabel labelValor = new JLabel("Valor (R$): ");
+        JLabel labelFilial = new JLabel("Filial: ");
+
+        formularios.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        // Ajuste de título
+        c.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
+        c.weightx = 1;                          // % do espaço horizontal
+        c.gridwidth = 2;                        // quantas células horizontais
+        c.gridx = 0;                            // x da célula
+        c.gridy = 0;                            // y da célula
+        descricao.setFont(new Font("Arial", Font.BOLD, 20));
+        formularios.add(descricao, c);
+
+        // Ajuste de labels
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.weightx = 0.3;
+        c.gridwidth = 1;
+        c.insets = new Insets(5, 5, 5, 5);  // Padding
+        c.gridx = 0;
+
+        c.gridy = 1;
+        formularios.add(labelNome, c);
+        c.gridy = 2;
+        formularios.add(labelCategoria, c);
+        c.gridy = 3;
+        formularios.add(labelValor, c);
+        c.gridy = 4;
+        formularios.add(labelQuantidade, c);
+        c.gridy = 5;
+        formularios.add(labelId, c);
+        c.gridy = 6;
+        if (modo == Modos.ADICIONAR)
+            formularios.add(labelFilial, c);
+
+
+        // Ajuste de campos
+        c.anchor = GridBagConstraints.LINE_END;
+        c.insets = new Insets(5, 0, 5, 5);
+        c.weightx = 0.6;
+        c.gridx = 1;
+
+        c.gridy = 1;
+        formularios.add(valorNome, c);
+        c.gridy = 2;
+        formularios.add(valorCategoria, c);
+        c.gridy = 3;
+        formularios.add(valorValor, c);
+        c.gridy = 4;
+        formularios.add(valorQuantidade, c);
+        c.gridy = 5;
+        formularios.add(valorId, c);
+        c.gridy = 6;
+        if (modo == Modos.ADICIONAR) formularios.add(filialJComboBox, c);
+        
+
+        // Botões
+        botoes.setLayout(new FlowLayout());
+        switch (modo) {
+            case EDITAR -> {
+                descricao.setText("Filial: " + filialdoItem.getNome());
+
+                botoes.add(botaoAtualizar);
+                botoes.add(botaoExcluir);
+
+                botaoAtualizar.addActionListener(this);
+                botaoExcluir.addActionListener(this);
+            }
+            case ADICIONAR -> {
+                botoes.add(botaoAdicionar);
+                botoes.add(botaoCancelar);
+
+                botaoAdicionar.addActionListener(this);
+                botaoCancelar.addActionListener(this);
+            }
+        }
+
+        janela.add(formularios, BorderLayout.NORTH);
+        janela.add(botoes, BorderLayout.LINE_END);
+        janela.setSize(400, 400);
+        janela.setResizable(false);
+        janela.setVisible(true);
 
     }
 
