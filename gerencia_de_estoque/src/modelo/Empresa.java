@@ -23,22 +23,18 @@ public class Empresa {
 
     public ArrayList<Item> lerTodoEstoque() {
         ArrayList<Item> todosItens = new ArrayList<>();
-        for (Filial filial : filiais) {
-            todosItens.addAll(filial.getEstoque());
-        }
+        filiais.forEach(filial -> todosItens.addAll(filial.getEstoque()));
         return todosItens;
     }
 
-    // TODO: remover buscarItem
+    // TODO: adicionar buscarItem que retorna lista
+    // Para o caso de vários items com o mesmo nome
     public Item buscarItem(String nome) {
-        ArrayList<Item> todoEstoque = this.lerTodoEstoque();
-        Item itemBuscado = null;
-        for (Item item : todoEstoque) {
-            if (item.getNome().equals(nome))
-                itemBuscado = item;
-        }
-
-        return itemBuscado;
+        return lerTodoEstoque()
+                .stream()
+                .filter(item -> item.getNome().equals(nome))
+                .findFirst()
+                .get();
     }
 
     public void adicionarFilial(String nome, String local, int id) {
@@ -52,12 +48,6 @@ public class Empresa {
 
     public void removerFilial(int id) {
         filiais.removeIf(filial -> filial.getId() == id);
-//        for (Filial filial : filiais) {
-//            if (filial.getId() == id) {
-//                filiais.remove(filial);
-//                break;
-//            }
-//        }
     }
 
     // Overloading para remover filial por referência
@@ -66,25 +56,20 @@ public class Empresa {
     }
 
     public void atualizarFilial(String nome, String local, int novoId, int id) {
-        for (Filial filial : filiais) {
-            if (filial.getId() == id) {
-                filial.setId(novoId);
-                filial.setLocal(local);
-                filial.setNome(nome);
-                break;
-            }
-        }
+        Filial filial = lerFilial(id);
+        filial.setId(novoId);
+        filial.setLocal(local);
+        filial.setNome(nome);
     }
 
     // Retorna filial com id igual ao parâmetro, caso contrário
     // retorna null
     public Filial lerFilial(int id) {
-        Filial filialLida = null;
-        for (Filial filial : filiais) {
-            if (filial.getId() == id)
-                filialLida = filial;
-        }
-        return filialLida;
+        return filiais
+                .stream()
+                .filter(filial -> filial.getId() == id)
+                .findFirst()
+                .get();
     }
 
     // GETS E SETS
