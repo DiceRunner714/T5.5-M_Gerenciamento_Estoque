@@ -1,34 +1,24 @@
 package controle;
 import modelo.*;
 
+import java.util.ArrayList;
+
 public class ControleEmpresa {
-    private Empresa empresaMain;
+    private Empresa empresa;
 
     public ControleEmpresa(String nome) {
-        empresaMain = new Empresa(nome);
+        empresa = new Empresa(nome);
     }
 
-    public void renomearEmpresa(String novoNome) {
-        empresaMain.setNome(novoNome);
+    public ArrayList<Filial> getFiliais() {
+        return empresa.getFiliais();
+    }
+    public ArrayList<Item> getEstoque() {
+        return empresa.lerTodoEstoque();
     }
 
-    public String getNomeEmpresa() {
-        return empresaMain.getNome();
+    //TODO: essa função é de teste
+    public void adicionarFilial (Filial f) {
+        empresa.adicionarFilial(f);
     }
-    public Empresa getEmpresaMain() {
-        return empresaMain;
-    }
-
-    public void setEmpresaMain(Empresa empresaMain) {
-        this.empresaMain = empresaMain;
-    }
-
-    public int getQtdFilial() {
-        return empresaMain.getFiliais().size();
-    }
-
-    public int getQtdEmEstoque() {
-        return empresaMain.lerTodoEstoque().size();
-    }
-
 }
