@@ -23,7 +23,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     private JList<Item> listaEstoque;
     private JButton botaoVerEstoque;
     private JButton botaoVerDetalhes;
-    private JCheckBox filtroEstoqueVazio;
+    private JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private JButton botaoAdicionar;
     private ArrayList<Item> estoque;
     private ArrayList<Filial> filiais;
@@ -41,50 +41,19 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
             case LISTAR_FILIAIS -> {
                 filiais = controleEmpresa.getFiliais();
 
-                // Malha de botões
-                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
+                janela = new JFrame("Filial");
+
                 botaoAdicionar = new JButton("Adicionar filial");
                 botaoVerDetalhes = new JButton("Ver filial");
                 botaoVerEstoque = new JButton("Ver estoque");
-                malhaBotoes.add(botaoAdicionar);
-                malhaBotoes.add(botaoVerDetalhes);
-                malhaBotoes.add(botaoVerEstoque);
-                painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
 
                 // Painel principal
-                janela = new JFrame("Filial");
-                janela.setLayout(new GridBagLayout());
-
-                // adicionar Painel de botões
-                c.insets = new Insets(0, 0, 0, 5);
-                c.weightx = 0.1;
-                c.weighty = 0.1;
-                c.gridy = 1;
-                c.gridx = 1;
-                c.fill = GridBagConstraints.VERTICAL;
-                janela.add(painelBotoes, c);
-
-                // adicionar Título
-                c.insets = new Insets(0, 20, 5, 10);
-                c.weightx = 0.9;
-                c.weighty = 0.1;
-                c.gridy = 0;
-                c.gridx = 0;
-                titulo = new JLabel("Pesquisar Filial");
-                titulo.setFont(new Font("Arial", Font.BOLD, 20));
-                janela.add(titulo, c);
-
-                // adicionar jlist
-                c.insets = new Insets(0, 20, 20, 10);
-                c.weightx = 0.9;
-                c.weighty = 0.9;
-                c.gridy = 1;
-                c.gridx = 0;
-                c.fill = GridBagConstraints.BOTH;
                 listaFiliais = new JList<>(filiais.toArray(new Filial[filiais.size()]));
                 listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 listaFiliais.setVisibleRowCount(50);
-                janela.add(listaFiliais, c);
+
+                new JanelaPesquisaBuilder(janela, modo, listaFiliais,
+                        new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque});
 
                 botaoVerEstoque.addActionListener(this);
 
@@ -93,60 +62,21 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
             case LISTAR_ESTOQUE_GERAL -> {
 
                 estoque = controleEmpresa.getEstoque();
+//
+//                // Malha de botões
+//                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
+                janela = new JFrame("Item");
 
-                // Malha de botões
-                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
                 botaoAdicionar = new JButton("Adicionar Item");
                 botaoVerDetalhes = new JButton("Ver Item");
-                malhaBotoes.add(botaoAdicionar);
-                malhaBotoes.add(botaoVerDetalhes);
-                painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
 
-                // Painel principál
-                janela = new JFrame("Item");
-                janela.setLayout(new GridBagLayout());
-
-                // adicionar Painel de botões
-                c.insets = new Insets(0, 0, 0, 5);
-                c.weightx = 0.1;
-                c.weighty = 0.1;
-                c.gridy = 1;
-                c.gridx = 1;
-                c.fill = GridBagConstraints.VERTICAL;
-                janela.add(painelBotoes, c);
-
-                // adicionar Título
-                c.insets = new Insets(0, 20, 5, 10);
-                c.weightx = 0.9;
-                c.weighty = 0.1;
-                c.gridy = 0;
-                c.gridx = 0;
-                titulo = new JLabel("Pesquisar estoque");
-                titulo.setFont(new Font("Arial", Font.BOLD, 20));
-                janela.add(titulo, c);
-
-                // adicionar jlist
                 listaEstoque = new JList<>(estoque.toArray(new Item[estoque.size()]));
                 listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 listaEstoque.setVisibleRowCount(10);
 
-                c.insets = new Insets(0, 20, 5, 10);
-                c.weightx = 0.9;
-                c.weighty = 0.9;
-                c.gridy = 1;
-                c.gridx = 0;
-                c.fill = GridBagConstraints.BOTH;
-                janela.add(listaEstoque, c);
-
-                // adicionar filtro de estoque vazio
-                c.insets = new Insets(5, 20, 20, 10);
-                c.weightx = 0.9;
-                c.weighty = 0.1;
-                c.gridy = 2;
-                c.gridx = 0;
-                c.fill = GridBagConstraints.BOTH;
-                filtroEstoqueVazio = new JCheckBox("Filtro de estoque vazio");
-                janela.add(filtroEstoqueVazio, c);
+                new JanelaPesquisaBuilder(janela, modo, listaEstoque,
+                        new JButton[]{botaoAdicionar, botaoVerDetalhes},
+                        new JComponent[]{filtroEstoqueVazio});
 
                 filtroEstoqueVazio.addItemListener(this);
             }
