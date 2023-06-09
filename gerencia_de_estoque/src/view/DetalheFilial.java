@@ -21,13 +21,13 @@ public class DetalheFilial extends Detalhe {
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
         criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
-        popularFormularios();
     }
 
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
+        super(Modos.EDITAR, janelaPesquisa, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
         criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+        popularFormularios();
     }
 
     @Override
