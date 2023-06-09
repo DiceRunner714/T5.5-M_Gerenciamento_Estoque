@@ -9,10 +9,6 @@ import modelo.Item;
 import modelo.ProdutoQuimico;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
@@ -34,10 +30,10 @@ public class DetalheItem extends Detalhe {
     private JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Filial> opcoesFiliais;
-    private JCheckBox retencaoDeReceita = new JCheckBox("Retenção de receita");
-    private JCheckBox generico = new JCheckBox("Medicamento genérico");
-    private JCheckBox restrito = new JCheckBox("restrito");
-    private JCheckBox receita = new JCheckBox("Necessita de receita");
+    private JCheckBox isRetencaoDeReceita = new JCheckBox("Retenção de receita");
+    private JCheckBox isGenerico = new JCheckBox("Medicamento genérico");
+    private JCheckBox isRestrito = new JCheckBox("restrito");
+    private JCheckBox isReceita = new JCheckBox("Necessita de receita");
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
@@ -126,10 +122,15 @@ public class DetalheItem extends Detalhe {
         JLabel labelReatividade = new JLabel("Reatividade: ");
         JLabel labelPerigoEspecifico = new JLabel("Perigo especifico: ");
 
-        JComponent[] esquerdos = {labelPerigoaSaude, labelRiscodeFogo,
-                labelReatividade, labelPerigoEspecifico};
-        JComponent[] direitos = {opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade,
-                valorPerigoEspecifico, restrito};
+        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
+                labelPerigoaSaude, labelRiscodeFogo, labelReatividade, labelPerigoEspecifico
+        ));
+        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
+                opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade, valorPerigoEspecifico, isRestrito
+        ));
+        if (modo == Modos.EDITAR) {
+            direitos.add(isRestrito);
+        }
 
         new PainelFormulariosBuilder(formularioProdutoQuimico, esquerdos, direitos, "Detalhes - Produto químico");
 
@@ -139,8 +140,15 @@ public class DetalheItem extends Detalhe {
         JLabel labelNome = new JLabel("Tarja: ");
         JLabel labelComposicao = new JLabel("Composição: ");
 
-        JComponent[] esquerdos = {labelNome, labelComposicao};
-        JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
+        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
+                labelNome, labelComposicao
+        ));
+        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
+                valorTarja, valorComposicao, isReceita, isRetencaoDeReceita, isGenerico
+        ));
+        if (modo == Modos.EDITAR) {
+            direitos.add(isRestrito);
+        }
         new PainelFormulariosBuilder(formularioFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
     }
 
@@ -153,7 +161,7 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void atualizarElemento() throws IdRepetidoException {
-        controleEstoque.atualizarItem(
+        controleEstoque.atualizarCaracteristicasBasicas(
                 valorNome.getText(),
                 valorCategoria.getText(),
                 Double.parseDouble(valorValor.getText()),
@@ -161,6 +169,25 @@ public class DetalheItem extends Detalhe {
                 Integer.parseInt(valorId.getText()),
                 itemEscolhido
         );
+        if (itemEscolhido instanceof ProdutoQuimico) {
+            controleEstoque.atualizarProdutoQuimico(
+                    valorPerigoEspecifico.getText(),
+                    (int) opcoesRiscoDeFogo.getSelectedItem(),
+                    (int) opcoesReatividade.getSelectedItem(),
+                    (int) opcoesPerigoaSaude.getSelectedItem(),
+                    (ProdutoQuimico) itemEscolhido
+            );
+        } else if (itemEscolhido instanceof Farmaceutico) {
+            controleEstoque.atualizarFarmaceutico(
+                    valorTarja.getText(),
+                    valorComposicao.getText(),
+                    isReceita.isSelected(),
+                    isRetencaoDeReceita.isSelected(),
+                    isGenerico.isSelected(),
+                    (Farmaceutico) itemEscolhido
+            );
+
+        }
     }
 
     @Override
@@ -172,6 +199,20 @@ public class DetalheItem extends Detalhe {
         valorId.setText(String.valueOf(itemEscolhido.getId()));
         ArrayList<Filial> filiais = controleEmpresa.getFiliais();
         opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
+        if (itemEscolhido instanceof ProdutoQuimico) {
+            valorPerigoEspecifico.setText(((ProdutoQuimico) itemEscolhido).getPerigoEspecifico());
+            opcoesPerigoaSaude.setSelectedItem(((ProdutoQuimico) itemEscolhido).getPerigoaSaude());
+            opcoesRiscoDeFogo.setSelectedItem(((ProdutoQuimico) itemEscolhido).getRiscoDeFogo());
+            opcoesReatividade.setSelectedItem(((ProdutoQuimico) itemEscolhido).getReatividade());
+            isRestrito.setEnabled(((ProdutoQuimico) itemEscolhido).isRestrito());
+        } else if (itemEscolhido instanceof Farmaceutico) {
+//            valorComposicao.setText(String.join(",", ((Farmaceutico) itemEscolhido).getComposicao()));
+            valorTarja.setText(((Farmaceutico) itemEscolhido).getTarja());
+            isGenerico.setSelected(((Farmaceutico) itemEscolhido).isGenerico());
+            isReceita.setSelected(((Farmaceutico) itemEscolhido).isReceita());
+            isRetencaoDeReceita.setSelected(((Farmaceutico) itemEscolhido).isRetencaoDeReceita());
+            isRestrito.setSelected(((Farmaceutico) itemEscolhido).isRestrito());
+        }
     }
 
     @Override
@@ -188,9 +229,9 @@ public class DetalheItem extends Detalhe {
                     Integer.parseInt(valorId.getText()),
                     valorTarja.getText(),
                     valorComposicao.getText(),
-                    receita.isSelected(),
-                    retencaoDeReceita.isSelected(),
-                    generico.isSelected()
+                    isReceita.isSelected(),
+                    isRetencaoDeReceita.isSelected(),
+                    isGenerico.isSelected()
             );
         } else if (componente == formularioProdutoQuimico) {
             estoqueSelecionado.adicionarProdutoQuimico(

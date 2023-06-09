@@ -26,6 +26,10 @@ public class ProdutoQuimico extends Item {
         this.restrito = false;
     }
 
+    public boolean isRestrito() {
+        return restrito;
+    }
+
     public String listarCaracteristicasBasicas() {
         return super.listarCaracteristicasBasicas() + String.format("""
                         ---Produto Químico---

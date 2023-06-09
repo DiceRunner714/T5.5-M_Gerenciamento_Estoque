@@ -69,6 +69,10 @@ public class Farmaceutico extends Item {
         }
     }
 
+    public boolean isRestrito() {
+        return restrito;
+    }
+
     //gets & sets
     public String getTarja() {
         return tarja;
