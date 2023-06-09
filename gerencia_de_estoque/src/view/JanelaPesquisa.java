@@ -33,13 +33,12 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
         this.modo = modo;
         this.controleEmpresa = controleEmpresa;
 
+
+        GridBagConstraints c = new GridBagConstraints();
         // Escolha de modo
         switch (modo) {
             // operação 1 - filial
-            case LISTAR_FILIAIS:
-
-
-                GridBagConstraints c = new GridBagConstraints();
+            case LISTAR_FILIAIS -> {
                 filiais = controleEmpresa.getFiliais();
 
                 // Malha de botões
@@ -52,8 +51,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                 malhaBotoes.add(botaoVerEstoque);
                 painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
 
-
-                // Painel principál
+                // Painel principal
                 janela = new JFrame("Filial");
                 janela.setLayout(new GridBagLayout());
 
@@ -90,45 +88,75 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
 
                 botaoVerEstoque.addActionListener(this);
 
-                break;
-            case LISTAR_ESTOQUE_GERAL:
+            }
+
+            case LISTAR_ESTOQUE_GERAL -> {
 
                 estoque = controleEmpresa.getEstoque();
-                // Operação 2 - estoque
+
+                // Malha de botões
+                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
+                botaoAdicionar = new JButton("Adicionar Item");
+                botaoVerDetalhes = new JButton("Ver Item");
+                malhaBotoes.add(botaoAdicionar);
+                malhaBotoes.add(botaoVerDetalhes);
+                painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
+
+                // Painel principál
+                janela = new JFrame("Item");
+                janela.setLayout(new GridBagLayout());
+
+                // adicionar Painel de botões
+                c.insets = new Insets(0, 0, 0, 5);
+                c.weightx = 0.1;
+                c.weighty = 0.1;
+                c.gridy = 1;
+                c.gridx = 1;
+                c.fill = GridBagConstraints.VERTICAL;
+                janela.add(painelBotoes, c);
+
+                // adicionar Título
+                c.insets = new Insets(0, 20, 5, 10);
+                c.weightx = 0.9;
+                c.weighty = 0.1;
+                c.gridy = 0;
+                c.gridx = 0;
                 titulo = new JLabel("Pesquisar estoque");
-                titulo.setBounds(20, 10, 200, 20);
                 titulo.setFont(new Font("Arial", Font.BOLD, 20));
+                janela.add(titulo, c);
 
-                filtroEstoqueVazio = new JCheckBox("Filtro de estoque vazio");
-                filtroEstoqueVazio.setBounds(20, 40, 200, 20);
-
+                // adicionar jlist
                 listaEstoque = new JList<>(estoque.toArray(new Item[estoque.size()]));
-                listaEstoque.setBounds(20, 70, 200, 200);
                 listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 listaEstoque.setVisibleRowCount(10);
 
-                botaoVerDetalhes = new JButton("Ver item");
-                botaoVerDetalhes.setBounds(250, 110, 120, 30);
+                c.insets = new Insets(0, 20, 5, 10);
+                c.weightx = 0.9;
+                c.weighty = 0.9;
+                c.gridy = 1;
+                c.gridx = 0;
+                c.fill = GridBagConstraints.BOTH;
+                janela.add(listaEstoque, c);
 
-                botaoAdicionar = new JButton("Adicionar item");
-                botaoAdicionar.setBounds(250, 170, 120, 30);
+                // adicionar filtro de estoque vazio
+                c.insets = new Insets(5, 20, 20, 10);
+                c.weightx = 0.9;
+                c.weighty = 0.1;
+                c.gridy = 2;
+                c.gridx = 0;
+                c.fill = GridBagConstraints.BOTH;
+                filtroEstoqueVazio = new JCheckBox("Filtro de estoque vazio");
+                janela.add(filtroEstoqueVazio, c);
 
                 filtroEstoqueVazio.addItemListener(this);
-
-                janela = new JFrame("Filiais");
-                janela.setLayout(null);
-                janela.add(listaEstoque);
-                janela.add(filtroEstoqueVazio);
-
-
-                break;
+            }
         }
 
         botaoVerDetalhes.addActionListener(this);
         botaoAdicionar.addActionListener(this);
 
         janela.setSize(400, 400);
-        janela.setResizable(true);
+        janela.setResizable(false);
         janela.setVisible(true);
 
     }
@@ -180,9 +208,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                     }
                 }
             }
-        } catch (NullPointerException exc1) {
-            mensagemErroEscolhaVazia();
-        } catch (NoSuchElementException exc2) {
+        } catch (NullPointerException | NoSuchElementException exc) {
             mensagemErroEscolhaVazia();
         }
 
