@@ -18,17 +18,19 @@ public class JanelaEmpresa implements ActionListener {
     private static JFrame janela = new JFrame("Empresa");
     private static JButton verFil = new JButton("Ver Filiais");
     private static JButton verEst = new JButton("Ver Estoque");
-    private static JLabel titulo = new JLabel("Empresa");
-    private static JLabel texto = new JLabel("<html>Um empreendimento de "
-            + "vendas on-line necessita de um sistema de controle e "
-            + "gerenciamento de seu estoque. Eles precisam gerenciar"
-            + " os itens de estoque e as filiais responsáveis e para isso"
-            + " precisam poder cadastrar, remover, alterar e ler dados sobre"
-            + " as filiais e os itens. </html>");
+
 
     private static ControleEmpresa controleEmpresa = new ControleEmpresa("Lixo");
 
     public JanelaEmpresa() {
+        JLabel titulo = new JLabel("Empresa");
+        JLabel texto = new JLabel("<html>Um empreendimento de "
+                + "vendas on-line necessita de um sistema de controle e "
+                + "gerenciamento de seu estoque. Eles precisam gerenciar"
+                + " os itens de estoque e as filiais responsáveis e para isso"
+                + " precisam poder cadastrar, remover, alterar e ler dados sobre"
+                + " as filiais e os itens. </html>");
+
         verFil.setBounds(40, 200, 120, 30);
         verEst.setBounds(200, 200, 120, 30);
         titulo.setBounds(140, 0, 90, 50);
@@ -43,12 +45,15 @@ public class JanelaEmpresa implements ActionListener {
         janela.add(texto);
         janela.setSize(400, 400);
         janela.setVisible(true);
+        janela.setResizable(false);
+        verFil.addActionListener(this);
+        verEst.addActionListener(this);
 
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
-
+        
         JanelaEmpresa empresa = new JanelaEmpresa();
         // TODO: remover essas filiais de exemplo
         try {
@@ -67,8 +72,6 @@ public class JanelaEmpresa implements ActionListener {
         } catch (IdRepetidoException e) {
             e.printStackTrace();
         }
-        verFil.addActionListener(empresa);
-        verEst.addActionListener(empresa);
     }
 
     @Override

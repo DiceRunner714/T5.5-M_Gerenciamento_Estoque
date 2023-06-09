@@ -20,7 +20,6 @@ public class DetalheItem implements ActionListener {
     // TODO: criar os componentes das classes filhas
     private JFrame janela = new JFrame("Item");
     private JTabbedPane abaPaginada = new JTabbedPane();
-    private JLabel descricao = new JLabel("Informações básicas do Item");
     private JPanel formulariosPrincipais = new JPanel();
     private JPanel formulariosFarmaceutico = new JPanel();
     private JPanel formulariosProdutoQuimico = new JPanel();
@@ -80,7 +79,7 @@ public class DetalheItem implements ActionListener {
         criarJanela();
     }
 
-    public void criarJanela() {
+    private void criarJanela() {
 
         criarFormularioPrincipal();
         criarFormularioProdutoQuimico();
@@ -124,10 +123,10 @@ public class DetalheItem implements ActionListener {
 
     }
 
-    public <T extends JComponent> void criarFormulario(T[] componentesEsquerdos,
-                                                       T[] componentesDireitos,
-                                                       String titulo,
-                                                       JPanel painel) {
+    private <T extends JComponent> void criarFormulario(T[] componentesEsquerdos,
+                                                        T[] componentesDireitos,
+                                                        String titulo,
+                                                        JPanel painel) {
 
         painel.setLayout(new GridBagLayout());
         GridBagConstraints cInterno = new GridBagConstraints();
@@ -173,7 +172,7 @@ public class DetalheItem implements ActionListener {
 
     }
 
-    public void criarFormularioPrincipal() {
+    private void criarFormularioPrincipal() {
 
         JLabel labelNome = new JLabel("Nome: ");
         JLabel labelId = new JLabel("ID: ");
@@ -187,7 +186,7 @@ public class DetalheItem implements ActionListener {
         String titulo;
 
         if (modo != Modos.ADICIONAR) {
-            titulo = "Modificar item - Filial: " + filialdoItem.getNome();
+            titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
             esquerdos = new JComponent[]{labelNome, labelId, labelCategoria, labelQuantidade, labelValor};
             direitos = new JComponent[]{valorNome, valorId, valorCategoria, valorQuantidade, valorValor};
         } else {
@@ -199,15 +198,15 @@ public class DetalheItem implements ActionListener {
 
     }
 
-    public void criarFormularioFarmaceutico() {
+    private void criarFormularioFarmaceutico() {
         JLabel labelNome = new JLabel("Tarja: ");
         JLabel labelComposicao = new JLabel("Composição: ");
         JComponent[] esquerdos = {labelNome, labelComposicao};
         JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
-        criarFormulario(esquerdos, direitos, "Farmacêutico", formulariosFarmaceutico);
+        criarFormulario(esquerdos, direitos, "Detalhes - Farmacêutico", formulariosFarmaceutico);
     }
 
-    public void criarFormularioProdutoQuimico() {
+    private void criarFormularioProdutoQuimico() {
         JLabel labelPerigoaSaude = new JLabel("Risco a saúde: ");
         JLabel labelRiscodeFogo = new JLabel("Risco de fogo: ");
         JLabel labelReatividade = new JLabel("Reatividade: ");
@@ -223,17 +222,15 @@ public class DetalheItem implements ActionListener {
         JComponent[] direitos = {opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade,
                 valorPerigoEspecifico, restrito};
 
-        criarFormulario(esquerdos, direitos, "Produto químico", formulariosProdutoQuimico);
+        criarFormulario(esquerdos, direitos, "Detalhes - Produto químico", formulariosProdutoQuimico);
 
     }
 
-    public void criarBotoes() {
+    private void criarBotoes() {
         // Botões
         botoes.setLayout(new FlowLayout(FlowLayout.TRAILING));
         switch (modo) {
             case EDITAR -> {
-                descricao.setText("Filial: " + filialdoItem.getNome());
-
                 botoes.add(botaoAtualizar);
                 botoes.add(botaoExcluir);
 
@@ -257,8 +254,7 @@ public class DetalheItem implements ActionListener {
 
     }
 
-    // TODO: esse método também deveria ser privado
-    public void processarFormularios() {
+    private void processarFormularios() {
         try {
             switch (modo) {
                 case EDITAR -> {
@@ -331,19 +327,19 @@ public class DetalheItem implements ActionListener {
 
 
     // --POP UPS--
-    public void mensagemErroIdrepetido(IdRepetidoException e3) {
+    private void mensagemErroIdrepetido(IdRepetidoException e3) {
         JOptionPane.showMessageDialog(null,
                 e3.getMessage(),
                 "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void mensagemErrodeFormatacao() {
+    private void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,
                 "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
                 "Erro de formatação", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void mensagemErroFormularioVazio() {
+    private void mensagemErroFormularioVazio() {
         JOptionPane.showMessageDialog(null,
                 "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
                 "Erro de entrada", JOptionPane.ERROR_MESSAGE);

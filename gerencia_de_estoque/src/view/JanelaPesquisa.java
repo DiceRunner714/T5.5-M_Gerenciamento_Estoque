@@ -182,7 +182,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     }
 
     // --POP UPS--
-    public void mensagemErroEscolhaVazia() {
+    private void mensagemErroEscolhaVazia() {
         String mensagem = null;
         switch (modo) {
             case LISTAR_FILIAIS:
