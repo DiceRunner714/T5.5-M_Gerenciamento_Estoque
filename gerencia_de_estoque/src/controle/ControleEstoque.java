@@ -3,6 +3,7 @@ package controle;
 import modelo.Farmaceutico;
 import modelo.Filial;
 import modelo.Item;
+import modelo.ProdutoQuimico;
 
 import java.util.ArrayList;
 
@@ -20,8 +21,30 @@ public class ControleEstoque {
         this.filialEscolhida = filialEscolhida;
     }
 
-    public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id)
-            throws IdRepetidoException {
+    public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id,
+                                      String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
+                                      boolean generico) throws IdRepetidoException {
+
+        boolean idRepetido = controleEmpresa
+                .getEstoque()
+                .stream().
+                anyMatch(item -> item.getId() == id);
+
+        String[] composicaoLista = composicao.split(",");
+
+        if (idRepetido) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            estoqueFilial.add(
+                    new Farmaceutico(
+                            nome, categoria, valor, quantidade, id, tarja, composicaoLista, receita, retencaoDeReceita, generico
+                    )
+            );
+        }
+    }
+
+    public void adicionarFarmaceutico(String nome, String categoria, double valor,
+                                      int quantidade, int id) throws IdRepetidoException {
 
         boolean idRepetido = controleEmpresa
                 .getEstoque()
@@ -33,6 +56,40 @@ public class ControleEstoque {
         } else {
             Item newFarmaceutico = new Farmaceutico(nome, categoria, valor, quantidade, id);
             estoqueFilial.add(newFarmaceutico);
+        }
+    }
+
+    public void adicionarProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id)
+            throws IdRepetidoException {
+
+        boolean idRepetido = controleEmpresa
+                .getEstoque()
+                .stream()
+                .anyMatch(item -> item.getId() == id);
+
+        if (idRepetido) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id);
+            estoqueFilial.add(newProdutoQuimico);
+        }
+    }
+
+    public void adicionarProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
+                                        String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude)
+            throws IdRepetidoException {
+
+        boolean idRepetido = controleEmpresa
+                .getEstoque()
+                .stream()
+                .anyMatch(item -> item.getId() == id);
+
+        if (idRepetido) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id,
+                    perigoEspecifico, riscoDeFogo, reatividade, perigoaSaude);
+            estoqueFilial.add(newProdutoQuimico);
         }
     }
 
@@ -50,6 +107,7 @@ public class ControleEstoque {
             estoqueFilial.add(newFarmaceutico);
         }
     }
+
 
     // Altera apenas as caraccterísticas básicas definidas na class Item
     public void atualizarItem(String newNome, String newCategoria, double newValor,

@@ -51,22 +51,22 @@ public class JanelaEmpresa implements ActionListener {
 
         JanelaEmpresa empresa = new JanelaEmpresa();
         // TODO: remover essas filiais de exemplo
-//        try {
-//            controleEmpresa.adicionarFilial(
-//                    new Filial("abr", "brasil", 6)
-//            );
-//            controleEmpresa.adicionarFilial(
-//                    new Filial("sussy baki", "xina", 7)
-//            );
-//            ControleEstoque meuEstoque = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(7));
-//            meuEstoque.adicionarFarmaceutico("Ablublublé", "né", 50.99, 5, 9);
-//            meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
-//            ControleEstoque meuEstoque2 = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(6));
-//            meuEstoque2.adicionarFarmaceutico("be", "né", 50.99, 5, 56);
-//            meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
-//        } catch (IdRepetidoException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            controleEmpresa.adicionarFilial(
+                    new Filial("abr", "brasil", 6)
+            );
+            controleEmpresa.adicionarFilial(
+                    new Filial("sussy baki", "xina", 7)
+            );
+            ControleEstoque meuEstoque = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(7));
+            meuEstoque.adicionarFarmaceutico("Ablublublé", "né", 50.99, 5, 9);
+            meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
+            ControleEstoque meuEstoque2 = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(6));
+            meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);
+            meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
+        } catch (IdRepetidoException e) {
+            e.printStackTrace();
+        }
         verFil.addActionListener(empresa);
         verEst.addActionListener(empresa);
     }
