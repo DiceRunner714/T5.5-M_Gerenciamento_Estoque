@@ -41,6 +41,15 @@ public class ControleEmpresa {
         }
     }
 
+    public void adicionarFilial(String nome, String local, int id) throws IdRepetidoException {
+        boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == id);
+        if (idRepetido) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém uma filial com esse Id");
+        } else {
+            empresa.adicionarFilial(nome, local, id);
+        }
+    }
+
     public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException {
         boolean idRepetido = filiais
                 .stream()

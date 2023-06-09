@@ -12,28 +12,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 
-public class DetalheItem implements ActionListener {
-    private static ControleEmpresa controleEmpresa;
-    // TODO: criar os componentes das classes filhas
-    private JFrame janela = new JFrame("Item");
+public class DetalheItem extends Detalhe {
     private JTabbedPane abaPaginada = new JTabbedPane();
-    private JPanel formulariosPrincipais = new JPanel();
-    private JPanel formulariosFarmaceutico = new JPanel();
-    private JPanel formulariosProdutoQuimico = new JPanel();
-    private JPanel formulariosSecundarios = new JPanel();
-    private JPanel botoes = new JPanel();
+    private JPanel formularioPrincipal = new JPanel();
+    private JPanel formularioFarmaceutico = new JPanel();
+    private JPanel formularioProdutoQuimico = new JPanel();
     private JTextField valorNome = new JTextField();
     private JTextField valorId = new JTextField();
     private JTextField valorCategoria = new JTextField();
     private JTextField valorQuantidade = new JTextField();
     private JTextField valorValor = new JTextField();
     private JTextField valorPerigoEspecifico = new JTextField();
-    private JComboBox<Integer> opcoesPerigoaSaude;
-    private JComboBox<Integer> opcoesRiscoDeFogo;
-    private JComboBox<Integer> opcoesReatividade;
+    private JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Filial> opcoesFiliais;
     private JTextField valorTarja = new JTextField();
     private JTextField valorComposicao = new JTextField();
@@ -41,13 +38,7 @@ public class DetalheItem implements ActionListener {
     private JCheckBox generico = new JCheckBox("Genérico");
     private JCheckBox restrito = new JCheckBox("Restrito");
     private JCheckBox receita = new JCheckBox("Necessita de receita");
-    private JButton botaoAtualizar = new JButton("Atualizar");
-    private JButton botaoExcluir = new JButton("Excluir");
-    private JButton botaoAdicionar = new JButton("Adicionar");
-    private JButton botaoCancelar = new JButton("Cancelar");
     private CategoriasItens tipoDeItem;
-    private Modos modo;
-    private JanelaPesquisa janelaPesquisa;
     private Filial filialdoItem;
     private Item itemEscolhido;
     private ControleEstoqueFilial controleEstoque;
@@ -57,58 +48,66 @@ public class DetalheItem implements ActionListener {
         DetalheItem.controleEmpresa = controleEmpresa;
         this.janelaPesquisa = janelaPesquisa;
 
-        formulariosPrincipais.setLayout(new GridBagLayout());
+        formularioPrincipal.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         ArrayList<Filial> filiais = controleEmpresa.getFiliais();
         opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
 
-        criarJanela();
+        criarJanelaItem();
 
     }
 
-    private void criarJanela() {
+    // Construtor não vazio, item escolhido para modificar
+    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
+        this.modo = Modos.EDITAR;
+        this.janelaPesquisa = janelaPesquisa;
+        this.itemEscolhido = itemEscolhido;
+
+        DetalheItem.controleEmpresa = controleEmpresa;
+        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+        controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
+
+        if (itemEscolhido instanceof Farmaceutico) {
+            tipoDeItem = CategoriasItens.FARMACEUTICO;
+        } else if (itemEscolhido instanceof ProdutoQuimico) {
+            tipoDeItem = CategoriasItens.PRODUTO_QUIMICO;
+        }
+
+        criarJanelaItem();
+    }
+
+    private void criarJanelaItem() {
+
+        ArrayList<JComponent> formularios = new ArrayList<>();
 
         criarFormularioPrincipal();
-        criarFormularioProdutoQuimico();
-        criarFormularioFarmaceutico();
-        criarBotoes();
+        formularios.add(formularioPrincipal);
 
-        janela.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        c.insets = new Insets(0, 0, 0, 0);
-        c.weightx = 0.5;
-        c.weighty = 0.2;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTH;
-        janela.add(formulariosPrincipais, c);
-
-        c.gridy = 1;
         switch (modo) {
+            // Mostrar todas as opções de itens para adicionar
             case ADICIONAR -> {
-                abaPaginada.addTab("Produto Químico", formulariosProdutoQuimico);
-                abaPaginada.addTab("Farmacêutico", formulariosFarmaceutico);
-                janela.add(abaPaginada, c);
+                criarFormularioProdutoQuimico();
+                criarFormularioFarmaceutico();
+                abaPaginada.addTab("Produto Químico", formularioProdutoQuimico);
+                abaPaginada.addTab("Farmacêutico", formularioFarmaceutico);
+                formularios.add(abaPaginada);
             }
+            // Mostrar só o formulário do tipo de item escolhido
             case EDITAR -> {
-                if (itemEscolhido instanceof Farmaceutico) {
-                    janela.add(formulariosFarmaceutico, c);
-                } else if (itemEscolhido instanceof ProdutoQuimico) {
-                    janela.add(formulariosProdutoQuimico, c);
+                switch (tipoDeItem) {
+                    case FARMACEUTICO -> {
+                        criarFormularioFarmaceutico();
+                        formularios.add(formularioFarmaceutico);
+                    }
+                    case PRODUTO_QUIMICO -> {
+                        criarFormularioProdutoQuimico();
+                        formularios.add(formularioProdutoQuimico);
+                    }
                 }
             }
         }
-        c.weighty = 0.6;
-        c.gridy = 2;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        janela.add(botoes, c);
-
-        janela.setSize(600, 600);
-        janela.setResizable(false);
-        janela.setVisible(true);
-
+        criarJanela(formularios.toArray(new JComponent[formularios.size()]), 600, 600, "Item:");
     }
 
     private void criarFormularioPrincipal() {
@@ -120,20 +119,27 @@ public class DetalheItem implements ActionListener {
         JLabel labelValor = new JLabel("Valor (R$): ");
         JLabel labelFilial = new JLabel("Filial: ");
 
-        JComponent[] esquerdos;
-        JComponent[] direitos;
-        String titulo;
+        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
+                labelNome, labelId, labelCategoria, labelQuantidade, labelValor
+        ));
+        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
+                valorNome, valorId, valorCategoria, valorQuantidade, valorValor
+        ));
+        String titulo = "Adicionar Informações básicas";
 
-        if (modo != Modos.ADICIONAR) {
+        if (modo == Modos.EDITAR) {
+            valorNome.setText(itemEscolhido.getNome());
+            valorCategoria.setText(itemEscolhido.getCategoria());
+            valorValor.setText(String.valueOf(itemEscolhido.getValor()));
+            valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
+            valorId.setText(String.valueOf(itemEscolhido.getId()));
             titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-            esquerdos = new JComponent[]{labelNome, labelId, labelCategoria, labelQuantidade, labelValor};
-            direitos = new JComponent[]{valorNome, valorId, valorCategoria, valorQuantidade, valorValor};
-        } else {
-            titulo = "Adicionar Informações básicas";
-            esquerdos = new JComponent[]{labelNome, labelId, labelCategoria, labelQuantidade, labelValor, labelFilial};
-            direitos = new JComponent[]{valorNome, valorId, valorCategoria, valorQuantidade, valorValor, opcoesFiliais};
+        } else if (modo == Modos.ADICIONAR) {
+            esquerdos.add(labelFilial);
+            direitos.add(opcoesFiliais);
         }
-        new FormularioBuilder(formulariosPrincipais, esquerdos, direitos, titulo);
+
+        new PainelFormulariosBuilder(formularioPrincipal, esquerdos, direitos, titulo);
 
     }
 
@@ -143,17 +149,12 @@ public class DetalheItem implements ActionListener {
         JLabel labelReatividade = new JLabel("Reatividade: ");
         JLabel labelPerigoEspecifico = new JLabel("Perigo especifico: ");
 
-        Integer[] niveis = {1, 2, 3, 4, 5};
-        opcoesReatividade = new JComboBox<>(niveis);
-        opcoesRiscoDeFogo = new JComboBox<>(niveis);
-        opcoesPerigoaSaude = new JComboBox<>(niveis);
-
         JComponent[] esquerdos = {labelPerigoaSaude, labelRiscodeFogo,
                 labelReatividade, labelPerigoEspecifico};
         JComponent[] direitos = {opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade,
                 valorPerigoEspecifico, restrito};
 
-        new FormularioBuilder(formulariosProdutoQuimico, esquerdos, direitos, "Detalhes - Produto químico");
+        new PainelFormulariosBuilder(formularioProdutoQuimico, esquerdos, direitos, "Detalhes - Produto químico");
 
     }
 
@@ -162,137 +163,59 @@ public class DetalheItem implements ActionListener {
         JLabel labelComposicao = new JLabel("Composição: ");
         JComponent[] esquerdos = {labelNome, labelComposicao};
         JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
-        new FormularioBuilder(formulariosFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
-    }
-
-    private void criarBotoes() {
-        // Botões
-        botoes.setLayout(new FlowLayout(FlowLayout.TRAILING));
-        switch (modo) {
-            case EDITAR -> {
-                botoes.add(botaoAtualizar);
-                botoes.add(botaoExcluir);
-
-                valorNome.setText(itemEscolhido.getNome());
-                valorCategoria.setText(itemEscolhido.getCategoria());
-                valorValor.setText(String.valueOf(itemEscolhido.getValor()));
-                valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
-                valorId.setText(String.valueOf(itemEscolhido.getId()));
-
-                botaoAtualizar.addActionListener(this);
-                botaoExcluir.addActionListener(this);
-            }
-            case ADICIONAR -> {
-                botoes.add(botaoAdicionar);
-                botoes.add(botaoCancelar);
-
-                botaoAdicionar.addActionListener(this);
-                botaoCancelar.addActionListener(this);
-            }
-        }
-
+        new PainelFormulariosBuilder(formularioFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
     }
 
 
-    // Construtor não vazio, item escolhido para modificar
-    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
-        this.modo = Modos.EDITAR;
-        this.janelaPesquisa = janelaPesquisa;
-        this.itemEscolhido = itemEscolhido;
-        DetalheItem.controleEmpresa = controleEmpresa;
-        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
-        controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
-
-        criarJanela();
+    @Override
+    protected void excluirElemento() {
+        controleEstoque.removerItem(itemEscolhido);
+        janelaPesquisa.refresh();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
+    protected void atualizarElemento() throws IdRepetidoException {
+        controleEstoque.atualizarItem(
+                valorNome.getText(),
+                valorCategoria.getText(),
+                Double.parseDouble(valorValor.getText()),
+                Integer.parseInt(valorQuantidade.getText()),
+                Integer.parseInt(valorId.getText()),
+                itemEscolhido
+        );
+    }
 
-        if (src == botaoAtualizar || src == botaoAdicionar) {
-            processarFormularios();
-        } else {
-            if (src == botaoExcluir) {
-                controleEstoque.removerItem(itemEscolhido);
-                janelaPesquisa.refresh();
-            }
-            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+    @Override
+    protected void adicionarElemento() throws IdRepetidoException {
+        Component componente = abaPaginada.getSelectedComponent();
+        ControleEstoqueFilial estoqueSelecionado =
+                new ControleEstoqueFilial(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
+        if (componente == formularioFarmaceutico) {
+            estoqueSelecionado.adicionarFarmaceutico(
+                    valorNome.getText(),
+                    valorCategoria.getText(),
+                    Double.parseDouble(valorValor.getText()),
+                    Integer.parseInt(valorQuantidade.getText()),
+                    Integer.parseInt(valorId.getText()),
+                    valorTarja.getText(),
+                    valorComposicao.getText(),
+                    receita.isSelected(),
+                    retencaoDeReceita.isSelected(),
+                    generico.isSelected()
+            );
+        } else if (componente == formularioProdutoQuimico) {
+            estoqueSelecionado.adicionarProdutoQuimico(
+                    valorNome.getText(),
+                    valorCategoria.getText(),
+                    Double.parseDouble(valorValor.getText()),
+                    Integer.parseInt(valorQuantidade.getText()),
+                    Integer.parseInt(valorId.getText()),
+                    valorPerigoEspecifico.getText(),
+                    (Integer) opcoesRiscoDeFogo.getSelectedItem(),
+                    (Integer) opcoesReatividade.getSelectedItem(),
+                    (Integer) opcoesPerigoaSaude.getSelectedItem()
+            );
         }
     }
 
-    private void processarFormularios() {
-        try {
-            switch (modo) {
-                case EDITAR -> {
-                    controleEstoque.atualizarItem(
-                            valorNome.getText(),
-                            valorCategoria.getText(),
-                            Double.parseDouble(valorValor.getText()),
-                            Integer.parseInt(valorQuantidade.getText()),
-                            Integer.parseInt(valorId.getText()),
-                            itemEscolhido
-                    );
-                    janelaPesquisa.refresh();
-                }
-                case ADICIONAR -> {
-                    Component componente = abaPaginada.getSelectedComponent();
-                    ControleEstoqueFilial estoqueSelecionado =
-                            new ControleEstoqueFilial(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
-                    if (componente == formulariosFarmaceutico) {
-                        estoqueSelecionado.adicionarFarmaceutico(
-                                valorNome.getText(),
-                                valorCategoria.getText(),
-                                Double.parseDouble(valorValor.getText()),
-                                Integer.parseInt(valorQuantidade.getText()),
-                                Integer.parseInt(valorId.getText()),
-                                valorTarja.getText(),
-                                valorComposicao.getText(),
-                                receita.isSelected(),
-                                retencaoDeReceita.isSelected(),
-                                generico.isSelected()
-                        );
-                    } else if (componente == formulariosProdutoQuimico) {
-                        estoqueSelecionado.adicionarProdutoQuimico(
-                                valorNome.getText(),
-                                valorCategoria.getText(),
-                                Double.parseDouble(valorValor.getText()),
-                                Integer.parseInt(valorQuantidade.getText()),
-                                Integer.parseInt(valorId.getText()),
-                                valorPerigoEspecifico.getText(),
-                                (Integer) opcoesRiscoDeFogo.getSelectedItem(),
-                                (Integer) opcoesReatividade.getSelectedItem(),
-                                (Integer) opcoesPerigoaSaude.getSelectedItem()
-                        );
-                    }
-                    janelaPesquisa.refresh();
-                }
-            }
-        } catch (NumberFormatException e1) {
-            mensagemErrodeFormatacao();
-        } catch (NullPointerException e2) {
-            mensagemErroFormularioVazio();
-        } catch (IdRepetidoException e3) {
-            mensagemErroIdrepetido(e3);
-        }
-    }
-
-    private void mensagemErrodeFormatacao() {
-        JOptionPane.showMessageDialog(null,
-                "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
-                "Erro de formatação", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void mensagemErroFormularioVazio() {
-        JOptionPane.showMessageDialog(null,
-                "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
-                "Erro de entrada", JOptionPane.ERROR_MESSAGE);
-    }
-
-    // --POP UPS--
-    private void mensagemErroIdrepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(null,
-                e3.getMessage(),
-                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
-    }
 }
