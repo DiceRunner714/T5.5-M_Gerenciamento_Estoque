@@ -1,9 +1,6 @@
 package controle;
 
-import modelo.Farmaceutico;
-import modelo.Filial;
-import modelo.Item;
-import modelo.ProdutoQuimico;
+import modelo.*;
 
 import java.util.ArrayList;
 
@@ -39,14 +36,12 @@ public class ControleEstoqueFilial {
                                       String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
                                       boolean generico) throws IdRepetidoException {
 
-        String[] composicaoLista = composicao.split(",");
-
         if (idRepetido(id)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             estoqueFilial.add(
                     new Farmaceutico(
-                            nome, categoria, valor, quantidade, id, tarja, composicaoLista, receita, retencaoDeReceita, generico
+                            nome, categoria, valor, quantidade, id, tarja, composicao, receita, retencaoDeReceita, generico
                     )
             );
         }
@@ -116,7 +111,7 @@ public class ControleEstoqueFilial {
 
     public void atualizarFarmaceutico(String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
                                       boolean generico, Farmaceutico f) {
-        f.setComposicao(composicao.split(","));
+        f.setComposicao(composicao);
         f.setTarja(tarja);
         f.setGenerico(generico);
         f.setReceita(receita);
@@ -129,6 +124,14 @@ public class ControleEstoqueFilial {
         p.setPerigoaSaude(perigoaSaude);
         p.setPerigoEspecifico(perigoEspecifico);
         p.setRiscoDeFogo(riscoDeFogo);
+    }
+
+    public void restringirItem(Item i) throws NivelRestricaoInadequadoException {
+        i.restringir();
+    }
+
+    public void liberarItem(Item i) throws NivelRestricaoInadequadoException {
+        i.liberar();
     }
 
     public void removerItem(int id) {

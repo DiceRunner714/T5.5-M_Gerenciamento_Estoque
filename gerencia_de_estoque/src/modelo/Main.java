@@ -136,7 +136,7 @@ public class Main {
 
         restricoes.adicionarItem(
                 new Farmaceutico("Risperidon", "antipsicótico", 53.94, 5, 0,
-                        "preta", new String[]{"Risperidona 1mg", "azdio 2mg"}, true, true, false)
+                        "preta", "Risperidona 1mg, azdio 2mg", true, true, false)
         );
         restricoes.adicionarItem(
                 new ProdutoQuimico("Azidoazide azide", "composto inorgânico", 999.99, 1,
@@ -146,16 +146,19 @@ public class Main {
         Farmaceutico risperidon = (Farmaceutico) restricoes.buscarItem(0);
         ProdutoQuimico azido = (ProdutoQuimico) restricoes.buscarItem(1);
         System.out.println(restricoes.getEstoque());
+        try {
+            risperidon.restringir();    // Produtos perigosos serão restritos
+            azido.restringir();
+            System.out.println(restricoes.getEstoque());
 
-        risperidon.restringir();    // Produtos perigosos serão restritos
-        azido.restringir();
-        System.out.println(restricoes.getEstoque());
+            risperidon.liberar();       //Produtos não serão liberados, pois ainda são classificados como perigosos
+            azido.liberar();
+            System.out.println(restricoes.getEstoque());
 
-        risperidon.liberar();       //Produtos não serão liberados, pois ainda são classificados como perigosos
-        azido.liberar();
-        System.out.println(restricoes.getEstoque());
-
-        System.out.println("TESTE DE RESTRIÇÕES FINALIZADO");
+            System.out.println("TESTE DE RESTRIÇÕES FINALIZADO");
+        } catch (NivelRestricaoInadequadoException e) {
+            System.out.println("Bruh");
+        }
     }
 
 }

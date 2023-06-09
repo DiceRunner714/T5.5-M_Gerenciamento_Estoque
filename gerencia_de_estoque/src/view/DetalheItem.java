@@ -3,10 +3,7 @@ package view;
 import controle.ControleEmpresa;
 import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
-import modelo.Farmaceutico;
-import modelo.Filial;
-import modelo.Item;
-import modelo.ProdutoQuimico;
+import modelo.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -186,7 +183,16 @@ public class DetalheItem extends Detalhe {
                     isGenerico.isSelected(),
                     (Farmaceutico) itemEscolhido
             );
-
+        }
+        try {
+            if (isRestrito.isSelected()) {
+                controleEstoque.restringirItem(itemEscolhido);
+            } else {
+                controleEstoque.liberarItem(itemEscolhido);
+            }
+        } catch (NivelRestricaoInadequadoException e) {
+            isRestrito.setSelected(itemEscolhido.isRestrito());
+            mensagemErroRestricao(e);
         }
     }
 
@@ -199,19 +205,18 @@ public class DetalheItem extends Detalhe {
         valorId.setText(String.valueOf(itemEscolhido.getId()));
         ArrayList<Filial> filiais = controleEmpresa.getFiliais();
         opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
+        isRestrito.setSelected(itemEscolhido.isRestrito());
         if (itemEscolhido instanceof ProdutoQuimico) {
             valorPerigoEspecifico.setText(((ProdutoQuimico) itemEscolhido).getPerigoEspecifico());
             opcoesPerigoaSaude.setSelectedItem(((ProdutoQuimico) itemEscolhido).getPerigoaSaude());
             opcoesRiscoDeFogo.setSelectedItem(((ProdutoQuimico) itemEscolhido).getRiscoDeFogo());
             opcoesReatividade.setSelectedItem(((ProdutoQuimico) itemEscolhido).getReatividade());
-            isRestrito.setEnabled(((ProdutoQuimico) itemEscolhido).isRestrito());
         } else if (itemEscolhido instanceof Farmaceutico) {
-//            valorComposicao.setText(String.join(",", ((Farmaceutico) itemEscolhido).getComposicao()));
+            valorComposicao.setText(((Farmaceutico) itemEscolhido).getComposicao());
             valorTarja.setText(((Farmaceutico) itemEscolhido).getTarja());
             isGenerico.setSelected(((Farmaceutico) itemEscolhido).isGenerico());
             isReceita.setSelected(((Farmaceutico) itemEscolhido).isReceita());
             isRetencaoDeReceita.setSelected(((Farmaceutico) itemEscolhido).isRetencaoDeReceita());
-            isRestrito.setSelected(((Farmaceutico) itemEscolhido).isRestrito());
         }
     }
 
@@ -246,6 +251,12 @@ public class DetalheItem extends Detalhe {
                     (Integer) opcoesPerigoaSaude.getSelectedItem()
             );
         }
+    }
+
+    private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
+        JOptionPane.showMessageDialog(null,
+                e.getMessage(),
+                "Erro de restrição:", JOptionPane.ERROR_MESSAGE);
     }
 
 }
