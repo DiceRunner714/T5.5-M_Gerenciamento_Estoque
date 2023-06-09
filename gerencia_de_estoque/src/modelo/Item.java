@@ -24,10 +24,12 @@ public abstract class Item {
         id = newId;
     }
 
-    public abstract void restringir();
+    public abstract void restringir() throws NivelRestricaoInadequadoException;
 
-    public abstract void liberar();
+    public abstract void liberar() throws NivelRestricaoInadequadoException;
 
+    abstract public boolean isRestrito();
+    
     public String listarCaracteristicasBasicas() {
         return String.format("""
                         ---Produto----
@@ -75,6 +77,7 @@ public abstract class Item {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
 
     public int getId() {
         return id;

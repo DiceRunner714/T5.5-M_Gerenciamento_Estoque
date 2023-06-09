@@ -15,12 +15,14 @@ import java.util.NoSuchElementException;
 
 public class JanelaPesquisa implements ActionListener, ItemListener {
     private static ControleEmpresa controleEmpresa;
-    private JLabel textoGenerico;
+    private JFrame janela;
+    private JPanel malhaBotoes = new JPanel();
+    private JPanel painelBotoes = new JPanel();
+    private JLabel titulo;
     private JList<Filial> listaFiliais;
     private JList<Item> listaEstoque;
-    private JButton botaoVerEst;
+    private JButton botaoVerEstoque;
     private JButton botaoVerDetalhes;
-    private JFrame janela;
     private JCheckBox filtroEstoqueVazio;
     private JButton botaoAdicionar;
     private ArrayList<Item> estoque;
@@ -36,41 +38,66 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
             // operação 1 - filial
             case LISTAR_FILIAIS:
 
+
+                GridBagConstraints c = new GridBagConstraints();
                 filiais = controleEmpresa.getFiliais();
 
-                textoGenerico = new JLabel("Pesquisar Filial");
-                textoGenerico.setBounds(20, 10, 150, 20);
-                textoGenerico.setFont(new Font("Arial", Font.BOLD, 20));
-
-                listaFiliais = new JList<>(filiais.toArray(new Filial[filiais.size()]));
-                listaFiliais.setBounds(20, 50, 200, 200);
-                listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                listaFiliais.setVisibleRowCount(10);
-
+                // Malha de botões
+                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
                 botaoAdicionar = new JButton("Adicionar filial");
-                botaoAdicionar.setBounds(60, 270, 120, 30);
-
                 botaoVerDetalhes = new JButton("Ver filial");
-                botaoVerDetalhes.setBounds(250, 110, 120, 30);
+                botaoVerEstoque = new JButton("Ver estoque");
+                malhaBotoes.add(botaoAdicionar);
+                malhaBotoes.add(botaoVerDetalhes);
+                malhaBotoes.add(botaoVerEstoque);
+                painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
 
-                botaoVerEst = new JButton("Ver estoque");
-                botaoVerEst.setBounds(250, 170, 120, 30);
 
+                // Painel principál
                 janela = new JFrame("Filial");
-                janela.setLayout(null);
-                janela.add(botaoVerEst);
-                janela.add(listaFiliais);
+                janela.setLayout(new GridBagLayout());
 
-                botaoVerEst.addActionListener(this);
+                // adicionar Painel de botões
+                c.insets = new Insets(0, 0, 0, 5);
+                c.weightx = 0.1;
+                c.weighty = 0.1;
+                c.gridy = 1;
+                c.gridx = 1;
+                c.fill = GridBagConstraints.VERTICAL;
+                janela.add(painelBotoes, c);
+
+                // adicionar Título
+                c.insets = new Insets(0, 20, 5, 10);
+                c.weightx = 0.9;
+                c.weighty = 0.1;
+                c.gridy = 0;
+                c.gridx = 0;
+                titulo = new JLabel("Pesquisar Filial");
+                titulo.setFont(new Font("Arial", Font.BOLD, 20));
+                janela.add(titulo, c);
+
+                // adicionar jlist
+                c.insets = new Insets(0, 20, 20, 10);
+                c.weightx = 0.9;
+                c.weighty = 0.9;
+                c.gridy = 1;
+                c.gridx = 0;
+                c.fill = GridBagConstraints.BOTH;
+                listaFiliais = new JList<>(filiais.toArray(new Filial[filiais.size()]));
+                listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                listaFiliais.setVisibleRowCount(50);
+                janela.add(listaFiliais, c);
+
+                botaoVerEstoque.addActionListener(this);
 
                 break;
             case LISTAR_ESTOQUE_GERAL:
 
                 estoque = controleEmpresa.getEstoque();
                 // Operação 2 - estoque
-                textoGenerico = new JLabel("Pesquisar estoque");
-                textoGenerico.setBounds(20, 10, 200, 20);
-                textoGenerico.setFont(new Font("Arial", Font.BOLD, 20));
+                titulo = new JLabel("Pesquisar estoque");
+                titulo.setBounds(20, 10, 200, 20);
+                titulo.setFont(new Font("Arial", Font.BOLD, 20));
 
                 filtroEstoqueVazio = new JCheckBox("Filtro de estoque vazio");
                 filtroEstoqueVazio.setBounds(20, 40, 200, 20);
@@ -96,22 +123,18 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
 
                 break;
         }
-        janela.add(textoGenerico);
-        janela.add(botaoAdicionar);
-        janela.add(botaoVerDetalhes);
 
         botaoVerDetalhes.addActionListener(this);
         botaoAdicionar.addActionListener(this);
 
         janela.setSize(400, 400);
+        janela.setResizable(true);
         janela.setVisible(true);
 
     }
 
-
     public void refresh() {
         switch (modo) {
-
             case LISTAR_FILIAIS:
                 listaFiliais.setListData(filiais.toArray(new Filial[filiais.size()]));
                 listaFiliais.updateUI();
@@ -134,37 +157,33 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        switch (modo) {
-            case LISTAR_FILIAIS -> {
-                if (src == botaoAdicionar) {
-                    new DetalheFilial(controleEmpresa, this);
-                } else if (src == botaoVerDetalhes) {
-                    try {
+        try {
+            switch (modo) {
+                case LISTAR_FILIAIS -> {
+                    if (src == botaoAdicionar) {
+                        new DetalheFilial(controleEmpresa, this);
+                    } else {
                         Filial filialSelecionada = listaFiliais.getSelectedValue();
                         if (src == botaoVerDetalhes) {
                             new DetalheFilial(controleEmpresa, this, filialSelecionada);
-                        } else if (src == botaoVerEst) {
+                        } else if (src == botaoVerEstoque) {
                             // TODO: adicionar visualização de estoque
                         }
-                    } catch (NullPointerException exc1) {
-                        mensagemErroEscolhaVazia();
                     }
                 }
-            }
-            case LISTAR_ESTOQUE_GERAL -> {
-                if (src == botaoAdicionar) {
-                    new DetalheItem(controleEmpresa, this);
-                } else if (src == botaoVerDetalhes) {
-                    try {
+                case LISTAR_ESTOQUE_GERAL -> {
+                    if (src == botaoAdicionar) {
+                        new DetalheItem(controleEmpresa, this);
+                    } else if (src == botaoVerDetalhes) {
                         Item itemEscolhido = listaEstoque.getSelectedValue();
                         new DetalheItem(controleEmpresa, this, itemEscolhido);
-                    } catch (NullPointerException exc1) {
-                        mensagemErroEscolhaVazia();
-                    } catch (NoSuchElementException exc2) {
-                        mensagemErroEscolhaVazia();
                     }
                 }
             }
+        } catch (NullPointerException exc1) {
+            mensagemErroEscolhaVazia();
+        } catch (NoSuchElementException exc2) {
+            mensagemErroEscolhaVazia();
         }
 
     }

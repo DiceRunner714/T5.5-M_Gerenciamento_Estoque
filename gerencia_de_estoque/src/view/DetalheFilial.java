@@ -8,10 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class DetalheFilial extends Detalhe {
-    private JPanel formularios = new JPanel();
     private JTextField valorNome = new JTextField();
     private JTextField valorLocalizacao = new JTextField();
     private JTextField valorId = new JTextField();
@@ -19,33 +19,21 @@ public class DetalheFilial extends Detalhe {
 
     // Construtor para adicionar uma filial nova
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        DetalheFilial.controleEmpresa = controleEmpresa;
-        this.janelaPesquisa = janelaPesquisa;
-        modo = Modos.ADICIONAR;
-        criarJanelaFilial();
+        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
+        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+        popularFormularios();
     }
 
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        DetalheFilial.controleEmpresa = controleEmpresa;
-        this.janelaPesquisa = janelaPesquisa;
-        modo = Modos.EDITAR;
-
+        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
-
-        valorLocalizacao.setText(filialEscolhida.getLocal());
-        valorNome.setText(filialEscolhida.getNome());
-        valorId.setText(String.valueOf(filialEscolhida.getId()));
-
-        criarJanelaFilial();
+        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
     }
 
-    //Cria elementos comuns as duas janelas
-    private void criarJanelaFilial() {
-        criarFormularioFilial();
-        criarJanela(new JComponent[]{formularios}, 400, 200, "Filial:");
-    }
-
-    private void criarFormularioFilial() {
+    @Override
+    protected ArrayList<JComponent> criarPaineisFormularios() {
+        ArrayList<JComponent> paineis = new ArrayList<>();
+        JPanel formularios = new JPanel();
         JLabel labelNome = new JLabel("Nome: ");
         JLabel labelLocalizacao = new JLabel("Localização: ");
         JLabel labelId = new JLabel("ID: ");
@@ -53,6 +41,9 @@ public class DetalheFilial extends Detalhe {
         JComponent[] componentesEsquerdos = {labelNome, labelLocalizacao, labelId};
         JComponent[] compontentesDireitos = {valorNome, valorLocalizacao, valorId};
         new PainelFormulariosBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
+
+        paineis.add(formularios);
+        return paineis;
     }
 
     @Override
@@ -76,6 +67,13 @@ public class DetalheFilial extends Detalhe {
                 valorLocalizacao.getText(),
                 Integer.parseInt(valorId.getText()),
                 filialEscolhida);
+    }
+
+    @Override
+    protected void popularFormularios() {
+        valorLocalizacao.setText(filialEscolhida.getLocal());
+        valorNome.setText(filialEscolhida.getNome());
+        valorId.setText(String.valueOf(filialEscolhida.getId()));
     }
 
 

@@ -7,13 +7,13 @@ public class Farmaceutico extends Item {
     private String tarja;
     private boolean receita;
     private boolean retencaoDeReceita;
-    private String[] composicao;
+    private String composicao;
     private boolean generico;
     private boolean restrito;
 
     // método construtor
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
-                        String tarja, String[] composicao, boolean receita, boolean retencaoDeReceita,
+                        String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
                         boolean generico) {
         // Construtor da classe geral
         super(nome, categoria, valor, quantidade, id);
@@ -33,15 +33,7 @@ public class Farmaceutico extends Item {
 
 
     public String listarCaracteristicasBasicas() {
-        /*  Operador ternário para não travar o programa quando não houver composição:
-                composição == null ? "" : Arrays.toString(composição)
-            é equivalente a:
-                if (composição == null) {
-                    return ""
-                else {
-                    return Arrays.toString(composição)
-                }
-         */
+
         return super.listarCaracteristicasBasicas() + String.format("""
                         ---Farmacêutico---
                         Tarja: %s
@@ -51,22 +43,34 @@ public class Farmaceutico extends Item {
                         genérico: %b
                         restrito: %b
                         """, tarja, receita, retencaoDeReceita,
-                composicao == null ? "" : Arrays.toString(composicao), generico, restrito);
+                composicao, generico, restrito);
     }
 
     //Outros metodos
     //METODO RESTRINGIR
-    public void restringir() {
+    public void restringir() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = true;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao restringir: o nível risco desse farmacêutico não é baixo o suficiente"
+            );
         }
     }
 
     //METODO LIBERAR
-    public void liberar() {
+    public void liberar() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = false;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao liberar: o nível risco desse farmacêutico não é alto o suficiente"
+            );
         }
+    }
+
+    public boolean isRestrito() {
+        return restrito;
     }
 
     //gets & sets
@@ -94,11 +98,11 @@ public class Farmaceutico extends Item {
         this.retencaoDeReceita = retencaoDeReceita;
     }
 
-    public String[] getComposicao() {
+    public String getComposicao() {
         return composicao;
     }
 
-    public void setComposicao(String[] composicao) {
+    public void setComposicao(String composicao) {
         this.composicao = composicao;
     }
 

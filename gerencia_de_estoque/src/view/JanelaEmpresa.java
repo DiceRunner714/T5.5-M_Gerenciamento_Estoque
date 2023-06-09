@@ -3,6 +3,7 @@ package view;
 import controle.ControleEmpresa;
 import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
+import modelo.Farmaceutico;
 import modelo.Filial;
 
 import java.awt.*;
@@ -59,7 +60,9 @@ public class JanelaEmpresa implements ActionListener {
                     new Filial("sussy baki", "xina", 7)
             );
             ControleEstoqueFilial meuEstoque = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(7));
-            meuEstoque.adicionarFarmaceutico("Ablublublé", "né", 50.99, 5, 9);
+            Farmaceutico farmaco = new Farmaceutico("Ablublublé", "né", 50.99, 5, 9);
+            farmaco.setGenerico(true);
+            meuEstoque.adicionarFarmaceutico(farmaco);
             meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
             ControleEstoqueFilial meuEstoque2 = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(6));
             meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);

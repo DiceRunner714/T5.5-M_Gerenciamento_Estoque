@@ -26,6 +26,10 @@ public class ProdutoQuimico extends Item {
         this.restrito = false;
     }
 
+    public boolean isRestrito() {
+        return restrito;
+    }
+
     public String listarCaracteristicasBasicas() {
         return super.listarCaracteristicasBasicas() + String.format("""
                         ---Produto Químico---
@@ -40,16 +44,26 @@ public class ProdutoQuimico extends Item {
 
     //Outros metodos
     //METODO RESTRINGIR
-    public void restringir() {
+    @Override
+    public void restringir() throws NivelRestricaoInadequadoException {
         if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
             restrito = true;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao restringir: o nível de risco desse Produto Químico não é alto o suficiente"
+            );
         }
     }
 
     //METODO LIBERAR
-    public void liberar() {
+    @Override
+    public void liberar() throws NivelRestricaoInadequadoException {
         if (perigoaSaude <= 2 && riscoDeFogo <= 2 && reatividade <= 2) {
             restrito = false;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao liberar: o nível de risco desse Produto Químico não é baixo o suficiente"
+            );
         }
     }
 
