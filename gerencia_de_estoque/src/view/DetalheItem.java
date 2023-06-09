@@ -28,56 +28,41 @@ public class DetalheItem extends Detalhe {
     private JTextField valorQuantidade = new JTextField();
     private JTextField valorValor = new JTextField();
     private JTextField valorPerigoEspecifico = new JTextField();
+    private JTextField valorTarja = new JTextField();
+    private JTextField valorComposicao = new JTextField();
     private JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private JComboBox<Filial> opcoesFiliais;
-    private JTextField valorTarja = new JTextField();
-    private JTextField valorComposicao = new JTextField();
     private JCheckBox retencaoDeReceita = new JCheckBox("Retenção de receita");
-    private JCheckBox generico = new JCheckBox("Genérico");
-    private JCheckBox restrito = new JCheckBox("Restrito");
+    private JCheckBox generico = new JCheckBox("Medicamento genérico");
+    private JCheckBox restrito = new JCheckBox("restrito");
     private JCheckBox receita = new JCheckBox("Necessita de receita");
-    private CategoriasItens tipoDeItem;
     private Filial filialdoItem;
-    private Item itemEscolhido;
     private ControleEstoqueFilial controleEstoque;
+    private Item itemEscolhido;
 
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        modo = Modos.ADICIONAR;
-        DetalheItem.controleEmpresa = controleEmpresa;
-        this.janelaPesquisa = janelaPesquisa;
-
-        formularioPrincipal.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        ArrayList<Filial> filiais = controleEmpresa.getFiliais();
-        opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
-
-        criarJanelaItem();
-
+        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
+        ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
+        opcoesFiliais = new JComboBox<>(
+                filiaisDisponivels.toArray(new Filial[filiaisDisponivels.size()])
+        );
+        criarJanela(criarPaineisFormularios(), 600, 600, "Item:");
     }
 
     // Construtor não vazio, item escolhido para modificar
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
-        this.modo = Modos.EDITAR;
-        this.janelaPesquisa = janelaPesquisa;
+        super(Modos.EDITAR, janelaPesquisa, controleEmpresa);
         this.itemEscolhido = itemEscolhido;
-
-        DetalheItem.controleEmpresa = controleEmpresa;
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
-
-        if (itemEscolhido instanceof Farmaceutico) {
-            tipoDeItem = CategoriasItens.FARMACEUTICO;
-        } else if (itemEscolhido instanceof ProdutoQuimico) {
-            tipoDeItem = CategoriasItens.PRODUTO_QUIMICO;
-        }
-
-        criarJanelaItem();
+        criarJanela(criarPaineisFormularios(), 600, 600, "Item:");
+        popularFormularios();
     }
 
-    private void criarJanelaItem() {
+    @Override
+    protected ArrayList<JComponent> criarPaineisFormularios() {
 
         ArrayList<JComponent> formularios = new ArrayList<>();
 
@@ -95,23 +80,19 @@ public class DetalheItem extends Detalhe {
             }
             // Mostrar só o formulário do tipo de item escolhido
             case EDITAR -> {
-                switch (tipoDeItem) {
-                    case FARMACEUTICO -> {
-                        criarFormularioFarmaceutico();
-                        formularios.add(formularioFarmaceutico);
-                    }
-                    case PRODUTO_QUIMICO -> {
-                        criarFormularioProdutoQuimico();
-                        formularios.add(formularioProdutoQuimico);
-                    }
+                if (itemEscolhido instanceof Farmaceutico) {
+                    criarFormularioFarmaceutico();
+                    formularios.add(formularioFarmaceutico);
+                } else if (itemEscolhido instanceof ProdutoQuimico) {
+                    criarFormularioProdutoQuimico();
+                    formularios.add(formularioProdutoQuimico);
                 }
             }
         }
-        criarJanela(formularios.toArray(new JComponent[formularios.size()]), 600, 600, "Item:");
+        return formularios;
     }
 
     private void criarFormularioPrincipal() {
-
         JLabel labelNome = new JLabel("Nome: ");
         JLabel labelId = new JLabel("ID: ");
         JLabel labelCategoria = new JLabel("Categoria: ");
@@ -128,11 +109,6 @@ public class DetalheItem extends Detalhe {
         String titulo = "Adicionar Informações básicas";
 
         if (modo == Modos.EDITAR) {
-            valorNome.setText(itemEscolhido.getNome());
-            valorCategoria.setText(itemEscolhido.getCategoria());
-            valorValor.setText(String.valueOf(itemEscolhido.getValor()));
-            valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
-            valorId.setText(String.valueOf(itemEscolhido.getId()));
             titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
         } else if (modo == Modos.ADICIONAR) {
             esquerdos.add(labelFilial);
@@ -144,6 +120,7 @@ public class DetalheItem extends Detalhe {
     }
 
     private void criarFormularioProdutoQuimico() {
+
         JLabel labelPerigoaSaude = new JLabel("Risco a saúde: ");
         JLabel labelRiscodeFogo = new JLabel("Risco de fogo: ");
         JLabel labelReatividade = new JLabel("Reatividade: ");
@@ -161,6 +138,7 @@ public class DetalheItem extends Detalhe {
     private void criarFormularioFarmaceutico() {
         JLabel labelNome = new JLabel("Tarja: ");
         JLabel labelComposicao = new JLabel("Composição: ");
+
         JComponent[] esquerdos = {labelNome, labelComposicao};
         JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
         new PainelFormulariosBuilder(formularioFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
@@ -183,6 +161,17 @@ public class DetalheItem extends Detalhe {
                 Integer.parseInt(valorId.getText()),
                 itemEscolhido
         );
+    }
+
+    @Override
+    protected void popularFormularios() {
+        valorNome.setText(itemEscolhido.getNome());
+        valorCategoria.setText(itemEscolhido.getCategoria());
+        valorValor.setText(String.valueOf(itemEscolhido.getValor()));
+        valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
+        valorId.setText(String.valueOf(itemEscolhido.getId()));
+        ArrayList<Filial> filiais = controleEmpresa.getFiliais();
+        opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
     }
 
     @Override

@@ -134,37 +134,33 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        switch (modo) {
-            case LISTAR_FILIAIS -> {
-                if (src == botaoAdicionar) {
-                    new DetalheFilial(controleEmpresa, this);
-                } else if (src == botaoVerDetalhes) {
-                    try {
+        try {
+            switch (modo) {
+                case LISTAR_FILIAIS -> {
+                    if (src == botaoAdicionar) {
+                        new DetalheFilial(controleEmpresa, this);
+                    } else {
                         Filial filialSelecionada = listaFiliais.getSelectedValue();
                         if (src == botaoVerDetalhes) {
                             new DetalheFilial(controleEmpresa, this, filialSelecionada);
                         } else if (src == botaoVerEst) {
                             // TODO: adicionar visualização de estoque
                         }
-                    } catch (NullPointerException exc1) {
-                        mensagemErroEscolhaVazia();
                     }
                 }
-            }
-            case LISTAR_ESTOQUE_GERAL -> {
-                if (src == botaoAdicionar) {
-                    new DetalheItem(controleEmpresa, this);
-                } else if (src == botaoVerDetalhes) {
-                    try {
+                case LISTAR_ESTOQUE_GERAL -> {
+                    if (src == botaoAdicionar) {
+                        new DetalheItem(controleEmpresa, this);
+                    } else if (src == botaoVerDetalhes) {
                         Item itemEscolhido = listaEstoque.getSelectedValue();
                         new DetalheItem(controleEmpresa, this, itemEscolhido);
-                    } catch (NullPointerException exc1) {
-                        mensagemErroEscolhaVazia();
-                    } catch (NoSuchElementException exc2) {
-                        mensagemErroEscolhaVazia();
                     }
                 }
             }
+        } catch (NullPointerException exc1) {
+            mensagemErroEscolhaVazia();
+        } catch (NoSuchElementException exc2) {
+            mensagemErroEscolhaVazia();
         }
 
     }
