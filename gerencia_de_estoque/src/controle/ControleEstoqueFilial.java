@@ -7,18 +7,18 @@ import modelo.ProdutoQuimico;
 
 import java.util.ArrayList;
 
-public class ControleEstoque {
+public class ControleEstoqueFilial {
     private ArrayList<Item> estoqueFilial;
     private Filial filialEscolhida;
     private ControleEmpresa controleEmpresa;
 
-    /* Coloquei um controleEmpresa pois essa classe precisa estar ciente do estoque inteiro
-       E não só o estoque da filial escolhida
+    /* Coloquei uma controleEmpresa pois essa classe precisa estar
+    ciente do estoque inteiro para evitar repetições
      */
-    public ControleEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
+    public ControleEstoqueFilial(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         this.controleEmpresa = controleEmpresa;
-        estoqueFilial = filialEscolhida.getEstoque();
         this.filialEscolhida = filialEscolhida;
+        estoqueFilial = filialEscolhida.getEstoque();
     }
 
     public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id,

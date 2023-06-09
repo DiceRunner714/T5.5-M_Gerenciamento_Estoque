@@ -1,17 +1,12 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.ControleEstoque;
-import controle.ControleFilial;
+import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
-import modelo.Farmaceutico;
 import modelo.Filial;
-import modelo.Item;
-import modelo.ProdutoQuimico;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
 public class JanelaEmpresa implements ActionListener {
@@ -53,7 +48,7 @@ public class JanelaEmpresa implements ActionListener {
     }
 
     public static void main(String[] args) {
-        
+
         JanelaEmpresa empresa = new JanelaEmpresa();
         // TODO: remover essas filiais de exemplo
         try {
@@ -63,10 +58,10 @@ public class JanelaEmpresa implements ActionListener {
             controleEmpresa.adicionarFilial(
                     new Filial("sussy baki", "xina", 7)
             );
-            ControleEstoque meuEstoque = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(7));
+            ControleEstoqueFilial meuEstoque = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(7));
             meuEstoque.adicionarFarmaceutico("Ablublublé", "né", 50.99, 5, 9);
             meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
-            ControleEstoque meuEstoque2 = new ControleEstoque(controleEmpresa, controleEmpresa.buscarFilial(6));
+            ControleEstoqueFilial meuEstoque2 = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(6));
             meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);
             meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
         } catch (IdRepetidoException e) {

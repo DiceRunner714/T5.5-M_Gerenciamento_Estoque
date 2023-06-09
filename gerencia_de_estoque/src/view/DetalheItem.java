@@ -1,7 +1,7 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.ControleEstoque;
+import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 import modelo.Filial;
@@ -50,7 +50,7 @@ public class DetalheItem implements ActionListener {
     private JanelaPesquisa janelaPesquisa;
     private Filial filialdoItem;
     private Item itemEscolhido;
-    private ControleEstoque controleEstoque;
+    private ControleEstoqueFilial controleEstoque;
 
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         modo = Modos.ADICIONAR;
@@ -65,18 +65,6 @@ public class DetalheItem implements ActionListener {
 
         criarJanela();
 
-    }
-
-    // Construtor não vazio, item escolhido para modificar
-    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
-        this.modo = Modos.EDITAR;
-        this.janelaPesquisa = janelaPesquisa;
-        this.itemEscolhido = itemEscolhido;
-        DetalheItem.controleEmpresa = controleEmpresa;
-        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
-        controleEstoque = new ControleEstoque(controleEmpresa, filialdoItem);
-
-        criarJanela();
     }
 
     private void criarJanela() {
@@ -123,55 +111,6 @@ public class DetalheItem implements ActionListener {
 
     }
 
-    private <T extends JComponent> void criarFormulario(T[] componentesEsquerdos,
-                                                        T[] componentesDireitos,
-                                                        String titulo,
-                                                        JPanel painel) {
-
-        painel.setLayout(new GridBagLayout());
-        GridBagConstraints cInterno = new GridBagConstraints();
-
-        JLabel labelTitulo = new JLabel(titulo);
-
-        // Ajuste de título
-        cInterno.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
-        cInterno.weightx = 1;                          // % do espaço horizontal
-        cInterno.gridwidth = 2;                        // quantas células horizontais
-        cInterno.gridx = 0;                            // x da célula
-        cInterno.gridy = 0;                            // y da célula
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        painel.add(labelTitulo, cInterno);
-
-        // Ajuste de labels
-        cInterno.fill = GridBagConstraints.HORIZONTAL;
-        cInterno.anchor = GridBagConstraints.LINE_START;
-        cInterno.weightx = 0.3;
-        cInterno.gridwidth = 1;
-        cInterno.insets = new Insets(5, 5, 5, 5);  // Padding
-        cInterno.gridx = 0;
-        int currentGridyEsquerdo = 0;
-        for (T componenteEsquerdo : componentesEsquerdos) {
-            currentGridyEsquerdo++;
-            cInterno.gridy = currentGridyEsquerdo;
-            painel.add(componenteEsquerdo, cInterno);
-        }
-
-        // Ajuste de campos
-        cInterno.anchor = GridBagConstraints.LINE_END;
-        cInterno.insets = new Insets(5, 0, 5, 5);
-        cInterno.weightx = 0.6;
-        cInterno.gridx = 1;
-
-        int currentGridyDireito = 0;
-        for (T componenteDireito : componentesDireitos) {
-            currentGridyDireito++;
-            cInterno.gridy = currentGridyDireito;
-            painel.add(componenteDireito, cInterno);
-        }
-
-
-    }
-
     private void criarFormularioPrincipal() {
 
         JLabel labelNome = new JLabel("Nome: ");
@@ -194,16 +133,8 @@ public class DetalheItem implements ActionListener {
             esquerdos = new JComponent[]{labelNome, labelId, labelCategoria, labelQuantidade, labelValor, labelFilial};
             direitos = new JComponent[]{valorNome, valorId, valorCategoria, valorQuantidade, valorValor, opcoesFiliais};
         }
-        criarFormulario(esquerdos, direitos, titulo, formulariosPrincipais);
+        new FormularioBuilder(formulariosPrincipais, esquerdos, direitos, titulo);
 
-    }
-
-    private void criarFormularioFarmaceutico() {
-        JLabel labelNome = new JLabel("Tarja: ");
-        JLabel labelComposicao = new JLabel("Composição: ");
-        JComponent[] esquerdos = {labelNome, labelComposicao};
-        JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
-        criarFormulario(esquerdos, direitos, "Detalhes - Farmacêutico", formulariosFarmaceutico);
     }
 
     private void criarFormularioProdutoQuimico() {
@@ -222,8 +153,16 @@ public class DetalheItem implements ActionListener {
         JComponent[] direitos = {opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade,
                 valorPerigoEspecifico, restrito};
 
-        criarFormulario(esquerdos, direitos, "Detalhes - Produto químico", formulariosProdutoQuimico);
+        new FormularioBuilder(formulariosProdutoQuimico, esquerdos, direitos, "Detalhes - Produto químico");
 
+    }
+
+    private void criarFormularioFarmaceutico() {
+        JLabel labelNome = new JLabel("Tarja: ");
+        JLabel labelComposicao = new JLabel("Composição: ");
+        JComponent[] esquerdos = {labelNome, labelComposicao};
+        JComponent[] direitos = {valorTarja, valorComposicao, receita, retencaoDeReceita, generico, restrito};
+        new FormularioBuilder(formulariosFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
     }
 
     private void criarBotoes() {
@@ -254,6 +193,34 @@ public class DetalheItem implements ActionListener {
 
     }
 
+
+    // Construtor não vazio, item escolhido para modificar
+    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
+        this.modo = Modos.EDITAR;
+        this.janelaPesquisa = janelaPesquisa;
+        this.itemEscolhido = itemEscolhido;
+        DetalheItem.controleEmpresa = controleEmpresa;
+        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+        controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
+
+        criarJanela();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+
+        if (src == botaoAtualizar || src == botaoAdicionar) {
+            processarFormularios();
+        } else {
+            if (src == botaoExcluir) {
+                controleEstoque.removerItem(itemEscolhido);
+                janelaPesquisa.refresh();
+            }
+            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
     private void processarFormularios() {
         try {
             switch (modo) {
@@ -270,8 +237,8 @@ public class DetalheItem implements ActionListener {
                 }
                 case ADICIONAR -> {
                     Component componente = abaPaginada.getSelectedComponent();
-                    ControleEstoque estoqueSelecionado =
-                            new ControleEstoque(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
+                    ControleEstoqueFilial estoqueSelecionado =
+                            new ControleEstoqueFilial(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
                     if (componente == formulariosFarmaceutico) {
                         estoqueSelecionado.adicionarFarmaceutico(
                                 valorNome.getText(),
@@ -310,29 +277,6 @@ public class DetalheItem implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        if (src == botaoAtualizar || src == botaoAdicionar) {
-            processarFormularios();
-        } else {
-            if (src == botaoExcluir) {
-                controleEstoque.removerItem(itemEscolhido);
-                janelaPesquisa.refresh();
-            }
-            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-        }
-    }
-
-
-    // --POP UPS--
-    private void mensagemErroIdrepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(null,
-                e3.getMessage(),
-                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
-    }
-
     private void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,
                 "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
@@ -343,5 +287,12 @@ public class DetalheItem implements ActionListener {
         JOptionPane.showMessageDialog(null,
                 "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
                 "Erro de entrada", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // --POP UPS--
+    private void mensagemErroIdrepetido(IdRepetidoException e3) {
+        JOptionPane.showMessageDialog(null,
+                e3.getMessage(),
+                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
     }
 }

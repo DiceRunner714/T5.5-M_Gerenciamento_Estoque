@@ -35,71 +35,30 @@ public class DetalheFilial implements ActionListener {
         criarJanela();
     }
 
-    // Construtor para editar uma filial
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        DetalheFilial.controleEmpresa = controleEmpresa;
-        this.janelaPesquisa = janelaPesquisa;
-        modo = Modos.EDITAR;
-
-        this.filialEscolhida = filialEscolhida;
-
-        valorLocalizacao.setText(filialEscolhida.getLocal());
-        valorNome.setText(filialEscolhida.getNome());
-        valorId.setText(String.valueOf(filialEscolhida.getId()));
-
-        criarJanela();
-    }
-
     //Cria elementos comuns as duas janelas
     public void criarJanela() {
+        criarFormularioFilial();
+        criarPainelBotoes();
 
-        JLabel descricao = new JLabel("Informações da Filial");
+        janela.add(formularios, BorderLayout.NORTH);
+        janela.add(botoes, BorderLayout.LINE_END);
+        janela.setSize(400, 200);
+        janela.setResizable(false);
+        janela.setVisible(true);
+    }
+
+    private void criarFormularioFilial() {
         JLabel labelNome = new JLabel("Nome: ");
         JLabel labelLocalizacao = new JLabel("Localização: ");
         JLabel labelId = new JLabel("ID: ");
 
-        formularios.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        JComponent[] componentesEsquerdos = {labelNome, labelLocalizacao, labelId};
+        JComponent[] compontentesDireitos = {valorNome, valorLocalizacao, valorId};
+        new FormularioBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
+    }
 
-        // Ajuste de título
-        c.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
-        c.weightx = 1;                          // % do espaço horizontal
-        c.gridwidth = 2;                        // quantas células horizontais
-        c.gridx = 0;                            // x da célula
-        c.gridy = 0;                            // y da célula
-        descricao.setFont(new Font("Arial", Font.BOLD, 20));
-        formularios.add(descricao, c);
-
-        // Ajuste de labels
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.LINE_START;
-        c.weightx = 0.3;
-        c.gridwidth = 1;
-        c.insets = new Insets(5, 5, 5, 5);  // Padding
-        c.gridx = 0;
-
-        c.gridy = 1;
-        formularios.add(labelNome, c);
-        c.gridy = 2;
-        formularios.add(labelLocalizacao, c);
-        c.gridy = 3;
-        formularios.add(labelId, c);
-
-        // Ajuste de campos
-        c.anchor = GridBagConstraints.LINE_END;
-        c.insets = new Insets(5, 0, 5, 5);
-        c.weightx = 0.6;
-        c.gridx = 1;
-
-        c.gridy = 1;
-        formularios.add(valorNome, c);
-        c.gridy = 2;
-        formularios.add(valorLocalizacao, c);
-        c.gridy = 3;
-        formularios.add(valorId, c);
-
+    private void criarPainelBotoes() {
         botoes.setLayout(new FlowLayout());
-
         switch (modo) {
             case EDITAR -> {
                 botoes.add(botaoAtualizar);
@@ -117,11 +76,38 @@ public class DetalheFilial implements ActionListener {
             }
         }
 
-        janela.add(formularios, BorderLayout.NORTH);
-        janela.add(botoes, BorderLayout.LINE_END);
-        janela.setSize(400, 200);
-        janela.setResizable(false);
-        janela.setVisible(true);
+    }
+
+    // Construtor para editar uma filial
+    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
+        DetalheFilial.controleEmpresa = controleEmpresa;
+        this.janelaPesquisa = janelaPesquisa;
+        modo = Modos.EDITAR;
+
+        this.filialEscolhida = filialEscolhida;
+
+        valorLocalizacao.setText(filialEscolhida.getLocal());
+        valorNome.setText(filialEscolhida.getNome());
+        valorId.setText(String.valueOf(filialEscolhida.getId()));
+
+        criarJanela();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+
+        if (src == botaoAdicionar || src == botaoAtualizar) {
+            enviarFormulario();
+        } else if (src == botaoCancelar) {
+            // Fechar a janela atual
+            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+        } else if (src == botaoExcluir) {
+            controleEmpresa.excluirFilial(filialEscolhida);
+            janelaPesquisa.refresh();
+            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+        }
+
     }
 
     // TODO: essa função deveria ser privada devido ao encapsulamento, perguntar pra professora
@@ -152,30 +138,7 @@ public class DetalheFilial implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        if (src == botaoAdicionar || src == botaoAtualizar) {
-            enviarFormulario();
-        } else if (src == botaoCancelar) {
-            // Fechar a janela atual
-            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-        } else if (src == botaoExcluir) {
-            controleEmpresa.excluirFilial(filialEscolhida);
-            janelaPesquisa.refresh();
-            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-        }
-
-    }
-
     // --POP UPS--
-
-    public void mensagemErroIdrepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(null,
-                e3.getMessage(),
-                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
-    }
 
     public void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,
@@ -187,5 +150,11 @@ public class DetalheFilial implements ActionListener {
         JOptionPane.showMessageDialog(null,
                 "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
                 "Erro de entrada", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mensagemErroIdrepetido(IdRepetidoException e3) {
+        JOptionPane.showMessageDialog(null,
+                e3.getMessage(),
+                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
     }
 }
