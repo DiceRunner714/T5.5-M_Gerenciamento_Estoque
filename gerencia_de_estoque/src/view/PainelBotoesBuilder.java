@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class PainelBotoesBuilder {
+class PainelBotoesBuilder {
 
     public PainelBotoesBuilder(JPanel painel, JButton botaoAdicionar, JButton botaoCancelar,
                                JButton botaoAtualizar, JButton botaoExcluir, Modos modo,

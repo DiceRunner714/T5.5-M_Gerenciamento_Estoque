@@ -1,6 +1,6 @@
 package view;
 
-public enum Modos {
+enum Modos {
     LISTAR_FILIAIS,
     LISTAR_ESTOQUE_GERAL,
     EDITAR,

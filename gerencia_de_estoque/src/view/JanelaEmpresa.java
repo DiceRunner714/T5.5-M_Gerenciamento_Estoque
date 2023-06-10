@@ -39,6 +39,7 @@ public class JanelaEmpresa implements ActionListener {
         c.gridwidth = 2;
         janela.add(titulo, c);
 
+        c.insets = new Insets(0, 30, 0, 30);
         c.anchor = GridBagConstraints.CENTER;
         c.weighty = 0.5;
         c.gridy = 1;
