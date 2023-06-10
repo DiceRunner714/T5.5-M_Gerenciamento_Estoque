@@ -1,8 +1,7 @@
 package view;
 
-enum Modos {
+enum ModosPesquisa {
     LISTAR_FILIAIS,
     LISTAR_ESTOQUE_GERAL,
-    EDITAR,
-    ADICIONAR,
+    LISTAR_ESTOQUE_FILIAL,
 }
