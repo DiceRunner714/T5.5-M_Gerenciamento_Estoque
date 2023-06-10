@@ -52,8 +52,8 @@ public class Main {
 
         // Ler estoque completo
         System.out.println("LER TODO O ESTOQUE INICIADO");
-        Item item1 = new Farmaceutico("Benzodiapeno", 15, "analgésico", 110, 0);
-        Item item2 = new ProdutoQuimico("Ácido sulfúrico", 34, "ácido", 3860, 4);
+        Item item1 = new Farmaceutico("Benzodiapeno", "analgésico", 110, 15, 0);
+        Item item2 = new ProdutoQuimico("Ácido sulfúrico", "ácido", 3860, 34, 4);
         filial1.adicionarItem(item1);
         filial2.adicionarItem(item2);
         System.out.println(dreamworks.lerTodoEstoque());
@@ -68,7 +68,7 @@ public class Main {
         System.out.println("LISTAGEM DE ITEMS POR FILIAL INICIADO");
 
         dreamworks.lerFilial(6).adicionarItem(new Farmaceutico("aspirina",
-                5, "analgésico", 599.5, 60));
+                "analgésico", 599.5, 5, 60));
 
         System.out.println("<--ITEMS DA FILIAL 0-->");
         System.out.println(dreamworks.lerFilial(0).getEstoque());
@@ -82,9 +82,9 @@ public class Main {
         System.out.println("FILTRO DE ITENS COM ESTOQUE VAZIO INICIADO");
         dreamworks.adicionarFilial("TESTE ESTOQUE VAZIO", "NULLÂNDIA", 235);
         Filial filialEstoqueVazio = dreamworks.lerFilial(235);
-        filialEstoqueVazio.adicionarItem(new ProdutoQuimico("Mercúrio", 0, "Metal", 500, 90));
-        filialEstoqueVazio.adicionarItem(new Farmaceutico("Fluoxetina", 0, "Venlafaxina", 500, 150));
-        filialEstoqueVazio.adicionarItem(new Farmaceutico("Minoxidil", 5, "Loção capilar", 500, 120));
+        filialEstoqueVazio.adicionarItem(new ProdutoQuimico("Mercúrio", "Metal", 500, 0, 90));
+        filialEstoqueVazio.adicionarItem(new Farmaceutico("Fluoxetina", "Venlafaxina", 500, 0, 150));
+        filialEstoqueVazio.adicionarItem(new Farmaceutico("Minoxidil", "Loção capilar", 500, 5, 120));
 
         System.out.println("TODOS OS ITEMS:");
         System.out.println(filialEstoqueVazio.getEstoque());
@@ -100,13 +100,13 @@ public class Main {
 
         // adicionar item
         System.out.println("ADICIONAR ITEM");
-        crudlandia.adicionarItem(new ProdutoQuimico("Urânio Enriquecido", 123, "Metal", 90, 69));
+        crudlandia.adicionarItem(new ProdutoQuimico("Urânio Enriquecido", "Metal", 90, 123, 69));
         System.out.println(crudlandia.getEstoque());
 
         // atualizar item
         System.out.println("ATUALIZAR ITEM");
         ProdutoQuimico uranio = (ProdutoQuimico) crudlandia.buscarItem(69); // Usar typecasting aqui talvez não seja a melhor idéia
-        uranio.atualizarCaracteristicasBasicas("Urânio esgotado", 100, "Metal", 90, 69);
+        uranio.atualizarCaracteristicasBasicas("Urânio esgotado", "Metal", 90, 100, 69);
         uranio.setReatividade(0);
         uranio.setPerigoaSaude(5);
         uranio.setRiscoDeFogo(0);
@@ -116,11 +116,11 @@ public class Main {
         // ler item pelo id
         System.out.println("LER ITEM PELO ID");
         System.out.println(crudlandia.buscarItem(69));
-        
+
         // ler item pelo nome
         System.out.println("LER ITEM PELO NOME");
         System.out.println(crudlandia.buscarItem("Urânio esgotado"));
-        
+
         // remover item
         System.out.println("DELETAR ITEM");
         crudlandia.removerItem(69);
@@ -135,27 +135,30 @@ public class Main {
         Filial restricoes = dreamworks.lerFilial(0);
 
         restricoes.adicionarItem(
-                new Farmaceutico("Risperidon", 5, "antipsicótico", 53.94, 0,
-                        "preta", true, true, new String[]{"Risperidona 1mg", "azdio 2mg"}, false)
+                new Farmaceutico("Risperidon", "antipsicótico", 53.94, 5, 0,
+                        "preta", "Risperidona 1mg, azdio 2mg", true, true, false)
         );
         restricoes.adicionarItem(
-                new ProdutoQuimico("Azidoazide azide", 1, "composto inorgânico",
-                        999.99, 1, 5, 5, 5, null)
+                new ProdutoQuimico("Azidoazide azide", "composto inorgânico", 999.99, 1,
+                        1, null, 5, 5, 5)
         );
 
         Farmaceutico risperidon = (Farmaceutico) restricoes.buscarItem(0);
         ProdutoQuimico azido = (ProdutoQuimico) restricoes.buscarItem(1);
         System.out.println(restricoes.getEstoque());
+        try {
+            risperidon.restringir();    // Produtos perigosos serão restritos
+            azido.restringir();
+            System.out.println(restricoes.getEstoque());
 
-        risperidon.restringir();    // Produtos perigosos serão restritos
-        azido.restringir();
-        System.out.println(restricoes.getEstoque());
+            risperidon.liberar();       //Produtos não serão liberados, pois ainda são classificados como perigosos
+            azido.liberar();
+            System.out.println(restricoes.getEstoque());
 
-        risperidon.liberar();       //Produtos não serão liberados, pois ainda são classificados como perigosos
-        azido.liberar();
-        System.out.println(restricoes.getEstoque());
-
-        System.out.println("TESTE DE RESTRIÇÕES FINALIZADO");
+            System.out.println("TESTE DE RESTRIÇÕES FINALIZADO");
+        } catch (NivelRestricaoInadequadoException e) {
+            System.out.println("Bruh");
+        }
     }
 
 }

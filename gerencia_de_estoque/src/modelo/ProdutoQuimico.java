@@ -7,27 +7,40 @@ public class ProdutoQuimico extends Item {
     private int riscoDeFogo;
     private int reatividade;
     private String perigoEspecifico;
-    private boolean restrito;
 
     //metodo construtor
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id,
-                          int perigoaSaude, int riscoDeFogo, int reatividade, String perigoEspecifico) {
-        super(nome, quantidade, categoria, valor, id);
+    public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
+                          String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude) {
+        super(nome, categoria, valor, quantidade, id);
         //atributos do filho
         this.perigoaSaude = perigoaSaude;
         this.riscoDeFogo = riscoDeFogo;
         this.reatividade = reatividade;
         this.perigoEspecifico = perigoEspecifico;
+        ajustarRestricao();
+    }
+
+    public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
+        super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
     }
 
-    public ProdutoQuimico(String nome, int quantidade, String categoria, double valor, int id) {
-        super(nome, quantidade, categoria, valor, id);
-        this.restrito = false;
+    @Override
+    protected void ajustarRestricao() {
+        // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
+        if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
+            restrito = true;
+        } else {
+            restrito = false;
+        }
     }
 
-    public String toString() {
-        return super.toString() + String.format("""
+    public boolean isRestrito() {
+        return restrito;
+    }
+
+    public String listarCaracteristicasBasicas() {
+        return super.listarCaracteristicasBasicas() + String.format("""
                         ---Produto Químico---
                         Perigo à saúde: %d
                         Risco de Fogo: %d
@@ -40,16 +53,26 @@ public class ProdutoQuimico extends Item {
 
     //Outros metodos
     //METODO RESTRINGIR
-    public void restringir() {
+    @Override
+    public void restringir() throws NivelRestricaoInadequadoException {
         if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
             restrito = true;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao restringir: o nível de risco desse Produto Químico não é alto o suficiente"
+            );
         }
     }
 
     //METODO LIBERAR
-    public void liberar() {
+    @Override
+    public void liberar() throws NivelRestricaoInadequadoException {
         if (perigoaSaude <= 2 && riscoDeFogo <= 2 && reatividade <= 2) {
             restrito = false;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao liberar: o nível de risco desse Produto Químico não é baixo o suficiente"
+            );
         }
     }
 

@@ -1,48 +1,46 @@
 package modelo;
 
-import java.util.Arrays;
-
 public class Farmaceutico extends Item {
     //variaveis da classe
     private String tarja;
     private boolean receita;
     private boolean retencaoDeReceita;
-    private String[] composicao;
+    private String composicao;
     private boolean generico;
-    private boolean restrito;
 
     // método construtor
-    public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id,
-                        String tarja, boolean receita, boolean retencaoDeReceita,
-                        String[] composicao, boolean generico) {
+    public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
+                        String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
+                        boolean generico) {
         // Construtor da classe geral
-        super(nome, quantidade, categoria, valor, id);
+        super(nome, categoria, valor, quantidade, id);
         // atributos da classe filha
         this.tarja = tarja;
         this.receita = receita;
         this.retencaoDeReceita = retencaoDeReceita;
         this.composicao = composicao;
         this.generico = generico;
+        ajustarRestricao();
+    }
+
+    public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
+        super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
     }
 
-    public Farmaceutico(String nome, int quantidade, String categoria, double valor, int id) {
-        super(nome, quantidade, categoria, valor, id);
-        this.restrito = false;
+    @Override
+    protected void ajustarRestricao() {
+        if (tarja.equals("preta") && retencaoDeReceita) {
+            restrito = true;
+        } else {
+            restrito = false;
+        }
     }
 
 
-    public String toString() {
-        /*  Operador ternário para não travar o programa quando não houver composição:
-                composição == null ? "" : Arrays.toString(composição)
-            é equivalente a:
-                if (composição == null) {
-                    return ""
-                else {
-                    return Arrays.toString(composição)
-                }
-         */
-        return super.toString() + String.format("""
+    public String listarCaracteristicasBasicas() {
+
+        return super.listarCaracteristicasBasicas() + String.format("""
                         ---Farmacêutico---
                         Tarja: %s
                         Necessita de receita: %b
@@ -51,22 +49,34 @@ public class Farmaceutico extends Item {
                         genérico: %b
                         restrito: %b
                         """, tarja, receita, retencaoDeReceita,
-                composicao == null ? "" : Arrays.toString(composicao), generico, restrito);
+                composicao, generico, restrito);
     }
 
     //Outros metodos
     //METODO RESTRINGIR
-    public void restringir() {
+    public void restringir() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = true;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao restringir: o nível risco desse farmacêutico não é baixo o suficiente"
+            );
         }
     }
 
     //METODO LIBERAR
-    public void liberar() {
+    public void liberar() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = false;
+        } else {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro ao liberar: o nível risco desse farmacêutico não é alto o suficiente"
+            );
         }
+    }
+
+    public boolean isRestrito() {
+        return restrito;
     }
 
     //gets & sets
@@ -94,11 +104,11 @@ public class Farmaceutico extends Item {
         this.retencaoDeReceita = retencaoDeReceita;
     }
 
-    public String[] getComposicao() {
+    public String getComposicao() {
         return composicao;
     }
 
-    public void setComposicao(String[] composicao) {
+    public void setComposicao(String composicao) {
         this.composicao = composicao;
     }
 

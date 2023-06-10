@@ -2,13 +2,14 @@ package modelo;
 
 public abstract class Item {
 
+    protected boolean restrito;
     private String nome;
     private int quantidade;
     private String categoria;
     private double valor;
     private int id;
 
-    public Item(String nome, int quantidade, String categoria, double valor, int id) {
+    public Item(String nome, String categoria, double valor, int quantidade, int id) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.categoria = categoria;
@@ -16,8 +17,7 @@ public abstract class Item {
         this.id = id;
     }
 
-    public void atualizarCaracteristicasBasicas(String newNome, int newQuantidade,
-                                                String newCategoria, double newValor, int newId) {
+    public void atualizarCaracteristicasBasicas(String newNome, String newCategoria, double newValor, int newQuantidade, int newId) {
         nome = newNome;
         quantidade = newQuantidade;
         categoria = newCategoria;
@@ -25,11 +25,15 @@ public abstract class Item {
         id = newId;
     }
 
-    public abstract void restringir();
+    protected abstract void ajustarRestricao();
 
-    public abstract void liberar();
+    public abstract void restringir() throws NivelRestricaoInadequadoException;
 
-    public String toString() {
+    public abstract void liberar() throws NivelRestricaoInadequadoException;
+
+    abstract public boolean isRestrito();
+
+    public String listarCaracteristicasBasicas() {
         return String.format("""
                         ---Produto----
                         ID: %d
@@ -39,6 +43,10 @@ public abstract class Item {
                         Valor: R$%.2f
                         """, id, nome,
                 categoria, quantidade, valor);
+    }
+
+    public String toString() {
+        return String.format("%d_%s", id, nome);
     }
 
     public String getNome() {
