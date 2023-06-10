@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class Filial {
@@ -33,9 +32,9 @@ public class Filial {
     public Item buscarItem(String nome) {
         return estoque
                 .stream()
-                .filter(item -> item.getNome() == nome)
+                .filter(item -> Objects.equals(item.getNome(), nome)) // TODO: null safe, mas não sei se é boa idéia
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     public Item buscarItem(int id) {
@@ -43,7 +42,7 @@ public class Filial {
                 .stream()
                 .filter(item -> item.getId() == id)
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     public String listarCaracteristicasBasicacs() {
@@ -64,11 +63,14 @@ public class Filial {
         return estoque;
     }
 
+    public void setEstoque(ArrayList<Item> estoque) {
+        this.estoque = estoque;
+    }
+
     public ArrayList<Item> getEstoqueVazio() {
-        ArrayList<Item> itensVazios = new ArrayList<>(
+        return new ArrayList<>(
                 estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
         );
-        return itensVazios;
     }
 
     @Override
@@ -76,10 +78,9 @@ public class Filial {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof Filial)) {
+        if (!(o instanceof Filial outraFilial)) {
             return false;
         }
-        Filial outraFilial = (Filial) o;
         return this.nome.equals(outraFilial.getNome()) &&
                 this.local.equals(outraFilial.getLocal()) &&
                 this.id == outraFilial.getId();

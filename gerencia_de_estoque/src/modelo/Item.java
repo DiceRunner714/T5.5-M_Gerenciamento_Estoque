@@ -29,7 +29,7 @@ public abstract class Item {
     public abstract void liberar() throws NivelRestricaoInadequadoException;
 
     abstract public boolean isRestrito();
-    
+
     public String listarCaracteristicasBasicas() {
         return String.format("""
                         ---Produto----

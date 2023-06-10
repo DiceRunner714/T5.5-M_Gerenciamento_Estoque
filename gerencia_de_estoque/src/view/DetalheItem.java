@@ -5,32 +5,33 @@ import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
 import modelo.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.swing.*;
+import java.util.Objects;
 
 public class DetalheItem extends Detalhe {
-    private JTabbedPane abaPaginada = new JTabbedPane();
-    private JPanel formularioPrincipal = new JPanel();
-    private JPanel formularioFarmaceutico = new JPanel();
-    private JPanel formularioProdutoQuimico = new JPanel();
-    private JTextField valorNome = new JTextField();
-    private JTextField valorId = new JTextField();
-    private JTextField valorCategoria = new JTextField();
-    private JTextField valorQuantidade = new JTextField();
-    private JTextField valorValor = new JTextField();
-    private JTextField valorPerigoEspecifico = new JTextField();
-    private JTextField valorTarja = new JTextField();
-    private JTextField valorComposicao = new JTextField();
-    private JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
-    private JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
-    private JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private final JTabbedPane abaPaginada = new JTabbedPane();
+    private final JPanel formularioPrincipal = new JPanel();
+    private final JPanel formularioFarmaceutico = new JPanel();
+    private final JPanel formularioProdutoQuimico = new JPanel();
+    private final JTextField valorNome = new JTextField();
+    private final JTextField valorId = new JTextField();
+    private final JTextField valorCategoria = new JTextField();
+    private final JTextField valorQuantidade = new JTextField();
+    private final JTextField valorValor = new JTextField();
+    private final JTextField valorPerigoEspecifico = new JTextField();
+    private final JTextField valorTarja = new JTextField();
+    private final JTextField valorComposicao = new JTextField();
+    private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private final JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private final JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+    private final JCheckBox isRetencaoDeReceita = new JCheckBox("Retenção de receita");
+    private final JCheckBox isGenerico = new JCheckBox("Medicamento genérico");
+    private final JCheckBox isRestrito = new JCheckBox("restrito");
+    private final JCheckBox isReceita = new JCheckBox("Necessita de receita");
     private JComboBox<Filial> opcoesFiliais;
-    private JCheckBox isRetencaoDeReceita = new JCheckBox("Retenção de receita");
-    private JCheckBox isGenerico = new JCheckBox("Medicamento genérico");
-    private JCheckBox isRestrito = new JCheckBox("restrito");
-    private JCheckBox isReceita = new JCheckBox("Necessita de receita");
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
@@ -38,8 +39,9 @@ public class DetalheItem extends Detalhe {
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
         ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
+        // Java infere o tamanho do array nesse caso
         opcoesFiliais = new JComboBox<>(
-                filiaisDisponivels.toArray(new Filial[filiaisDisponivels.size()])
+                filiaisDisponivels.toArray(new Filial[0])
         );
         criarJanela(criarPaineisFormularios(), 600, 600, "Item:");
     }
@@ -204,7 +206,7 @@ public class DetalheItem extends Detalhe {
         valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
         valorId.setText(String.valueOf(itemEscolhido.getId()));
         ArrayList<Filial> filiais = controleEmpresa.getFiliais();
-        opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[filiais.size()]));
+        opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[0]));
         isRestrito.setSelected(itemEscolhido.isRestrito());
         if (itemEscolhido instanceof ProdutoQuimico) {
             valorPerigoEspecifico.setText(((ProdutoQuimico) itemEscolhido).getPerigoEspecifico());
@@ -224,7 +226,7 @@ public class DetalheItem extends Detalhe {
     protected void adicionarElemento() throws IdRepetidoException {
         Component componente = abaPaginada.getSelectedComponent();
         ControleEstoqueFilial estoqueSelecionado =
-                new ControleEstoqueFilial(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
+                new ControleEstoqueFilial(controleEmpresa, (Filial) Objects.requireNonNull(opcoesFiliais.getSelectedItem()));
         if (componente == formularioFarmaceutico) {
             estoqueSelecionado.adicionarFarmaceutico(
                     valorNome.getText(),

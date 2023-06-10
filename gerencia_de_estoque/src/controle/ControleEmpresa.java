@@ -1,14 +1,15 @@
 package controle;
 
-import modelo.*;
+import modelo.Empresa;
+import modelo.Filial;
+import modelo.Item;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControleEmpresa {
-    private Empresa empresa;
-    private ArrayList<Filial> filiais;
+    private final Empresa empresa;
+    private final ArrayList<Filial> filiais;
 
     public ControleEmpresa(String nome) {
         empresa = new Empresa(nome);
@@ -75,7 +76,11 @@ public class ControleEmpresa {
         return filiais.stream()
                 .filter(filial -> filial.getEstoque().contains(item))
                 .findFirst()
-                .get();
+                .orElseThrow();
+    }
+
+    public String getNome() {
+        return empresa.getNome();
     }
 
     public Filial buscarFilial(int id) {

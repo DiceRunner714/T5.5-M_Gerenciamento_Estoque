@@ -34,7 +34,8 @@ public class Empresa {
                 .stream()
                 .filter(item -> item.getNome().equals(nome))
                 .findFirst()
-                .get();
+                .orElse(null);
+        // TODO: orElse null, ver se é uma boa idéia
     }
 
     public void adicionarFilial(String nome, String local, int id) {
@@ -52,7 +53,7 @@ public class Empresa {
 
     // Overloading para remover filial por referência
     public void removerFilial(Filial f) {
-        filiais.removeIf(filial -> f.equals(filial));
+        filiais.removeIf(f::equals);
     }
 
     public void atualizarFilial(String nome, String local, int novoId, int id) {
@@ -69,7 +70,7 @@ public class Empresa {
                 .stream()
                 .filter(filial -> filial.getId() == id)
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     // GETS E SETS

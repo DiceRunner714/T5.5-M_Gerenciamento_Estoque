@@ -1,7 +1,5 @@
 package view;
 
-import modelo.Filial;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -109,7 +107,8 @@ public class JanelaPesquisaBuilder {
         JPanel malhaBotoes = new JPanel();
         JPanel painelBotoes = new JPanel();
         malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
-        Arrays.stream(botoes).forEach(botao -> malhaBotoes.add(botao));
+        // Equivalente a botao -> malhabotoes.add(botao)
+        Arrays.stream(botoes).forEach(malhaBotoes::add);
         painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
         return painelBotoes;
     }

@@ -5,36 +5,32 @@ import modelo.Filial;
 import modelo.Item;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class JanelaPesquisa implements ActionListener, ItemListener {
     private static ControleEmpresa controleEmpresa;
+    private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
+    private final Modos modo;
     private JFrame janela;
-    private JPanel malhaBotoes = new JPanel();
-    private JPanel painelBotoes = new JPanel();
-    private JLabel titulo;
     private JList<Filial> listaFiliais;
     private JList<Item> listaEstoque;
     private JButton botaoVerEstoque;
     private JButton botaoVerDetalhes;
-    private JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private JButton botaoAdicionar;
     private ArrayList<Item> estoque;
     private ArrayList<Filial> filiais;
-    private Modos modo;
 
     public JanelaPesquisa(ControleEmpresa controleEmpresa, Modos modo) {
         this.modo = modo;
-        this.controleEmpresa = controleEmpresa;
+        JanelaPesquisa.controleEmpresa = controleEmpresa;
 
 
-        GridBagConstraints c = new GridBagConstraints();
         // Escolha de modo
         switch (modo) {
             // operação 1 - filial
@@ -48,7 +44,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                 botaoVerEstoque = new JButton("Ver estoque");
 
                 // Painel principal
-                listaFiliais = new JList<>(filiais.toArray(new Filial[filiais.size()]));
+                listaFiliais = new JList<>(filiais.toArray(new Filial[0]));
                 listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 listaFiliais.setVisibleRowCount(50);
 
@@ -62,15 +58,13 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
             case LISTAR_ESTOQUE_GERAL -> {
 
                 estoque = controleEmpresa.getEstoque();
-//
-//                // Malha de botões
-//                malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
+
                 janela = new JFrame("Item");
 
                 botaoAdicionar = new JButton("Adicionar Item");
                 botaoVerDetalhes = new JButton("Ver Item");
 
-                listaEstoque = new JList<>(estoque.toArray(new Item[estoque.size()]));
+                listaEstoque = new JList<>(estoque.toArray(new Item[0]));
                 listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 listaEstoque.setVisibleRowCount(10);
 
@@ -93,12 +87,11 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
 
     public void refresh() {
         switch (modo) {
-            case LISTAR_FILIAIS:
-                listaFiliais.setListData(filiais.toArray(new Filial[filiais.size()]));
+            case LISTAR_FILIAIS -> {
+                listaFiliais.setListData(filiais.toArray(new Filial[0]));
                 listaFiliais.updateUI();
-                break;
-
-            case LISTAR_ESTOQUE_GERAL:
+            }
+            case LISTAR_ESTOQUE_GERAL -> {
                 ArrayList<Item> estoqueEmDisplay;
                 if (filtroEstoqueVazio.isSelected()) {
                     estoqueEmDisplay = controleEmpresa.getEstoqueVazio();
@@ -107,7 +100,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
                 }
                 listaEstoque.setListData(estoqueEmDisplay.toArray(new Item[estoque.size()]));
                 listaEstoque.updateUI();
-                break;
+            }
         }
     }
 
@@ -147,26 +140,20 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     @Override
     public void itemStateChanged(ItemEvent e) {
         Object src = e.getSource();
-        switch (modo) {
-            case LISTAR_ESTOQUE_GERAL:
-                if (src == filtroEstoqueVazio) {
-                    refresh();
-                }
-                break;
+        if (Objects.requireNonNull(modo) == Modos.LISTAR_ESTOQUE_GERAL) {
+            if (src == filtroEstoqueVazio) {
+                refresh();
+            }
         }
     }
 
     // --POP UPS--
     private void mensagemErroEscolhaVazia() {
-        String mensagem = null;
-        switch (modo) {
-            case LISTAR_FILIAIS:
-                mensagem = "Erro de escolha: uma filial não foi selecionada";
-                break;
-            case LISTAR_ESTOQUE_GERAL:
-                mensagem = "Erro de escolha: um item não foi selecionado";
-                break;
-        }
+        String mensagem = switch (modo) {
+            case LISTAR_FILIAIS -> "Erro de escolha: uma filial não foi selecionada";
+            case LISTAR_ESTOQUE_GERAL -> "Erro de escolha: um item não foi selecionado";
+            default -> null;
+        };
         JOptionPane.showMessageDialog(null,
                 mensagem,
                 "Erro de escolha", JOptionPane.ERROR_MESSAGE);

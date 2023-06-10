@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class Detalhe implements ActionListener {
     protected ControleEmpresa controleEmpresa;
@@ -27,6 +28,36 @@ public abstract class Detalhe implements ActionListener {
         this.controleEmpresa = controleEmpresa;
     }
 
+    protected void criarJanela(Collection<? extends JComponent> formularios, int width, int height, String tituloDaJanela) {
+        janela.setTitle(tituloDaJanela);
+
+        janela.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        // FORMULARIOS PRINCIPAIS
+        c.weightx = 0.5;
+        c.weighty = 0.2;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTH;
+        for (JComponent formulario : formularios) {
+            janela.add(formulario, c);
+            c.gridy++;
+        }
+
+        // PAINEL DE BOTÕES
+        new PainelBotoesBuilder(botoes, botaoAdicionar, botaoCancelar,
+                botaoAtualizar, botaoExcluir, modo, this);
+        c.weighty = 0.6;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        janela.add(botoes, c);
+
+        // HABILITAR JANELA
+        janela.setSize(width, height);
+        janela.setResizable(false);
+        janela.setVisible(true);
+    }
+
     abstract protected ArrayList<JComponent> criarPaineisFormularios();
 
     abstract protected void excluirElemento();
@@ -43,67 +74,6 @@ public abstract class Detalhe implements ActionListener {
             case EDITAR -> atualizarElemento();
         }
         janelaPesquisa.refresh();
-    }
-
-
-    protected void criarJanela(JComponent[] formularios, int width, int height, String tituloDaJanela) {
-        janela.setTitle(tituloDaJanela);
-
-        janela.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        // FORMULARIOS PRINCIPAIS
-        c.weightx = 0.5;
-        c.weighty = 0.2;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTH;
-        for (JComponent formulario : formularios) {
-            janela.add(formulario, c);
-            c.gridy++;
-        }
-
-        // PAINEL DE BOTÕES
-        new PainelBotoesBuilder(botoes, botaoAdicionar, botaoCancelar,
-                botaoAtualizar, botaoExcluir, modo, this);
-        c.weighty = 0.6;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        janela.add(botoes, c);
-
-        // HABILITAR JANELA
-        janela.setSize(width, height);
-        janela.setResizable(false);
-        janela.setVisible(true);
-    }
-
-    protected void criarJanela(ArrayList<JComponent> formularios, int width, int height, String tituloDaJanela) {
-        janela.setTitle(tituloDaJanela);
-
-        janela.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        // FORMULARIOS PRINCIPAIS
-        c.weightx = 0.5;
-        c.weighty = 0.2;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTH;
-        for (JComponent formulario : formularios) {
-            janela.add(formulario, c);
-            c.gridy++;
-        }
-
-        // PAINEL DE BOTÕES
-        new PainelBotoesBuilder(botoes, botaoAdicionar, botaoCancelar,
-                botaoAtualizar, botaoExcluir, modo, this);
-        c.weighty = 0.6;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        janela.add(botoes, c);
-
-        // HABILITAR JANELA
-        janela.setSize(width, height);
-        janela.setResizable(false);
-        janela.setVisible(true);
     }
 
     @Override

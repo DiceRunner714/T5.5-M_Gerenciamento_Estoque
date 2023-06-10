@@ -1,7 +1,5 @@
 package modelo;
 
-import java.util.Arrays;
-
 public class Farmaceutico extends Item {
     //variaveis da classe
     private String tarja;

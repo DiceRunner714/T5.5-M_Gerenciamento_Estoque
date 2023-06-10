@@ -6,20 +6,20 @@ import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 import modelo.Filial;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class JanelaEmpresa implements ActionListener {
-    private static JFrame janela = new JFrame("Empresa");
-    private static JButton verFil = new JButton("Ver Filiais");
-    private static JButton verEst = new JButton("Ver Estoque");
+    private static final JFrame janela = new JFrame("Empresa");
+    private static final JButton verFil = new JButton("Ver Filiais");
+    private static final JButton verEst = new JButton("Ver Estoque");
 
-
-    private static ControleEmpresa controleEmpresa = new ControleEmpresa("Lixo");
+    private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
     public JanelaEmpresa() {
-        JLabel titulo = new JLabel("Empresa");
+        JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
         JLabel texto = new JLabel("<html>Um empreendimento de "
                 + "vendas on-line necessita de um sistema de controle e "
                 + "gerenciamento de seu estoque. Eles precisam gerenciar"
@@ -27,30 +27,47 @@ public class JanelaEmpresa implements ActionListener {
                 + " precisam poder cadastrar, remover, alterar e ler dados sobre"
                 + " as filiais e os itens. </html>");
 
-        verFil.setBounds(40, 200, 120, 30);
-        verEst.setBounds(200, 200, 120, 30);
-        titulo.setBounds(140, 0, 90, 50);
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        texto.setBounds(20, 70, 330, 90);
 
-        janela.setLayout(null);
+        janela.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        janela.add(verFil);
-        janela.add(verEst);
-        janela.add(titulo);
-        janela.add(texto);
+        c.anchor = GridBagConstraints.SOUTH;
+        c.weighty = 0.2;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridwidth = 2;
+        janela.add(titulo, c);
+
+        c.anchor = GridBagConstraints.CENTER;
+        c.weighty = 0.5;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        janela.add(texto, c);
+
+        c.weighty = 0.5;
+        c.gridy = 2;
+        c.gridx = 0;
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.fill = GridBagConstraints.NONE;
+        janela.add(verFil, c);
+
+        c.gridx = 1;
+        janela.add(verEst, c);
+
         janela.setSize(400, 400);
         janela.setVisible(true);
-        janela.setResizable(false);
+        janela.setResizable(true);
+        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         verFil.addActionListener(this);
         verEst.addActionListener(this);
-
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
 
-        JanelaEmpresa empresa = new JanelaEmpresa();
+        new JanelaEmpresa();
         // TODO: remover essas filiais de exemplo
         try {
             controleEmpresa.adicionarFilial(

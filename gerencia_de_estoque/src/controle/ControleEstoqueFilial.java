@@ -5,9 +5,9 @@ import modelo.*;
 import java.util.ArrayList;
 
 public class ControleEstoqueFilial {
-    private ArrayList<Item> estoqueFilial;
-    private Filial filialEscolhida;
-    private ControleEmpresa controleEmpresa;
+    private final ArrayList<Item> estoqueFilial;
+    private final Filial filialEscolhida;
+    private final ControleEmpresa controleEmpresa;
 
     /* Coloquei uma controleEmpresa pois essa classe precisa estar
     ciente do estoque inteiro para evitar repetições

@@ -4,17 +4,13 @@ import controle.ControleEmpresa;
 import controle.IdRepetidoException;
 import modelo.Filial;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class DetalheFilial extends Detalhe {
-    private JTextField valorNome = new JTextField();
-    private JTextField valorLocalizacao = new JTextField();
-    private JTextField valorId = new JTextField();
+    private final JTextField valorNome = new JTextField();
+    private final JTextField valorLocalizacao = new JTextField();
+    private final JTextField valorId = new JTextField();
     private Filial filialEscolhida;
 
     // Construtor para adicionar uma filial nova

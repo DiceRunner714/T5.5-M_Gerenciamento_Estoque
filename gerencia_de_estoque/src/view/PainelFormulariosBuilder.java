@@ -46,7 +46,7 @@ public class PainelFormulariosBuilder extends JPanel {
         }
 
     }
-    
+
     public <T extends JComponent> PainelFormulariosBuilder(JPanel painel, ArrayList<T> componentesEsquerdos,
                                                            ArrayList<T> componentesDireitos, String titulo) {
 
