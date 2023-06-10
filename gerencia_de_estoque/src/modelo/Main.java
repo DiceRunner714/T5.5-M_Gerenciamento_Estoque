@@ -56,7 +56,7 @@ public class Main {
         Item item2 = new ProdutoQuimico("Ácido sulfúrico", "ácido", 3860, 34, 4);
         filial1.adicionarItem(item1);
         filial2.adicionarItem(item2);
-        System.out.println(dreamworks.lerTodoEstoque());
+        System.out.println(dreamworks.getEstoque());
         System.out.println("LER TODO O ESTOQUE FINALIZADO");
 
         // Busca de item por nome

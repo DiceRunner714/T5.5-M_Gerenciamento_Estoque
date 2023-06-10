@@ -1,8 +1,8 @@
 package view;
 
 import controle.ControleEmpresa;
+import controle.ControleEstoque;
 import controle.ControleEstoqueFilial;
-import controle.LeitorEstoque;
 import modelo.Filial;
 import modelo.Item;
 
@@ -23,7 +23,7 @@ public class JanelaPesquisa {
     private final ModosPesquisa modo;
     private final JTextField valorPesquisaNomeDeItem = new JTextField();
     private JFrame janela;
-    private LeitorEstoque leitorEstoque;
+    private ControleEstoque controleEstoque;
     private JList<Filial> listaFiliais;
     private JList<Item> listaEstoque;
     private JButton botaoVerEstoque;
@@ -37,7 +37,7 @@ public class JanelaPesquisa {
             // operação 1 - filial
             case LISTAR_FILIAIS -> iniciarJanelaFiliais();
             case LISTAR_ESTOQUE_GERAL -> {
-                this.leitorEstoque = controleEmpresa;
+                this.controleEstoque = controleEmpresa;
                 iniciarJanelaEstoque("Estoque", "Estoque geral");
             }
         }
@@ -47,7 +47,7 @@ public class JanelaPesquisa {
     public JanelaPesquisa(ControleEmpresa controleEmpresa, ModosPesquisa modo, Filial filialEscolhida) {
         this.modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
         JanelaPesquisa.controleEmpresa = controleEmpresa;
-        leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
+        controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
         String tituloJanela = ("Visualizando Estoque de: " + filialEscolhida);
         String tituloPainel = ("Estoque de " + filialEscolhida);
         iniciarJanelaEstoque(tituloJanela, tituloPainel);
@@ -87,7 +87,7 @@ public class JanelaPesquisa {
         botaoAdicionar.addActionListener(new gerenciarBotoes());
 
         listaEstoque = new JList<>(
-                leitorEstoque.getEstoque().toArray(new Item[0])
+                controleEstoque.getEstoque().toArray(new Item[0])
         );
         listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaEstoque.setVisibleRowCount(10);
@@ -131,10 +131,10 @@ public class JanelaPesquisa {
             case LISTAR_ESTOQUE_GERAL, LISTAR_ESTOQUE_FILIAL -> {
                 ArrayList<Item> estoqueApenasVazios;
                 String nomePesquisado = valorPesquisaNomeDeItem.getText();
-                ArrayList<Item> estoquePrincipal = leitorEstoque.buscarItensParcial(nomePesquisado, false);
+                ArrayList<Item> estoquePrincipal = controleEstoque.buscarItensParcial(nomePesquisado, false);
 
                 if (filtroEstoqueVazio.isSelected()) {
-                    estoqueApenasVazios = leitorEstoque.getItensVazios(estoquePrincipal);
+                    estoqueApenasVazios = controleEstoque.getItensVazios(estoquePrincipal);
                     listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
                 } else {
                     listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
@@ -192,7 +192,7 @@ public class JanelaPesquisa {
                             Item itemEscolhido = listaEstoque.getSelectedValue();
                             new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
                         } else if (src == botaoAdicionar) {
-                            ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) leitorEstoque;
+                            ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
                             new DetalheItem(controleEmpresa, JanelaPesquisa.this, filialGerenciada);
                         }
                     }

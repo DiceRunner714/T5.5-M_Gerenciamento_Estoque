@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Empresa {
+public class Empresa implements LeitordeEstoque {
 
     private String nome;
     private ArrayList<Filial> filiais;
@@ -21,27 +21,19 @@ public class Empresa {
                 """, nome, filiais.toString());
     }
 
-    public ArrayList<Item> lerTodoEstoque() {
-        ArrayList<Item> todosItens = new ArrayList<>();
-        filiais.forEach(filial -> todosItens.addAll(filial.getEstoque()));
-        return todosItens;
-    }
-
-    @Deprecated
-    public Item buscarItem(String nome) {
-        return lerTodoEstoque()
+    // -- CRUD DE FILIAL --
+    public Filial lerFilial(int id) {
+        return filiais
                 .stream()
-                .filter(item -> item.getNome().equals(nome))
+                .filter(filial -> filial.getId() == id)
                 .findFirst()
-                .orElse(null);
-        // TODO: orElse null, ver se é uma boa idéia
+                .orElseThrow();
     }
 
     public void adicionarFilial(String nome, String local, int id) {
         filiais.add(new Filial(nome, local, id));
     }
 
-    // Overloading que permite adicionar filial criada externamente
     public void adicionarFilial(Filial f) {
         filiais.add(f);
     }
@@ -62,36 +54,63 @@ public class Empresa {
         filial.setNome(nome);
     }
 
-    public ArrayList<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
+
+    // -- LEITURA DE ESTOQUE GERAL --
+    @Override
+    public ArrayList<Item> getEstoque() {
+        ArrayList<Item> todosItens = new ArrayList<>();
+        filiais.forEach(filial -> todosItens.addAll(filial.getEstoque()));
+        return todosItens;
+    }
+
+    @Deprecated
+    public Item buscarItem(String nome) {
+        return getEstoque()
+                .stream()
+                .filter(item -> item.getNome().equals(nome))
+                .findFirst()
+                .orElse(null);
+        // TODO: orElse null, ver se é uma boa idéia
+    }
+
+    @Override
+    public Item buscarItem(int id) {
+        return getEstoque()
+                .stream()
+                .filter(item -> item.getNome().equals(nome))
+                .findFirst()
+                .orElseThrow();
+    }
+
+
+    @Override
+    public ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
         if (caseSensitive) return new ArrayList<>(
-                lerTodoEstoque().stream()
+                getEstoque().stream()
                         .filter(item -> item.getNome().contains(nomeParcial))
                         .toList());
         else return new ArrayList<>(
-                lerTodoEstoque().stream()
+                getEstoque().stream()
                         .filter(item -> item.getNome()
                                 .toLowerCase()
                                 .contains(nomeParcial.toLowerCase()))
                         .toList());
     }
 
-    public ArrayList<Item> buscarItens(String nome) {
-        return new ArrayList<>(
-                lerTodoEstoque().stream().filter(item -> item.getNome().equals(nome)).toList()
-        );
+    @Override
+    public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
+        if (caseSensitive) return new ArrayList<>(
+                getEstoque().stream()
+                        .filter(item -> item.getNome().equals(nome))
+                        .toList());
+        else return new ArrayList<>(
+                getEstoque().stream()
+                        .filter(item -> item.getNome()
+                                .toLowerCase()
+                                .equals(nome.toLowerCase()))
+                        .toList());
     }
 
-    // Retorna filial com id igual ao parâmetro, caso contrário
-    // retorna null
-    public Filial lerFilial(int id) {
-        return filiais
-                .stream()
-                .filter(filial -> filial.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    // GETS E SETS
     public String getNome() {
         return nome;
     }
