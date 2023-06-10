@@ -4,7 +4,7 @@ import modelo.*;
 
 import java.util.ArrayList;
 
-public class ControleEstoqueFilial implements LeitorEstoque {
+public class ControleEstoqueFilial implements ControleEstoque {
     private final ArrayList<Item> estoqueFilial;
     private final Filial filialEscolhida;
     private final ControleEmpresa controleEmpresa;
@@ -136,7 +136,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
 
     @Override
     public ArrayList<Item> buscarItens(String nome) {
-        return filialEscolhida.buscarItens(nome);
+        return filialEscolhida.buscarItens(nome, false);
     }
 
     @Override
