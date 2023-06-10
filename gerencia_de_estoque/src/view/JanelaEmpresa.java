@@ -95,11 +95,11 @@ public class JanelaEmpresa implements ActionListener {
         Object src = e.getSource();
 
         if (src == verFil) {
-            new JanelaPesquisa(controleEmpresa, Modos.LISTAR_FILIAIS);
+            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_FILIAIS);
         }
 
         if (src == verEst) {
-            new JanelaPesquisa(controleEmpresa, Modos.LISTAR_ESTOQUE_GERAL);
+            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_GERAL);
         }
     }
 }

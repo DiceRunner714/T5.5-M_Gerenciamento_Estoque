@@ -15,12 +15,12 @@ public class DetalheFilial extends Detalhe {
 
     // Construtor para adicionar uma filial nova
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
+        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
         criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
     }
 
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        super(Modos.EDITAR, janelaPesquisa, controleEmpresa);
+        super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
         criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
         popularFormularios();

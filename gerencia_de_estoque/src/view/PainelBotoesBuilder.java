@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 class PainelBotoesBuilder {
 
     public PainelBotoesBuilder(JPanel painel, JButton botaoAdicionar, JButton botaoCancelar,
-                               JButton botaoAtualizar, JButton botaoExcluir, Modos modo,
+                               JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
                                ActionListener botaoListener) {
 
         painel.setLayout(new FlowLayout(FlowLayout.TRAILING));

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class JanelaPesquisaBuilder {
 
-    public <T> JanelaPesquisaBuilder(Container painel, Modos modo, JList<T> listaElementos,
+    public <T> JanelaPesquisaBuilder(Container painel, ModosPesquisa modo, JList<T> listaElementos,
                                      JButton[] botoes, JComponent[] componentesExtras) {
 
         painel.setLayout(new GridBagLayout());
@@ -59,7 +59,7 @@ public class JanelaPesquisaBuilder {
 
     }
 
-    public <T> JanelaPesquisaBuilder(Container painel, Modos modo, JList<T> listaElementos, JButton[] botoes) {
+    public <T> JanelaPesquisaBuilder(Container painel, ModosPesquisa modo, JList<T> listaElementos, JButton[] botoes) {
 
         painel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();

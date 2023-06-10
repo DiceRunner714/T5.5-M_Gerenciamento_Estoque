@@ -16,7 +16,7 @@ import java.util.Objects;
 public class JanelaPesquisa implements ActionListener, ItemListener {
     private static ControleEmpresa controleEmpresa;
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
-    private final Modos modo;
+    private final ModosPesquisa modo;
     private JFrame janela;
     private JList<Filial> listaFiliais;
     private JList<Item> listaEstoque;
@@ -26,7 +26,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     private ArrayList<Item> estoque;
     private ArrayList<Filial> filiais;
 
-    public JanelaPesquisa(ControleEmpresa controleEmpresa, Modos modo) {
+    public JanelaPesquisa(ControleEmpresa controleEmpresa, ModosPesquisa modo) {
         this.modo = modo;
         JanelaPesquisa.controleEmpresa = controleEmpresa;
 
@@ -140,7 +140,7 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
     @Override
     public void itemStateChanged(ItemEvent e) {
         Object src = e.getSource();
-        if (Objects.requireNonNull(modo) == Modos.LISTAR_ESTOQUE_GERAL) {
+        if (Objects.requireNonNull(modo) == ModosPesquisa.LISTAR_ESTOQUE_GERAL) {
             if (src == filtroEstoqueVazio) {
                 refresh();
             }

@@ -37,7 +37,7 @@ public class DetalheItem extends Detalhe {
     private Item itemEscolhido;
 
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        super(Modos.ADICIONAR, janelaPesquisa, controleEmpresa);
+        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
         ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
         // Java infere o tamanho do array nesse caso
         opcoesFiliais = new JComboBox<>(
@@ -48,7 +48,7 @@ public class DetalheItem extends Detalhe {
 
     // Construtor não vazio, item escolhido para modificar
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
-        super(Modos.EDITAR, janelaPesquisa, controleEmpresa);
+        super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
         this.itemEscolhido = itemEscolhido;
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
@@ -103,9 +103,9 @@ public class DetalheItem extends Detalhe {
         ));
         String titulo = "Adicionar Informações básicas";
 
-        if (modo == Modos.EDITAR) {
+        if (modo == ModosDetalhe.EDITAR) {
             titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-        } else if (modo == Modos.ADICIONAR) {
+        } else if (modo == ModosDetalhe.ADICIONAR) {
             esquerdos.add(labelFilial);
             direitos.add(opcoesFiliais);
         }
@@ -127,7 +127,7 @@ public class DetalheItem extends Detalhe {
         ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
                 opcoesPerigoaSaude, opcoesRiscoDeFogo, opcoesReatividade, valorPerigoEspecifico, isRestrito
         ));
-        if (modo == Modos.EDITAR) {
+        if (modo == ModosDetalhe.EDITAR) {
             direitos.add(isRestrito);
         }
 
@@ -145,7 +145,7 @@ public class DetalheItem extends Detalhe {
         ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
                 valorTarja, valorComposicao, isReceita, isRetencaoDeReceita, isGenerico
         ));
-        if (modo == Modos.EDITAR) {
+        if (modo == ModosDetalhe.EDITAR) {
             direitos.add(isRestrito);
         }
         new PainelFormulariosBuilder(formularioFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
