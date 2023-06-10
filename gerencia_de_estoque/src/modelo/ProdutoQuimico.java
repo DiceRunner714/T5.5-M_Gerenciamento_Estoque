@@ -7,7 +7,6 @@ public class ProdutoQuimico extends Item {
     private int riscoDeFogo;
     private int reatividade;
     private String perigoEspecifico;
-    private boolean restrito;
 
     //metodo construtor
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
@@ -18,12 +17,22 @@ public class ProdutoQuimico extends Item {
         this.riscoDeFogo = riscoDeFogo;
         this.reatividade = reatividade;
         this.perigoEspecifico = perigoEspecifico;
-        this.restrito = false;
+        ajustarRestricao();
     }
 
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
+    }
+
+    @Override
+    protected void ajustarRestricao() {
+        // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
+        if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
+            restrito = true;
+        } else {
+            restrito = false;
+        }
     }
 
     public boolean isRestrito() {

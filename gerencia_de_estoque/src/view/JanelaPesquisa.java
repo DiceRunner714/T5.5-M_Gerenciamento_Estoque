@@ -1,149 +1,147 @@
 package view;
 
 import controle.ControleEmpresa;
+import controle.ControleEstoqueFilial;
+import controle.LeitorEstoque;
 import modelo.Filial;
 import modelo.Item;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
-public class JanelaPesquisa implements ActionListener, ItemListener {
+public class JanelaPesquisa {
     private static ControleEmpresa controleEmpresa;
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModosPesquisa modo;
+    private final JTextField valorPesquisaNomeDeItem = new JTextField();
     private JFrame janela;
+    private LeitorEstoque leitorEstoque;
     private JList<Filial> listaFiliais;
     private JList<Item> listaEstoque;
     private JButton botaoVerEstoque;
     private JButton botaoVerDetalhes;
     private JButton botaoAdicionar;
-    private ArrayList<Item> estoque;
-    private ArrayList<Filial> filiais;
 
     public JanelaPesquisa(ControleEmpresa controleEmpresa, ModosPesquisa modo) {
         this.modo = modo;
         JanelaPesquisa.controleEmpresa = controleEmpresa;
-
-
-        // Escolha de modo
         switch (modo) {
             // operação 1 - filial
-            case LISTAR_FILIAIS -> {
-                filiais = controleEmpresa.getFiliais();
-
-                janela = new JFrame("Filial");
-
-                botaoAdicionar = new JButton("Adicionar filial");
-                botaoVerDetalhes = new JButton("Ver filial");
-                botaoVerEstoque = new JButton("Ver estoque");
-
-                // Painel principal
-                listaFiliais = new JList<>(filiais.toArray(new Filial[0]));
-                listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                listaFiliais.setVisibleRowCount(50);
-
-                new JanelaPesquisaBuilder(janela, modo, listaFiliais,
-                        new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque});
-
-                botaoVerEstoque.addActionListener(this);
-
-            }
-
+            case LISTAR_FILIAIS -> iniciarJanelaFiliais();
             case LISTAR_ESTOQUE_GERAL -> {
-
-                estoque = controleEmpresa.getEstoque();
-
-                janela = new JFrame("Item");
-
-                botaoAdicionar = new JButton("Adicionar Item");
-                botaoVerDetalhes = new JButton("Ver Item");
-
-                listaEstoque = new JList<>(estoque.toArray(new Item[0]));
-                listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                listaEstoque.setVisibleRowCount(10);
-
-                new JanelaPesquisaBuilder(janela, modo, listaEstoque,
-                        new JButton[]{botaoAdicionar, botaoVerDetalhes},
-                        new JComponent[]{filtroEstoqueVazio});
-
-                filtroEstoqueVazio.addItemListener(this);
+                this.leitorEstoque = controleEmpresa;
+                iniciarJanelaEstoque("Estoque", "Estoque geral");
             }
         }
+    }
 
-        botaoVerDetalhes.addActionListener(this);
-        botaoAdicionar.addActionListener(this);
+    // Construtor para visualização de estoque de uma filial
+    public JanelaPesquisa(ControleEmpresa controleEmpresa, ModosPesquisa modo, Filial filialEscolhida) {
+        this.modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
+        JanelaPesquisa.controleEmpresa = controleEmpresa;
+        leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
+        String tituloJanela = ("Visualizando Estoque de: " + filialEscolhida);
+        String tituloPainel = ("Estoque de " + filialEscolhida);
+        iniciarJanelaEstoque(tituloJanela, tituloPainel);
+    }
+
+    private void iniciarJanelaFiliais() {
+        janela = new JFrame("Filial");
+
+        botaoAdicionar = new JButton("Adicionar filial");
+        botaoVerDetalhes = new JButton("Ver filial");
+        botaoVerEstoque = new JButton("Ver estoque");
+
+        // Painel principal
+        listaFiliais = new JList<>(controleEmpresa.getFiliais().toArray(new Filial[0]));
+        listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listaFiliais.setVisibleRowCount(50);
+
+        new JanelaPesquisaBuilder(janela, "Pesquisa em filiais", listaFiliais,
+                new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque});
+
+        botaoVerEstoque.addActionListener(new gerenciarBotoes());
+        botaoVerDetalhes.addActionListener(new gerenciarBotoes());
+        botaoAdicionar.addActionListener(new gerenciarBotoes());
 
         janela.setSize(400, 400);
         janela.setResizable(false);
         janela.setVisible(true);
+    }
 
+    private void iniciarJanelaEstoque(String tituloJanela, String tituloPainel) {
+        // Definição dos componentes
+        valorPesquisaNomeDeItem.getDocument().addDocumentListener(new Filtros());
+
+        botaoAdicionar = new JButton("Adicionar Item");
+        botaoVerDetalhes = new JButton("Ver Item");
+        botaoVerDetalhes.addActionListener(new gerenciarBotoes());
+        botaoAdicionar.addActionListener(new gerenciarBotoes());
+
+        listaEstoque = new JList<>(
+                leitorEstoque.getEstoque().toArray(new Item[0])
+        );
+        listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listaEstoque.setVisibleRowCount(10);
+
+        filtroEstoqueVazio.addItemListener(new Filtros());
+
+        // -- CRIAÇÃO DO PAINEL DE PESQUISA POR NOME --
+        // Nome: [                  ]
+        JPanel painelPesquisa = new JPanel();
+        painelPesquisa.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.weightx = 0.1;
+        c.anchor = GridBagConstraints.LINE_START;
+        painelPesquisa.add(new JLabel("Nome: "), c);
+
+        c.weightx = 0.9;
+        c.anchor = GridBagConstraints.LINE_END;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        painelPesquisa.add(valorPesquisaNomeDeItem, c);
+
+        // Criar janela de pesquisa
+        janela = new JFrame(tituloJanela);
+        new JanelaPesquisaBuilder(janela, tituloPainel, listaEstoque,
+                new JButton[]{botaoAdicionar, botaoVerDetalhes},
+                new JComponent[]{filtroEstoqueVazio, painelPesquisa});
+
+        janela.setSize(400, 400);
+        janela.setResizable(false);
+        janela.setVisible(true);
     }
 
     public void refresh() {
         switch (modo) {
             case LISTAR_FILIAIS -> {
-                listaFiliais.setListData(filiais.toArray(new Filial[0]));
+                listaFiliais.setListData(
+                        controleEmpresa.getFiliais().toArray(new Filial[0])
+                );
                 listaFiliais.updateUI();
             }
-            case LISTAR_ESTOQUE_GERAL -> {
-                ArrayList<Item> estoqueEmDisplay;
+            case LISTAR_ESTOQUE_GERAL, LISTAR_ESTOQUE_FILIAL -> {
+                ArrayList<Item> estoqueApenasVazios;
+                String nomePesquisado = valorPesquisaNomeDeItem.getText();
+                ArrayList<Item> estoquePrincipal = leitorEstoque.buscarItensParcial(nomePesquisado, false);
+
                 if (filtroEstoqueVazio.isSelected()) {
-                    estoqueEmDisplay = controleEmpresa.getEstoqueVazio();
+                    estoqueApenasVazios = leitorEstoque.getItensVazios(estoquePrincipal);
+                    listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
                 } else {
-                    estoqueEmDisplay = controleEmpresa.getEstoque();
+                    listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
                 }
-                listaEstoque.setListData(estoqueEmDisplay.toArray(new Item[estoque.size()]));
                 listaEstoque.updateUI();
             }
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        try {
-            switch (modo) {
-                case LISTAR_FILIAIS -> {
-                    if (src == botaoAdicionar) {
-                        new DetalheFilial(controleEmpresa, this);
-                    } else {
-                        Filial filialSelecionada = listaFiliais.getSelectedValue();
-                        if (src == botaoVerDetalhes) {
-                            new DetalheFilial(controleEmpresa, this, filialSelecionada);
-                        } else if (src == botaoVerEstoque) {
-                            // TODO: adicionar visualização de estoque
-                        }
-                    }
-                }
-                case LISTAR_ESTOQUE_GERAL -> {
-                    if (src == botaoAdicionar) {
-                        new DetalheItem(controleEmpresa, this);
-                    } else if (src == botaoVerDetalhes) {
-                        Item itemEscolhido = listaEstoque.getSelectedValue();
-                        new DetalheItem(controleEmpresa, this, itemEscolhido);
-                    }
-                }
-            }
-        } catch (NullPointerException | NoSuchElementException exc) {
-            mensagemErroEscolhaVazia();
-        }
-
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        Object src = e.getSource();
-        if (Objects.requireNonNull(modo) == ModosPesquisa.LISTAR_ESTOQUE_GERAL) {
-            if (src == filtroEstoqueVazio) {
-                refresh();
-            }
+            // Aplicar dois filtros, primeiro o de pesquisa por nome e depois o de itens vazios
         }
     }
 
@@ -157,6 +155,75 @@ public class JanelaPesquisa implements ActionListener, ItemListener {
         JOptionPane.showMessageDialog(null,
                 mensagem,
                 "Erro de escolha", JOptionPane.ERROR_MESSAGE);
+    }
+
+    class gerenciarBotoes implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+
+            try {
+                switch (modo) {
+
+                    case LISTAR_FILIAIS -> {
+                        if (src == botaoAdicionar) {
+                            new DetalheFilial(controleEmpresa, JanelaPesquisa.this);
+                        } else {
+                            Filial filialSelecionada = listaFiliais.getSelectedValue();
+                            if (src == botaoVerDetalhes) {
+                                new DetalheFilial(controleEmpresa, JanelaPesquisa.this, filialSelecionada);
+                            } else if (src == botaoVerEstoque) {
+                                new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_FILIAL, listaFiliais.getSelectedValue());
+                            }
+                        }
+                    }
+
+                    case LISTAR_ESTOQUE_GERAL -> {
+                        if (src == botaoAdicionar) {
+                            new DetalheItem(controleEmpresa, JanelaPesquisa.this);
+                        } else if (src == botaoVerDetalhes) {
+                            Item itemEscolhido = listaEstoque.getSelectedValue();
+                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
+                        }
+                    }
+
+                    case LISTAR_ESTOQUE_FILIAL -> {
+                        if (src == botaoVerDetalhes) {
+                            Item itemEscolhido = listaEstoque.getSelectedValue();
+                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
+                        } else if (src == botaoAdicionar) {
+                            ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) leitorEstoque;
+                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, filialGerenciada);
+                        }
+                    }
+                }
+            } catch (NullPointerException | NoSuchElementException exc) {
+                mensagemErroEscolhaVazia();
+            }
+
+        }
+    }
+
+    private class Filtros implements DocumentListener, ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            refresh();
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            refresh();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            refresh();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            refresh();
+        }
     }
 
 

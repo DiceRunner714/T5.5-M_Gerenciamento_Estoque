@@ -2,6 +2,7 @@ package modelo;
 
 public abstract class Item {
 
+    protected boolean restrito;
     private String nome;
     private int quantidade;
     private String categoria;
@@ -23,6 +24,8 @@ public abstract class Item {
         valor = newValor;
         id = newId;
     }
+
+    protected abstract void ajustarRestricao();
 
     public abstract void restringir() throws NivelRestricaoInadequadoException;
 
@@ -77,7 +80,6 @@ public abstract class Item {
     public void setValor(double valor) {
         this.valor = valor;
     }
-
 
     public int getId() {
         return id;

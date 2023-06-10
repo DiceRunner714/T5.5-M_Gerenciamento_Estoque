@@ -7,7 +7,6 @@ public class Farmaceutico extends Item {
     private boolean retencaoDeReceita;
     private String composicao;
     private boolean generico;
-    private boolean restrito;
 
     // método construtor
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
@@ -21,12 +20,21 @@ public class Farmaceutico extends Item {
         this.retencaoDeReceita = retencaoDeReceita;
         this.composicao = composicao;
         this.generico = generico;
-        this.restrito = false;
+        ajustarRestricao();
     }
 
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
         this.restrito = false;
+    }
+
+    @Override
+    protected void ajustarRestricao() {
+        if (tarja.equals("preta") && retencaoDeReceita) {
+            restrito = true;
+        } else {
+            restrito = false;
+        }
     }
 
 

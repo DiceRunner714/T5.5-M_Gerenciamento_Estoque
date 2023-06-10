@@ -56,6 +56,14 @@ public class DetalheItem extends Detalhe {
         popularFormularios();
     }
 
+    // Construtor para adicionar item a uma filial
+    public DetalheItem(ControleEmpresa controleEmpresa,
+                       JanelaPesquisa janelaPesquisa, ControleEstoqueFilial controleEstoqueFilial) {
+        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
+        this.controleEstoque = controleEstoqueFilial;
+        criarJanela(criarPaineisFormularios(), 600, 600, "Item:");
+    }
+
     @Override
     protected ArrayList<JComponent> criarPaineisFormularios() {
 
@@ -105,7 +113,7 @@ public class DetalheItem extends Detalhe {
 
         if (modo == ModosDetalhe.EDITAR) {
             titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-        } else if (modo == ModosDetalhe.ADICIONAR) {
+        } else if (modo == ModosDetalhe.ADICIONAR && opcoesFiliais != null) {
             esquerdos.add(labelFilial);
             direitos.add(opcoesFiliais);
         }
@@ -225,10 +233,11 @@ public class DetalheItem extends Detalhe {
     @Override
     protected void adicionarElemento() throws IdRepetidoException {
         Component componente = abaPaginada.getSelectedComponent();
-        ControleEstoqueFilial estoqueSelecionado =
-                new ControleEstoqueFilial(controleEmpresa, (Filial) Objects.requireNonNull(opcoesFiliais.getSelectedItem()));
+        if (opcoesFiliais != null) {
+            controleEstoque = new ControleEstoqueFilial(controleEmpresa, (Filial) opcoesFiliais.getSelectedItem());
+        }
         if (componente == formularioFarmaceutico) {
-            estoqueSelecionado.adicionarFarmaceutico(
+            controleEstoque.adicionarFarmaceutico(
                     valorNome.getText(),
                     valorCategoria.getText(),
                     Double.parseDouble(valorValor.getText()),
@@ -241,7 +250,7 @@ public class DetalheItem extends Detalhe {
                     isGenerico.isSelected()
             );
         } else if (componente == formularioProdutoQuimico) {
-            estoqueSelecionado.adicionarProdutoQuimico(
+            controleEstoque.adicionarProdutoQuimico(
                     valorNome.getText(),
                     valorCategoria.getText(),
                     Double.parseDouble(valorValor.getText()),
