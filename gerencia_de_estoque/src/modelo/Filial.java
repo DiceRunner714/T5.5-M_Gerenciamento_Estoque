@@ -93,6 +93,19 @@ public class Filial {
                 this.id == outraFilial.getId();
     }
 
+    public ArrayList<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive) return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome().contains(nomeParcial))
+                        .toList());
+        else return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome()
+                                .toLowerCase()
+                                .contains(nomeParcial.toLowerCase()))
+                        .toList());
+    }
+
     public String getNome() {
         return nome;
     }

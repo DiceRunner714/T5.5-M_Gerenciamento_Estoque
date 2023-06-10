@@ -27,8 +27,7 @@ public class Empresa {
         return todosItens;
     }
 
-    // TODO: adicionar buscarItem que retorna lista
-    // Para o caso de vários items com o mesmo nome
+    @Deprecated
     public Item buscarItem(String nome) {
         return lerTodoEstoque()
                 .stream()
@@ -61,6 +60,25 @@ public class Empresa {
         filial.setId(novoId);
         filial.setLocal(local);
         filial.setNome(nome);
+    }
+
+    public ArrayList<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive) return new ArrayList<>(
+                lerTodoEstoque().stream()
+                        .filter(item -> item.getNome().contains(nomeParcial))
+                        .toList());
+        else return new ArrayList<>(
+                lerTodoEstoque().stream()
+                        .filter(item -> item.getNome()
+                                .toLowerCase()
+                                .contains(nomeParcial.toLowerCase()))
+                        .toList());
+    }
+
+    public ArrayList<Item> buscarItens(String nome) {
+        return new ArrayList<>(
+                lerTodoEstoque().stream().filter(item -> item.getNome().equals(nome)).toList()
+        );
     }
 
     // Retorna filial com id igual ao parâmetro, caso contrário
