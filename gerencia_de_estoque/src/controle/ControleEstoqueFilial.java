@@ -2,6 +2,7 @@ package controle;
 
 import modelo.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ControleEstoqueFilial {
@@ -140,6 +141,14 @@ public class ControleEstoqueFilial {
 
     public void removerItem(Item i) {
         filialEscolhida.removerItem(i);
+    }
+
+    public ArrayList<Item> getEstoque() {
+        return filialEscolhida.getEstoque();
+    }
+
+    public void setEstoque(ArrayList<Item> estoque) {
+        filialEscolhida.setEstoque(estoque);
     }
 
 }

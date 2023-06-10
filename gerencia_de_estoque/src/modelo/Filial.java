@@ -29,6 +29,7 @@ public class Filial {
         estoque.removeIf(item -> item.equals(itemEscolhido));
     }
 
+    @Deprecated
     public Item buscarItem(String nome) {
         return estoque
                 .stream()
@@ -43,6 +44,12 @@ public class Filial {
                 .filter(item -> item.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public ArrayList<Item> buscarItens(String nome) {
+        return new ArrayList<>(
+                estoque.stream().filter(item -> item.getNome().equals(nome)).toList()
+        );
     }
 
     public String listarCaracteristicasBasicacs() {
