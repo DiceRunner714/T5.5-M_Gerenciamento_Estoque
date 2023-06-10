@@ -7,7 +7,7 @@ import modelo.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControleEmpresa {
+public class ControleEmpresa implements LeitorEstoque {
     private final Empresa empresa;
     private final ArrayList<Filial> filiais;
 
@@ -79,6 +79,21 @@ public class ControleEmpresa {
                 .orElseThrow();
     }
 
+    public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
+        return empresa.buscaParcial(nome, caseSensitive);
+    }
+
+    @Override
+    public ArrayList<Item> buscarItens(String nome) {
+        return empresa.buscarItens(nome);
+    }
+
+    public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
+        return new ArrayList<>(
+                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
+        );
+    }
+
     public String getNome() {
         return empresa.getNome();
     }
@@ -94,6 +109,5 @@ public class ControleEmpresa {
     public void excluirFilial(int id) {
         empresa.removerFilial(id);
     }
-
 
 }

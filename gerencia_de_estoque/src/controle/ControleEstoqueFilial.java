@@ -2,10 +2,9 @@ package controle;
 
 import modelo.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ControleEstoqueFilial {
+public class ControleEstoqueFilial implements LeitorEstoque {
     private final ArrayList<Item> estoqueFilial;
     private final Filial filialEscolhida;
     private final ControleEmpresa controleEmpresa;
@@ -135,6 +134,16 @@ public class ControleEstoqueFilial {
         i.liberar();
     }
 
+    @Override
+    public ArrayList<Item> buscarItens(String nome) {
+        return filialEscolhida.buscarItens(nome);
+    }
+
+    @Override
+    public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
+        return filialEscolhida.buscaParcial(nome, caseSensitive);
+    }
+
     public void removerItem(int id) {
         filialEscolhida.removerItem(id);
     }
@@ -149,6 +158,13 @@ public class ControleEstoqueFilial {
 
     public void setEstoque(ArrayList<Item> estoque) {
         filialEscolhida.setEstoque(estoque);
+    }
+
+    @Override
+    public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
+        return new ArrayList<>(
+                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
+        );
     }
 
 }
