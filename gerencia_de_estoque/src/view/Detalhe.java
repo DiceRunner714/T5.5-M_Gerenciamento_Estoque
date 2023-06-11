@@ -111,8 +111,8 @@ public abstract class Detalhe implements ActionListener {
 
     // --POP UPS--
     protected void mensagemErroIdrepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(null,
-                e3.getMessage(),
-                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, e3.getMessage(), "Erro de indentificação", JOptionPane.ERROR_MESSAGE
+        );
     }
 }

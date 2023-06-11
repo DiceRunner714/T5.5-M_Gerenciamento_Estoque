@@ -68,7 +68,6 @@ public class JanelaEmpresa implements ActionListener {
     public static void main(String[] args) {
 
         new JanelaEmpresa();
-        // TODO: remover essas filiais de exemplo
         try {
             controleEmpresa.adicionarFilial(
                     new Filial("abr", "brasil", 6)
@@ -92,7 +91,6 @@ public class JanelaEmpresa implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-
         if (src == verFil) {
             new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_FILIAIS);
         } else if (src == verEst) {

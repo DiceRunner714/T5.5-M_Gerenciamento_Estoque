@@ -10,10 +10,10 @@ import java.awt.*;
 import java.util.*;
 
 public class DetalheItem extends Detalhe {
-    private final JTabbedPane abaPaginada = new JTabbedPane();
     private JPanel formularioPrincipal;
     private JPanel formularioFarmaceutico;
     private JPanel formularioProdutoQuimico;
+    private final JTabbedPane abaPaginada = new JTabbedPane();
     private final JTextField valorPerigoEspecifico = new JTextField();
     private final JTextField valorTarja = new JTextField();
     private final JTextField valorComposicao = new JTextField();
@@ -65,16 +65,17 @@ public class DetalheItem extends Detalhe {
     @Override
     protected ArrayList<JComponent> agruparTodosFormularios() {
 
-        ArrayList<JComponent> formularios = new ArrayList<>();
+        // Criar formularios principais
+        formularioPrincipal = criarFormularioPrincipal();
+        formularioFarmaceutico = criarFormularioFarmaceutico();
+        formularioProdutoQuimico = criarFormularioProdutoQuimico();
 
-        criarFormularioPrincipal();
+        ArrayList<JComponent> formularios = new ArrayList<>();
         formularios.add(formularioPrincipal);
 
         switch (modo) {
             // Mostrar todas as opções de itens para adicionar
             case ADICIONAR -> {
-                criarFormularioProdutoQuimico();
-                criarFormularioFarmaceutico();
                 abaPaginada.addTab("Produto Químico", formularioProdutoQuimico);
                 abaPaginada.addTab("Farmacêutico", formularioFarmaceutico);
                 formularios.add(abaPaginada);
@@ -82,10 +83,8 @@ public class DetalheItem extends Detalhe {
             // Mostrar só o formulário do tipo de item escolhido
             case EDITAR -> {
                 if (itemEscolhido instanceof Farmaceutico) {
-                    criarFormularioFarmaceutico();
                     formularios.add(formularioFarmaceutico);
                 } else if (itemEscolhido instanceof ProdutoQuimico) {
-                    criarFormularioProdutoQuimico();
                     formularios.add(formularioProdutoQuimico);
                 }
             }
@@ -93,7 +92,7 @@ public class DetalheItem extends Detalhe {
         return formularios;
     }
 
-    private void criarFormularioPrincipal() {
+    private JPanel criarFormularioPrincipal() {
 
         for (CamposItem campo : CamposItem.values()) {
             valoresItem.put(campo, new JTextField());
@@ -113,20 +112,23 @@ public class DetalheItem extends Detalhe {
                 valoresItem.get(CamposItem.QUANTIDADE),
                 valoresItem.get(CamposItem.VALOR)
         ));
-        String titulo = "Adicionar Informações básicas";
 
+        JPanel painelFormularios;
         if (modo == ModosDetalhe.EDITAR) {
-            titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-        } else if (modo == ModosDetalhe.ADICIONAR && opcoesFiliais != null) {
+            String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
+            painelFormularios = new PainelFormulario(esquerdos, direitos, titulo);
+        } else {
+            // TODO: como checar se existem filiais
             esquerdos.add(new JLabel("Filial: "));
             direitos.add(opcoesFiliais);
+            painelFormularios = new PainelFormulario(esquerdos, direitos, "Adicionar informações básicas");
         }
 
-        formularioPrincipal = new PainelFormulario(esquerdos, direitos, titulo);
+        return painelFormularios;
 
     }
 
-    private void criarFormularioProdutoQuimico() {
+    private JPanel criarFormularioProdutoQuimico() {
 
         ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
                 new JLabel("Risco a saúde: "),
@@ -142,11 +144,11 @@ public class DetalheItem extends Detalhe {
                 isRestrito
         ));
         if (modo == ModosDetalhe.EDITAR) direitos.add(isRestrito);
-        formularioProdutoQuimico = new PainelFormulario(esquerdos, direitos, "Detalhes - Produto químico");
+        return new PainelFormulario(esquerdos, direitos, "Detalhes - Produto químico");
 
     }
 
-    private void criarFormularioFarmaceutico() {
+    private JPanel criarFormularioFarmaceutico() {
         ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
                 new JLabel("Tarja: "),
                 new JLabel("Composição: ")
@@ -159,7 +161,7 @@ public class DetalheItem extends Detalhe {
                 isGenerico
         ));
         if (modo == ModosDetalhe.EDITAR) direitos.add(isRestrito);
-        formularioFarmaceutico = new PainelFormulario(esquerdos, direitos, "Detalhes - Farmacêutico");
+        return new PainelFormulario(esquerdos, direitos, "Detalhes - Farmacêutico");
     }
 
     @Override
@@ -267,9 +269,9 @@ public class DetalheItem extends Detalhe {
     }
 
     private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
-        JOptionPane.showMessageDialog(null,
-                e.getMessage(),
-                "Erro de restrição:", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
+        );
     }
 
 }
