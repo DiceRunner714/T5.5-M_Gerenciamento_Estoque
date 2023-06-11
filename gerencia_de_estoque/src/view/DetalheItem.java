@@ -28,25 +28,24 @@ public class DetalheItem extends Detalhe {
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
+    private TipodeItem tipodeItem;
 
     private enum CamposItem {
         NOME, ID, CATEGORIA, VALOR, QUANTIDADE
-    }
-
-    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
-        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
-
-        ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
-        opcoesFiliais = new JComboBox<>(filiaisDisponivels.toArray(new Filial[0]));// Java infere o tamanho do array
-
-        criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
 
     // Construtor não vazio, item escolhido para modificar
     public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
 
+        // Descobrir que tipo de Item é esse
         this.itemEscolhido = itemEscolhido;
+        if (itemEscolhido instanceof Farmaceutico) {
+            tipodeItem = TipodeItem.FARMACEUTICO;
+        } else if (itemEscolhido instanceof  ProdutoQuimico) {
+            tipodeItem = TipodeItem.PRODUTOQUIMICO;
+        }
+
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
 
@@ -65,12 +64,11 @@ public class DetalheItem extends Detalhe {
     protected ArrayList<JComponent> agruparTodosFormularios() {
 
         // Criar formularios principais
-        JPanel formularioPrincipal = criarFormularioPrincipal();
         formularioFarmaceutico = criarFormularioFarmaceutico();
         formularioProdutoQuimico = criarFormularioProdutoQuimico();
 
         ArrayList<JComponent> formularios = new ArrayList<>();
-        formularios.add(formularioPrincipal);
+        formularios.add(criarFormularioPrincipal());
 
         switch (modo) {
             // Mostrar todas as opções de itens para adicionar
@@ -81,10 +79,9 @@ public class DetalheItem extends Detalhe {
             }
             // Mostrar só o formulário do tipo de item escolhido
             case EDITAR -> {
-                if (itemEscolhido instanceof Farmaceutico) {
-                    formularios.add(formularioFarmaceutico);
-                } else if (itemEscolhido instanceof ProdutoQuimico) {
-                    formularios.add(formularioProdutoQuimico);
+                switch (tipodeItem) {
+                    case FARMACEUTICO -> formularios.add(formularioFarmaceutico);
+                    case PRODUTOQUIMICO -> formularios.add(formularioProdutoQuimico);
                 }
             }
         }
@@ -177,23 +174,26 @@ public class DetalheItem extends Detalhe {
                 Integer.parseInt(valoresItem.get(CamposItem.ID).getText()),
                 itemEscolhido
         );
-        if (itemEscolhido instanceof ProdutoQuimico) {
-            controleEstoque.atualizarProdutoQuimico(
-                    valorPerigoEspecifico.getText(),
-                    (int) opcoesRiscoDeFogo.getSelectedItem(),
-                    (int) opcoesReatividade.getSelectedItem(),
-                    (int) opcoesPerigoaSaude.getSelectedItem(),
-                    (ProdutoQuimico) itemEscolhido
-            );
-        } else if (itemEscolhido instanceof Farmaceutico) {
-            controleEstoque.atualizarFarmaceutico(
-                    valorTarja.getText(),
-                    valorComposicao.getText(),
-                    isReceita.isSelected(),
-                    isRetencaoDeReceita.isSelected(),
-                    isGenerico.isSelected(),
-                    (Farmaceutico) itemEscolhido
-            );
+        switch (tipodeItem) {
+            case PRODUTOQUIMICO -> {
+                controleEstoque.atualizarProdutoQuimico(
+                        valorPerigoEspecifico.getText(),
+                        (int) opcoesRiscoDeFogo.getSelectedItem(),
+                        (int) opcoesReatividade.getSelectedItem(),
+                        (int) opcoesPerigoaSaude.getSelectedItem(),
+                        (ProdutoQuimico) itemEscolhido
+                );
+            }
+            case FARMACEUTICO -> {
+                controleEstoque.atualizarFarmaceutico(
+                        valorTarja.getText(),
+                        valorComposicao.getText(),
+                        isReceita.isSelected(),
+                        isRetencaoDeReceita.isSelected(),
+                        isGenerico.isSelected(),
+                        (Farmaceutico) itemEscolhido
+                );
+            }
         }
         try {
             if (isRestrito.isSelected()) {
@@ -217,17 +217,20 @@ public class DetalheItem extends Detalhe {
         valoresItem.get(CamposItem.VALOR).setText(String.valueOf(itemEscolhido.getId()));
         ArrayList<Filial> filiais = controleEmpresa.getFiliais();
         opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[0]));
-        if (itemEscolhido instanceof ProdutoQuimico) {
-            valorPerigoEspecifico.setText(((ProdutoQuimico) itemEscolhido).getPerigoEspecifico());
-            opcoesPerigoaSaude.setSelectedItem(((ProdutoQuimico) itemEscolhido).getPerigoaSaude());
-            opcoesRiscoDeFogo.setSelectedItem(((ProdutoQuimico) itemEscolhido).getRiscoDeFogo());
-            opcoesReatividade.setSelectedItem(((ProdutoQuimico) itemEscolhido).getReatividade());
-        } else if (itemEscolhido instanceof Farmaceutico) {
-            valorComposicao.setText(((Farmaceutico) itemEscolhido).getComposicao());
-            valorTarja.setText(((Farmaceutico) itemEscolhido).getTarja());
-            isGenerico.setSelected(((Farmaceutico) itemEscolhido).isGenerico());
-            isReceita.setSelected(((Farmaceutico) itemEscolhido).isReceita());
-            isRetencaoDeReceita.setSelected(((Farmaceutico) itemEscolhido).isRetencaoDeReceita());
+        switch (tipodeItem) {
+            case PRODUTOQUIMICO -> {
+                valorPerigoEspecifico.setText(((ProdutoQuimico) itemEscolhido).getPerigoEspecifico());
+                opcoesPerigoaSaude.setSelectedItem(((ProdutoQuimico) itemEscolhido).getPerigoaSaude());
+                opcoesRiscoDeFogo.setSelectedItem(((ProdutoQuimico) itemEscolhido).getRiscoDeFogo());
+                opcoesReatividade.setSelectedItem(((ProdutoQuimico) itemEscolhido).getReatividade());
+            }
+            case FARMACEUTICO -> {
+                valorComposicao.setText(((Farmaceutico) itemEscolhido).getComposicao());
+                valorTarja.setText(((Farmaceutico) itemEscolhido).getTarja());
+                isGenerico.setSelected(((Farmaceutico) itemEscolhido).isGenerico());
+                isReceita.setSelected(((Farmaceutico) itemEscolhido).isReceita());
+                isRetencaoDeReceita.setSelected(((Farmaceutico) itemEscolhido).isRetencaoDeReceita());
+            }
         }
     }
 
