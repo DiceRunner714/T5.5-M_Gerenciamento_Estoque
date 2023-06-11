@@ -8,11 +8,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 public class PesquisaFiliaisView extends PesquisaView{
     private JList<Filial> listaFiliais;
-    private JButton botaoVerEstoque;
 
     public PesquisaFiliaisView(ControleEmpresa controleEmpresa) {
         this.controleEmpresa = controleEmpresa;
@@ -24,7 +22,7 @@ public class PesquisaFiliaisView extends PesquisaView{
 
         botaoAdicionar = new JButton("Adicionar filial");
         botaoVerDetalhes = new JButton("Ver filial");
-        botaoVerEstoque = new JButton("Ver estoque");
+        JButton botaoVerEstoque = new JButton("Ver estoque");
 
         // Painel principal
         listaFiliais = new JList<>(controleEmpresa.getFiliais().toArray(new Filial[0]));
@@ -34,9 +32,9 @@ public class PesquisaFiliaisView extends PesquisaView{
         janela.add(new PainelPesquisa("Pesquisa em filiais", listaFiliais,
                 new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque}));
 
-        botaoVerEstoque.addActionListener(new listarFiliaisListener());
-        botaoVerDetalhes.addActionListener(new listarFiliaisListener());
-        botaoAdicionar.addActionListener(new listarFiliaisListener());
+        botaoVerEstoque.addActionListener(new VerEstoqueListener());
+        botaoVerDetalhes.addActionListener(new ManipularElementoListener());
+        botaoAdicionar.addActionListener(new ManipularElementoListener());
 
         janela.setSize(400, 400);
         janela.setResizable(false);
@@ -49,32 +47,33 @@ public class PesquisaFiliaisView extends PesquisaView{
                 listaFiliais.updateUI();
     }
 
+    @Override
+    protected void adicionarElemento() {
+        new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this);
+        new PesquisaEstoqueView(controleEmpresa, listaFiliais.getSelectedValue());
+    }
+
+    @Override
+    protected void visualizarElemento() {
+        new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this, listaFiliais.getSelectedValue());
+    }
+
+    private class VerEstoqueListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                new PesquisaEstoqueView(controleEmpresa, listaFiliais.getSelectedValue());
+            } catch (NullPointerException | NoSuchElementException exc) {
+                mensagemErroEscolhaVazia();
+            }
+        }
+    }
+
     // --POP UPS--
     @Override
     protected void mensagemErroEscolhaVazia() {
         String mensagem = "Erro de escolha: uma filial não foi selecionada";
         JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private class listarFiliaisListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object src = e.getSource();
-            try {
-                if (src == botaoAdicionar) {
-                    new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this);
-                } else {
-                    Filial filialSelecionada = Objects.requireNonNull(listaFiliais.getSelectedValue());
-                    if (src == botaoVerDetalhes) {
-                        new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this, filialSelecionada);
-                    } else if (src == botaoVerEstoque) {
-                        new PesquisaEstoqueView(controleEmpresa, listaFiliais.getSelectedValue());
-                    }
-                }
-            } catch (NullPointerException | NoSuchElementException exc) {
-                mensagemErroEscolhaVazia();
-            }
-        }
     }
 
 }

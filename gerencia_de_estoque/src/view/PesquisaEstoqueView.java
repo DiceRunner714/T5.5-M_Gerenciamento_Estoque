@@ -10,12 +10,9 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 public class PesquisaEstoqueView extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
@@ -48,16 +45,8 @@ public class PesquisaEstoqueView extends PesquisaView {
 
         botaoAdicionar = new JButton("Adicionar Item");
         botaoVerDetalhes = new JButton("Ver Item");
-        switch (modo) {
-            case LISTAR_ESTOQUE_GERAL ->{
-                botaoVerDetalhes.addActionListener(new ListarEstoqueGeralListener());
-                botaoAdicionar.addActionListener(new ListarEstoqueGeralListener());
-            }
-            case LISTAR_ESTOQUE_FILIAL -> {
-                botaoVerDetalhes.addActionListener(new ListarEstoqueFilialListener());
-                botaoAdicionar.addActionListener(new ListarEstoqueFilialListener());
-            }
-        }
+        botaoVerDetalhes.addActionListener(new ManipularElementoListener());
+        botaoAdicionar.addActionListener(new ManipularElementoListener());
 
         listaEstoque = new JList<>(controleEstoque.getEstoque().toArray(new Item[0]));
         listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -111,46 +100,24 @@ public class PesquisaEstoqueView extends PesquisaView {
             listaEstoque.updateUI();
     }
 
-    // --POP UPS--
     @Override
-    protected void mensagemErroEscolhaVazia() {
-        String mensagem = "Erro de escolha: um item não foi selecionado";
-        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private class ListarEstoqueGeralListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object src = e.getSource();
-            try {
-                if (src == botaoAdicionar) {
-                    new DetalheItem(controleEmpresa, PesquisaEstoqueView.this);
-                } else if (src == botaoVerDetalhes) {
-                    Item itemEscolhido = listaEstoque.getSelectedValue();
-                    new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
-                }
-            } catch (NullPointerException | NoSuchElementException exc) {
-                mensagemErroEscolhaVazia();
+    protected void adicionarElemento() {
+        switch (modo) {
+            case LISTAR_ESTOQUE_FILIAL -> {
+                ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
+                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, filialGerenciada);
+            }
+            case LISTAR_ESTOQUE_GERAL -> {
+                Item itemEscolhido = listaEstoque.getSelectedValue();
+                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
             }
         }
     }
 
-    private class ListarEstoqueFilialListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object src = e.getSource();
-            try {
-                if (src == botaoVerDetalhes) {
-                    Item itemEscolhido = listaEstoque.getSelectedValue();
-                    new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
-                } else if (src == botaoAdicionar) {
-                    ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
-                    new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, filialGerenciada);
-                }
-            } catch (NullPointerException | NoSuchElementException exc) {
-                mensagemErroEscolhaVazia();
-            }
-        }
+    @Override
+    protected void visualizarElemento() {
+        Item itemEscolhido = listaEstoque.getSelectedValue();
+        new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
     }
 
     private class FiltrosListener implements DocumentListener, ItemListener {
@@ -174,5 +141,13 @@ public class PesquisaEstoqueView extends PesquisaView {
             refresh();
         }
     }
+
+    // --POP UPS--
+    @Override
+    protected void mensagemErroEscolhaVazia() {
+        String mensagem = "Erro de escolha: um item não foi selecionado";
+        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
+    }
+
 
 }
