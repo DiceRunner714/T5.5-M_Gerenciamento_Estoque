@@ -31,8 +31,7 @@ public class ProdutoQuimico extends Item {
         this.restrito = true;
     }
 
-    @Override
-    protected void ajustarRestricao() {
+    private void ajustarRestricao() {
         // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
         if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
             restrito = true;
