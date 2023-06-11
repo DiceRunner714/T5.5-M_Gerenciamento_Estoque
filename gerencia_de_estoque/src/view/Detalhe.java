@@ -83,10 +83,13 @@ abstract class Detalhe implements ActionListener {
                 enviarFormularios();
             } catch (NumberFormatException e1) {
                 mensagemErrodeFormatacao();
+                e1.printStackTrace();
             } catch (NullPointerException e2) {
                 mensagemErroFormularioVazio();
+                e2.printStackTrace();
             } catch (IdRepetidoException e3) {
                 mensagemErroIdrepetido(e3);
+                e3.printStackTrace();
             }
         } else {
             if (src == botaoExcluir) excluirElemento();

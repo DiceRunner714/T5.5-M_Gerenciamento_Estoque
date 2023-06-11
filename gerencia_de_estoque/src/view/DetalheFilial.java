@@ -38,7 +38,8 @@ public class DetalheFilial extends Detalhe {
                 valorNome,
                 valorLocalizacao,
                 valorId};
-        JPanel formularios = new PainelFormulario(componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
+        JPanel formularios = new JPanel();
+        new PainelFormularioBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
 
         paineis.add(formularios);
         return paineis;

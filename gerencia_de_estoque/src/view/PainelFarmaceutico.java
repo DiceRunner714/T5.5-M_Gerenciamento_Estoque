@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.Map;
 
 public class PainelFarmaceutico extends JPanel {
     private final JTextField valorTarja = new JTextField();
@@ -43,13 +44,13 @@ public class PainelFarmaceutico extends JPanel {
         );
     }
 
-    public void adicionarFarmaceutico(EnumMap<DetalheItem.CamposItem, JTextField> camposItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException {
+    public void adicionarFarmaceutico(PainelItem painelItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException {
         controleEstoque.adicionarFarmaceutico(
-                camposItem.get(DetalheItem.CamposItem.NOME).getText(),
-                camposItem.get(DetalheItem.CamposItem.ID).getText(),
-                Double.parseDouble(camposItem.get(DetalheItem.CamposItem.VALOR).getText()),
-                Integer.parseInt(camposItem.get(DetalheItem.CamposItem.QUANTIDADE).getText()),
-                Integer.parseInt(camposItem.get(DetalheItem.CamposItem.ID).getText()),
+                painelItem.getValorNome().getText(),
+                painelItem.getValorCategoria().getText(),
+                Double.parseDouble(painelItem.getValorValor().getText()),
+                Integer.parseInt(painelItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelItem.getValorID().getText()),
                 valorTarja.getText(),
                 valorComposicao.getText(),
                 isReceita.isSelected(),

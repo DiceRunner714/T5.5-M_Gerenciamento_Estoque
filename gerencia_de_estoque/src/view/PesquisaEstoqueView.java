@@ -108,8 +108,7 @@ public class PesquisaEstoqueView extends PesquisaView {
                 new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, filialGerenciada);
             }
             case LISTAR_ESTOQUE_GERAL -> {
-                Item itemEscolhido = listaEstoque.getSelectedValue();
-                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
+                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this);
             }
         }
     }

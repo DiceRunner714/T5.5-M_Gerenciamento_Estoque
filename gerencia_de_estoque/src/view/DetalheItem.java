@@ -10,24 +10,27 @@ import java.awt.*;
 import java.util.*;
 
 public class DetalheItem extends Detalhe {
+    //TODO: reintroduzir restrição
+    private PainelItem painelItem;
     private PainelFarmaceutico painelFarmaceutico;
     private PainelProdutoQuimico painelProdutoQuimico;
     private final JTabbedPane abaPaginada = new JTabbedPane();
     private final JCheckBox isRestrito = new JCheckBox("restrito");
-    private final EnumMap<CamposItem, JTextField> valoresItem = new EnumMap<>(CamposItem.class);
-    private JComboBox<Filial> opcoesFiliais;
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
     private TipodeItem tipodeItem;
+    private TipoDeEstoque tipoDeEstoque;
 
-    public enum CamposItem {
-        NOME, ID, CATEGORIA, VALOR, QUANTIDADE
+    private enum TipoDeEstoque {
+        GERAL, FILIAL
     }
 
-    // Construtor não vazio, item escolhido para modificar
+    // Construtor para modificar um item
     public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
+
+        tipoDeEstoque = TipoDeEstoque.FILIAL;
 
         // Descobrir que tipo de Item é esse
         this.itemEscolhido = itemEscolhido;
@@ -51,6 +54,13 @@ public class DetalheItem extends Detalhe {
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
 
+    // Construtor para adicionar um item geral
+    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
+        tipoDeEstoque = TipoDeEstoque.GERAL;
+        criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
+    }
+
     @Override
     protected ArrayList<JComponent> agruparTodosFormularios() {
 
@@ -59,7 +69,8 @@ public class DetalheItem extends Detalhe {
         painelProdutoQuimico = new PainelProdutoQuimico();
 
         ArrayList<JComponent> formularios = new ArrayList<>();
-        formularios.add(criarFormularioPrincipal());
+        criarPainelItem();
+        formularios.add(painelItem);
 
         switch (modo) {
             // Mostrar todas as opções de itens para adicionar
@@ -79,39 +90,17 @@ public class DetalheItem extends Detalhe {
         return formularios;
     }
 
-    private JPanel criarFormularioPrincipal() {
-
-        for (CamposItem campo : CamposItem.values()) {
-            valoresItem.put(campo, new JTextField());
-        }
-
-        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
-                new JLabel("Nome: "),
-                new JLabel("ID: "),
-                new JLabel("Categoria: "),
-                new JLabel("Quantidade: "),
-                new JLabel("Valor (R$): ")));
-        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
-                valoresItem.get(CamposItem.NOME),
-                valoresItem.get(CamposItem.ID),
-                valoresItem.get(CamposItem.CATEGORIA),
-                valoresItem.get(CamposItem.QUANTIDADE),
-                valoresItem.get(CamposItem.VALOR)));
-
-        JPanel painelFormularios;
+    private void criarPainelItem() {
         if (modo == ModosDetalhe.EDITAR) {
-            String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-            painelFormularios = new PainelFormulario(esquerdos, direitos, titulo);
-        } else if (modo == ModosDetalhe.ADICIONAR && opcoesFiliais != null) {
-            esquerdos.add(new JLabel("Filial: "));
-            direitos.add(opcoesFiliais);
-            painelFormularios = new PainelFormulario(esquerdos, direitos, "Adicionar informações básicas");
+            //Editar
+            painelItem = new PainelItem(filialdoItem);
+        } else if (modo == ModosDetalhe.ADICIONAR && tipoDeEstoque == TipoDeEstoque.FILIAL) {
+            // adicionar estoque de filial
+            painelItem = new PainelItem();
         } else {
-            painelFormularios = new PainelFormulario(esquerdos, direitos, "Adicionar informações básicas");
+            // adicionar estoque geral
+            painelItem = new PainelItem(controleEmpresa.getFiliais());
         }
-
-        return painelFormularios;
-
     }
 
     @Override
@@ -122,27 +111,15 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void atualizarElemento() throws IdRepetidoException {
-        controleEstoque.atualizarCaracteristicasBasicas(
-                valoresItem.get(CamposItem.NOME).getText(),
-                valoresItem.get(CamposItem.CATEGORIA).getText(),
-                Double.parseDouble(valoresItem.get(CamposItem.VALOR).getText()),
-                Integer.parseInt(valoresItem.get(CamposItem.QUANTIDADE).getText()),
-                Integer.parseInt(valoresItem.get(CamposItem.ID).getText()),
-                itemEscolhido
-        );
-        switch (tipodeItem) {
-            case PRODUTOQUIMICO -> {
-                painelProdutoQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
-            }
-            case FARMACEUTICO ->{
-                painelFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
-            }
-        }
         try {
-            if (isRestrito.isSelected()) {
-                controleEstoque.restringirItem(itemEscolhido);
-            } else {
-                controleEstoque.liberarItem(itemEscolhido);
+            painelItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
+            switch (tipodeItem) {
+                case PRODUTOQUIMICO -> {
+                    painelProdutoQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+                }
+                case FARMACEUTICO ->{
+                    painelFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
+                }
             }
         } catch (NivelRestricaoInadequadoException e) {
             isRestrito.setSelected(itemEscolhido.isRestrito());
@@ -152,14 +129,7 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void popularFormularios() {
-        isRestrito.setSelected(itemEscolhido.isRestrito());
-        valoresItem.get(CamposItem.NOME).setText(itemEscolhido.getNome());
-        valoresItem.get(CamposItem.ID).setText(itemEscolhido.getCategoria());
-        valoresItem.get(CamposItem.CATEGORIA).setText(String.valueOf(itemEscolhido.getValor()));
-        valoresItem.get(CamposItem.QUANTIDADE).setText(String.valueOf(itemEscolhido.getQuantidade()));
-        valoresItem.get(CamposItem.VALOR).setText(String.valueOf(itemEscolhido.getId()));
-        ArrayList<Filial> filiais = controleEmpresa.getFiliais();
-        opcoesFiliais = new JComboBox<>(filiais.toArray(new Filial[0]));
+        painelItem.popularFormularios(itemEscolhido);
         switch (tipodeItem) {
             case PRODUTOQUIMICO -> painelProdutoQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
             case FARMACEUTICO -> painelFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
@@ -168,14 +138,14 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void adicionarElemento() throws IdRepetidoException {
-        Component componente = abaPaginada.getSelectedComponent();
-        if (opcoesFiliais != null) {
-            controleEstoque = new ControleEstoqueFilial(controleEmpresa, (Filial) Objects.requireNonNull(opcoesFiliais.getSelectedItem()));
+        if (tipoDeEstoque == TipoDeEstoque.GERAL) {
+            controleEstoque = new ControleEstoqueFilial(controleEmpresa, painelItem.getSelectedFilial());
         }
+        Component componente = abaPaginada.getSelectedComponent();
         if (componente == painelFarmaceutico) {
-            painelFarmaceutico.adicionarFarmaceutico(valoresItem, controleEstoque);
+            painelFarmaceutico.adicionarFarmaceutico(painelItem, controleEstoque);
         } else if (componente == painelProdutoQuimico) {
-            painelProdutoQuimico.adicionarProdutoQuimico(valoresItem, controleEstoque);
+            painelProdutoQuimico.adicionarProdutoQuimico(painelItem, controleEstoque);
         }
     }
 

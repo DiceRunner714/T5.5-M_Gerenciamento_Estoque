@@ -51,13 +51,13 @@ public class PainelProdutoQuimico extends JPanel {
         opcoesReatividade.setSelectedItem((itemEscolhido).getReatividade());
     }
 
-    public void adicionarProdutoQuimico(EnumMap<DetalheItem.CamposItem, JTextField> CamposItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException {
+    public void adicionarProdutoQuimico(PainelItem painelItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException {
         controleEstoqueFilial.adicionarProdutoQuimico(
-                CamposItem.get(DetalheItem.CamposItem.NOME).getText(),
-                CamposItem.get(DetalheItem.CamposItem.ID).getText(),
-                Double.parseDouble(CamposItem.get(DetalheItem.CamposItem.VALOR).getText()),
-                Integer.parseInt(CamposItem.get(DetalheItem.CamposItem.QUANTIDADE).getText()),
-                Integer.parseInt(CamposItem.get(DetalheItem.CamposItem.ID).getText()),
+                painelItem.getValorNome().getText(),
+                painelItem.getValorCategoria().getText(),
+                Double.parseDouble(painelItem.getValorValor().getText()),
+                Integer.parseInt(painelItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelItem.getValorID().getText()),
                 valorPerigoEspecifico.getText(),
                 (Integer) opcoesRiscoDeFogo.getSelectedItem(),
                 (Integer) opcoesReatividade.getSelectedItem(),
