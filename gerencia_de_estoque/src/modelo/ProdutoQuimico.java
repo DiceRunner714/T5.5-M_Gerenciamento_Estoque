@@ -22,7 +22,6 @@ public class ProdutoQuimico extends Item {
 
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
-
         // Assumir que um item é perigoso quando não especificado é menos arriscado
         riscoDeFogo = 5;
         reatividade = 5;
@@ -31,7 +30,8 @@ public class ProdutoQuimico extends Item {
         this.restrito = true;
     }
 
-    private void ajustarRestricao() {
+    @Override
+    protected void ajustarRestricao() {
         // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
         restrito = perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3;
     }

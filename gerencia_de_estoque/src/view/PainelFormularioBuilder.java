@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-class PainelFormulario extends JPanel {
-    public <T extends JComponent> PainelFormulario(ArrayList<T> componentesEsquerdos,
-                                                           ArrayList<T> componentesDireitos, String titulo) {
+public class PainelFormularioBuilder {
+    public <T extends JComponent> PainelFormularioBuilder(JPanel painel,ArrayList<T> componentesEsquerdos,
+                                                   ArrayList<T> componentesDireitos, String titulo) {
 
-        this.setLayout(new GridBagLayout());
+        painel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         JLabel labelTitulo = new JLabel(titulo);
@@ -20,7 +20,7 @@ class PainelFormulario extends JPanel {
         c.gridx = 0;                            // x da célula
         c.gridy = 0;                            // y da célula
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        this.add(labelTitulo, c);
+        painel.add(labelTitulo, c);
 
         // Ajuste de labels
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -30,7 +30,7 @@ class PainelFormulario extends JPanel {
         c.insets = new Insets(5, 5, 5, 5);  // Padding
         for (T componenteEsquerdo : componentesEsquerdos) {
             c.gridy++;
-            this.add(componenteEsquerdo, c);
+            painel.add(componenteEsquerdo, c);
         }
 
         // Ajuste de campos
@@ -41,13 +41,13 @@ class PainelFormulario extends JPanel {
         c.gridy = 0;
         for (T componenteDireito : componentesDireitos) {
             c.gridy++;
-            this.add(componenteDireito, c);
+            painel.add(componenteDireito, c);
         }
     }
 
-    public <T extends JComponent> PainelFormulario(T[] componentesEsquerdos, T[] componentesDireitos, String titulo) {
+    public <T extends JComponent> PainelFormularioBuilder(JPanel painel,T[] componentesEsquerdos, T[] componentesDireitos, String titulo) {
 
-        this.setLayout(new GridBagLayout());
+        painel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         JLabel labelTitulo = new JLabel(titulo);
@@ -59,7 +59,7 @@ class PainelFormulario extends JPanel {
         c.gridx = 0;                            // x da célula
         c.gridy = 0;                            // y da célula
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        this.add(labelTitulo, c);
+        painel.add(labelTitulo, c);
 
         // Ajuste de labels
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -69,7 +69,7 @@ class PainelFormulario extends JPanel {
         c.insets = new Insets(5, 5, 5, 5);  // Padding
         for (T componenteEsquerdo : componentesEsquerdos) {
             c.gridy++;
-            this.add(componenteEsquerdo, c);
+            painel.add(componenteEsquerdo, c);
         }
 
         // Ajuste de campos
@@ -80,7 +80,7 @@ class PainelFormulario extends JPanel {
         c.gridy = 0;
         for (T componenteDireito : componentesDireitos) {
             c.gridy++;
-            this.add(componenteDireito, c);
+            painel.add(componenteDireito, c);
         }
 
     }

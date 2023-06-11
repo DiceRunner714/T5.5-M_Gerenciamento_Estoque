@@ -25,9 +25,10 @@ public abstract class Item {
         id = newId;
     }
     public abstract void restringir() throws NivelRestricaoInadequadoException;
-
     public abstract void liberar() throws NivelRestricaoInadequadoException;
 
+    // Criado para automaticamente ajustar a restrição ao criar um item
+    protected abstract void ajustarRestricao();
     abstract public boolean isRestrito();
 
     public String listarCaracteristicasBasicas() {

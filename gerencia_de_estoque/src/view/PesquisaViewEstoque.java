@@ -14,14 +14,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-public class PesquisaEstoqueView extends PesquisaView {
+public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModosPesquisa modo;
     private final JTextField valorPesquisaNomeDeItem = new JTextField();
     private final ControleEstoque controleEstoque;
     private JList<Item> listaEstoque;
 
-    public PesquisaEstoqueView(ControleEmpresa controleEmpresa) {
+    public PesquisaViewEstoque(ControleEmpresa controleEmpresa) {
         modo = ModosPesquisa.LISTAR_ESTOQUE_GERAL;
         this.controleEmpresa = controleEmpresa;
         this.controleEstoque = controleEmpresa;
@@ -29,7 +29,7 @@ public class PesquisaEstoqueView extends PesquisaView {
 
     }
 
-    public PesquisaEstoqueView(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
+    public PesquisaViewEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
         this.controleEmpresa = controleEmpresa;
@@ -105,11 +105,10 @@ public class PesquisaEstoqueView extends PesquisaView {
         switch (modo) {
             case LISTAR_ESTOQUE_FILIAL -> {
                 ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
-                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, filialGerenciada);
+                new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, filialGerenciada);
             }
             case LISTAR_ESTOQUE_GERAL -> {
-                Item itemEscolhido = listaEstoque.getSelectedValue();
-                new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
+                new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this);
             }
         }
     }
@@ -117,7 +116,7 @@ public class PesquisaEstoqueView extends PesquisaView {
     @Override
     protected void visualizarElemento() {
         Item itemEscolhido = listaEstoque.getSelectedValue();
-        new DetalheItem(controleEmpresa, PesquisaEstoqueView.this, itemEscolhido);
+        new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, itemEscolhido);
     }
 
     private class FiltrosListener implements DocumentListener, ItemListener {

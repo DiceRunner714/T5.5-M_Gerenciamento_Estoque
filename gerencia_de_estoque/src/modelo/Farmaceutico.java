@@ -8,22 +8,21 @@ public class Farmaceutico extends Item {
     private String composicao;
     private boolean generico;
 
-    // método construtor
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
                         String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
                         boolean generico) {
-        // Construtor da classe geral
         super(nome, categoria, valor, quantidade, id);
-        // atributos da classe filha
         this.tarja = tarja;
         this.receita = receita;
         this.retencaoDeReceita = retencaoDeReceita;
         this.composicao = composicao;
         this.generico = generico;
+        ajustarRestricao();
     }
 
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
+        // Assumir que o item é perigoso
         this.tarja = "preta";
         this.composicao = "";
         this.receita = true;
@@ -67,6 +66,11 @@ public class Farmaceutico extends Item {
                     "Erro ao liberar: o nível risco desse farmacêutico não é alto o suficiente"
             );
         }
+    }
+
+    @Override
+    protected void ajustarRestricao() {
+        restrito = tarja.equals("preta") && retencaoDeReceita;
     }
 
     public boolean isRestrito() {

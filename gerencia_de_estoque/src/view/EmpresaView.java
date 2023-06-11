@@ -11,20 +11,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JanelaEmpresa implements ActionListener {
+public class EmpresaView implements ActionListener {
     private static final JFrame janela = new JFrame("Empresa");
     private static final JButton verFil = new JButton("Ver Filiais");
     private static final JButton verEst = new JButton("Ver Estoque");
     private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
-    public JanelaEmpresa() {
+    public EmpresaView() {
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
-        JLabel texto = new JLabel("<html>Um empreendimento de "
-                + "vendas on-line necessita de um sistema de controle e "
-                + "gerenciamento de seu estoque. Eles precisam gerenciar"
-                + " os itens de estoque e as filiais responsáveis e para isso"
-                + " precisam poder cadastrar, remover, alterar e ler dados sobre"
-                + " as filiais e os itens. </html>");
+        JLabel texto = new JLabel("""
+                <html>Um empreendimento de 
+                vendas on-line necessita de um sistema de controle e 
+                gerenciamento de seu estoque. Eles precisam gerenciar
+                os itens de estoque e as filiais responsáveis e para isso
+                precisam poder cadastrar, remover, alterar e ler dados sobre
+                as filiais e os itens. </html>
+                """
+                );
 
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -67,7 +70,7 @@ public class JanelaEmpresa implements ActionListener {
 
     public static void main(String[] args) {
 
-        new JanelaEmpresa();
+        new EmpresaView();
         try {
             controleEmpresa.adicionarFilial(
                     new Filial("abr", "brasil", 6)
@@ -92,9 +95,9 @@ public class JanelaEmpresa implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == verFil) {
-            new PesquisaFiliaisView(controleEmpresa);
+            new PesquisaViewFilial(controleEmpresa);
         } else if (src == verEst) {
-            new PesquisaEstoqueView(controleEmpresa);
+            new PesquisaViewEstoque(controleEmpresa);
         }
     }
 }
