@@ -33,11 +33,7 @@ public class ProdutoQuimico extends Item {
 
     private void ajustarRestricao() {
         // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
-        if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
-            restrito = true;
-        } else {
-            restrito = false;
-        }
+        restrito = perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3;
     }
 
     public boolean isRestrito() {

@@ -10,7 +10,6 @@ import java.awt.*;
 import java.util.*;
 
 public class DetalheItem extends Detalhe {
-    private JPanel formularioPrincipal;
     private JPanel formularioFarmaceutico;
     private JPanel formularioProdutoQuimico;
     private final JTabbedPane abaPaginada = new JTabbedPane();
@@ -67,7 +66,7 @@ public class DetalheItem extends Detalhe {
     protected ArrayList<JComponent> agruparTodosFormularios() {
 
         // Criar formularios principais
-        formularioPrincipal = criarFormularioPrincipal();
+        JPanel formularioPrincipal = criarFormularioPrincipal();
         formularioFarmaceutico = criarFormularioFarmaceutico();
         formularioProdutoQuimico = criarFormularioProdutoQuimico();
 

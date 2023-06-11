@@ -45,7 +45,7 @@ public class JanelaPesquisa {
     }
 
     // Construtor para visualização de estoque de uma filial
-    public JanelaPesquisa(ControleEmpresa controleEmpresa, ModosPesquisa modo, Filial filialEscolhida) {
+    public JanelaPesquisa(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         this.modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
         JanelaPesquisa.controleEmpresa = controleEmpresa;
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
@@ -181,7 +181,7 @@ public class JanelaPesquisa {
                     if (src == botaoVerDetalhes) {
                         new DetalheFilial(controleEmpresa, JanelaPesquisa.this, filialSelecionada);
                     } else if (src == botaoVerEstoque) {
-                        new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_FILIAL, listaFiliais.getSelectedValue());
+                        new JanelaPesquisa(controleEmpresa, listaFiliais.getSelectedValue());
                     }
                 }
             } catch (NullPointerException | NoSuchElementException exc) {
