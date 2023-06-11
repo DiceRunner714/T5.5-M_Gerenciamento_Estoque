@@ -19,12 +19,15 @@ public class JanelaEmpresa implements ActionListener {
 
     public JanelaEmpresa() {
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
-        JLabel texto = new JLabel("<html>Um empreendimento de "
-                + "vendas on-line necessita de um sistema de controle e "
-                + "gerenciamento de seu estoque. Eles precisam gerenciar"
-                + " os itens de estoque e as filiais responsáveis e para isso"
-                + " precisam poder cadastrar, remover, alterar e ler dados sobre"
-                + " as filiais e os itens. </html>");
+        JLabel texto = new JLabel("""
+                <html>Um empreendimento de 
+                vendas on-line necessita de um sistema de controle e 
+                gerenciamento de seu estoque. Eles precisam gerenciar
+                os itens de estoque e as filiais responsáveis e para isso
+                precisam poder cadastrar, remover, alterar e ler dados sobre
+                as filiais e os itens. </html>
+                """
+                );
 
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
 
