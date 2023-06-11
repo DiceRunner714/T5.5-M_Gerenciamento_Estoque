@@ -15,7 +15,6 @@ public abstract class Detalhe implements ActionListener {
     protected ControleEmpresa controleEmpresa;
     protected JFrame janela = new JFrame();
     protected JanelaPesquisa janelaPesquisa;
-    protected JPanel botoes = new JPanel();
     protected ModosDetalhe modo;
     protected JButton botaoAtualizar = new JButton("Atualizar");
     protected JButton botaoExcluir = new JButton("Excluir");

@@ -103,15 +103,13 @@ public class DetalheItem extends Detalhe {
                 new JLabel("ID: "),
                 new JLabel("Categoria: "),
                 new JLabel("Quantidade: "),
-                new JLabel("Valor (R$): ")
-        ));
+                new JLabel("Valor (R$): ")));
         ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
                 valoresItem.get(CamposItem.NOME),
                 valoresItem.get(CamposItem.ID),
                 valoresItem.get(CamposItem.CATEGORIA),
                 valoresItem.get(CamposItem.QUANTIDADE),
-                valoresItem.get(CamposItem.VALOR)
-        ));
+                valoresItem.get(CamposItem.VALOR)));
 
         JPanel painelFormularios;
         if (modo == ModosDetalhe.EDITAR) {

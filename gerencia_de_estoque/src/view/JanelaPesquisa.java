@@ -120,7 +120,6 @@ public class JanelaPesquisa {
                 )
         );
 
-
         janela.setSize(400, 400);
         janela.setResizable(false);
         janela.setVisible(true);
