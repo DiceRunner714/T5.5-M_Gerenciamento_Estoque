@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
 
-public class PesquisaFiliaisView extends PesquisaView{
+public class PesquisaFiliaisView extends PesquisaView {
     private JList<Filial> listaFiliais;
 
     public PesquisaFiliaisView(ControleEmpresa controleEmpresa) {
@@ -50,7 +50,6 @@ public class PesquisaFiliaisView extends PesquisaView{
     @Override
     protected void adicionarElemento() {
         new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this);
-        new PesquisaEstoqueView(controleEmpresa, listaFiliais.getSelectedValue());
     }
 
     @Override
