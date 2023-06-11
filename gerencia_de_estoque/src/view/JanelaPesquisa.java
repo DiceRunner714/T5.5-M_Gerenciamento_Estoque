@@ -46,12 +46,13 @@ public class JanelaPesquisa {
 
     // Construtor para visualização de estoque de uma filial
     public JanelaPesquisa(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
-        this.modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
-        JanelaPesquisa.controleEmpresa = controleEmpresa;
+        modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
-        String tituloJanela = ("Visualizando Estoque de: " + filialEscolhida);
-        String tituloPainel = ("Estoque de " + filialEscolhida);
-        iniciarJanelaEstoque(tituloJanela, tituloPainel);
+        JanelaPesquisa.controleEmpresa = controleEmpresa;
+        iniciarJanelaEstoque(
+                "Visualizando Estoque de: " + filialEscolhida,
+                "Estoque de " + filialEscolhida
+        );
     }
 
     private void iniciarJanelaFiliais() {
@@ -95,9 +96,7 @@ public class JanelaPesquisa {
             }
         }
 
-        listaEstoque = new JList<>(
-                controleEstoque.getEstoque().toArray(new Item[0])
-        );
+        listaEstoque = new JList<>(controleEstoque.getEstoque().toArray(new Item[0]));
         listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaEstoque.setVisibleRowCount(10);
 
