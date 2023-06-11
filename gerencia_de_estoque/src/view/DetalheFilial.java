@@ -29,14 +29,15 @@ public class DetalheFilial extends Detalhe {
     @Override
     protected ArrayList<JComponent> agruparTodosFormularios() {
         ArrayList<JComponent> paineis = new ArrayList<>();
-        JPanel formularios = new JPanel();
+
         JLabel labelNome = new JLabel("Nome: ");
         JLabel labelLocalizacao = new JLabel("Localização: ");
         JLabel labelId = new JLabel("ID: ");
 
         JComponent[] componentesEsquerdos = {labelNome, labelLocalizacao, labelId};
         JComponent[] compontentesDireitos = {valorNome, valorLocalizacao, valorId};
-        new PainelFormulariosBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
+
+        JPanel formularios = new PainelFormulario(componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
 
         paineis.add(formularios);
         return paineis;

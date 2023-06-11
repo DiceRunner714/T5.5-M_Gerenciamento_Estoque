@@ -4,29 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-class PainelBotoesBuilder {
-
-    public PainelBotoesBuilder(JPanel painel, JButton botaoAdicionar, JButton botaoCancelar,
+public class PainelBotoes extends JPanel {
+    public PainelBotoes(JButton botaoAdicionar, JButton botaoCancelar,
                                JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
                                ActionListener botaoListener) {
 
-        painel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+        this.setLayout(new FlowLayout(FlowLayout.TRAILING));
         switch (modo) {
             case EDITAR -> {
-                painel.add(botaoAtualizar);
-                painel.add(botaoExcluir);
+                this.add(botaoAtualizar);
+                this.add(botaoExcluir);
 
                 botaoAtualizar.addActionListener(botaoListener);
                 botaoExcluir.addActionListener(botaoListener);
             }
             case ADICIONAR -> {
-                painel.add(botaoAdicionar);
-                painel.add(botaoCancelar);
+                this.add(botaoAdicionar);
+                this.add(botaoCancelar);
 
                 botaoAdicionar.addActionListener(botaoListener);
                 botaoCancelar.addActionListener(botaoListener);
             }
         }
     }
-
 }

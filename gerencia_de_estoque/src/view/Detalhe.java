@@ -46,11 +46,11 @@ public abstract class Detalhe implements ActionListener {
         }
 
         // PAINEL DE BOTÕES
-        new PainelBotoesBuilder(botoes, botaoAdicionar, botaoCancelar,
-                botaoAtualizar, botaoExcluir, modo, this);
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        janela.add(botoes, c);
+        janela.add(
+                new PainelBotoes(botaoAdicionar, botaoCancelar, botaoAtualizar, botaoExcluir, modo, this)
+                ,c);
 
         // HABILITAR JANELA
         janela.setSize(width, height);

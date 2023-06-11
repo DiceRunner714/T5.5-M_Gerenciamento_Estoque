@@ -11,9 +11,9 @@ import java.util.*;
 
 public class DetalheItem extends Detalhe {
     private final JTabbedPane abaPaginada = new JTabbedPane();
-    private final JPanel formularioPrincipal = new JPanel();
-    private final JPanel formularioFarmaceutico = new JPanel();
-    private final JPanel formularioProdutoQuimico = new JPanel();
+    private JPanel formularioPrincipal;
+    private JPanel formularioFarmaceutico;
+    private JPanel formularioProdutoQuimico;
     private final JTextField valorPerigoEspecifico = new JTextField();
     private final JTextField valorTarja = new JTextField();
     private final JTextField valorComposicao = new JTextField();
@@ -122,7 +122,7 @@ public class DetalheItem extends Detalhe {
             direitos.add(opcoesFiliais);
         }
 
-        new PainelFormulariosBuilder(formularioPrincipal, esquerdos, direitos, titulo);
+        formularioPrincipal = new PainelFormulario(esquerdos, direitos, titulo);
 
     }
 
@@ -142,7 +142,7 @@ public class DetalheItem extends Detalhe {
                 isRestrito
         ));
         if (modo == ModosDetalhe.EDITAR) direitos.add(isRestrito);
-        new PainelFormulariosBuilder(formularioProdutoQuimico, esquerdos, direitos, "Detalhes - Produto químico");
+        formularioProdutoQuimico = new PainelFormulario(esquerdos, direitos, "Detalhes - Produto químico");
 
     }
 
@@ -159,7 +159,7 @@ public class DetalheItem extends Detalhe {
                 isGenerico
         ));
         if (modo == ModosDetalhe.EDITAR) direitos.add(isRestrito);
-        new PainelFormulariosBuilder(formularioFarmaceutico, esquerdos, direitos, "Detalhes - Farmacêutico");
+        formularioFarmaceutico = new PainelFormulario(esquerdos, direitos, "Detalhes - Farmacêutico");
     }
 
     @Override
