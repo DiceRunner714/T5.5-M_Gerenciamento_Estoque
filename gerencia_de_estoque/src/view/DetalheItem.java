@@ -111,19 +111,14 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void atualizarElemento() throws IdRepetidoException {
-        try {
-            painelItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
-            switch (tipodeItem) {
-                case PRODUTOQUIMICO -> {
-                    painelProdutoQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
-                }
-                case FARMACEUTICO ->{
-                    painelFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
-                }
+        painelItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
+        switch (tipodeItem) {
+            case PRODUTOQUIMICO -> {
+                painelProdutoQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
             }
-        } catch (NivelRestricaoInadequadoException e) {
-            isRestrito.setSelected(itemEscolhido.isRestrito());
-            mensagemErroRestricao(e);
+            case FARMACEUTICO ->{
+                painelFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
+            }
         }
     }
 
@@ -147,12 +142,6 @@ public class DetalheItem extends Detalhe {
         } else if (componente == painelProdutoQuimico) {
             painelProdutoQuimico.adicionarProdutoQuimico(painelItem, controleEstoque);
         }
-    }
-
-    private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
-        JOptionPane.showMessageDialog(
-                null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
-        );
     }
 
 }
