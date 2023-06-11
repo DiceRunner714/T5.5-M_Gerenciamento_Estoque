@@ -16,18 +16,18 @@ public class DetalheFilial extends Detalhe {
     // Construtor para adicionar uma filial nova
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
-        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
     }
 
     public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
         super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
-        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
         popularFormularios();
     }
 
     @Override
-    protected ArrayList<JComponent> criarPaineisFormularios() {
+    protected ArrayList<JComponent> agruparTodosFormularios() {
         ArrayList<JComponent> paineis = new ArrayList<>();
         JPanel formularios = new JPanel();
         JLabel labelNome = new JLabel("Nome: ");

@@ -58,7 +58,7 @@ public abstract class Detalhe implements ActionListener {
         janela.setVisible(true);
     }
 
-    abstract protected ArrayList<JComponent> criarPaineisFormularios();
+    abstract protected ArrayList<JComponent> agruparTodosFormularios();
 
     abstract protected void excluirElemento();
 
