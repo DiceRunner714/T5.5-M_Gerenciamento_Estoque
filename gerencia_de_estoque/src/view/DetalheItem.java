@@ -36,20 +36,21 @@ public class DetalheItem extends Detalhe {
 
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
         super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
+
         ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
-        // Java infere o tamanho do array nesse caso
-        opcoesFiliais = new JComboBox<>(
-                filiaisDisponivels.toArray(new Filial[0])
-        );
+        opcoesFiliais = new JComboBox<>(filiaisDisponivels.toArray(new Filial[0]));// Java infere o tamanho do array
+
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
 
     // Construtor não vazio, item escolhido para modificar
     public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
+
         this.itemEscolhido = itemEscolhido;
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
+
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
         popularFormularios();
     }

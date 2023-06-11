@@ -29,7 +29,6 @@ public abstract class Detalhe implements ActionListener {
 
     protected void criarJanela(Collection<? extends JComponent> formularios, int width, int height, String tituloDaJanela) {
         janela.setTitle(tituloDaJanela);
-
         janela.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 

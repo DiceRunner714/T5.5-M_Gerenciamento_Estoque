@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class JanelaPesquisa {
     private static ControleEmpresa controleEmpresa;
@@ -68,9 +69,9 @@ public class JanelaPesquisa {
        janela.add(new PainelPesquisa("Pesquisa em filiais", listaFiliais,
                 new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque}));
 
-        botaoVerEstoque.addActionListener(new gerenciarBotoes());
-        botaoVerDetalhes.addActionListener(new gerenciarBotoes());
-        botaoAdicionar.addActionListener(new gerenciarBotoes());
+        botaoVerEstoque.addActionListener(new listarFiliaisListener());
+        botaoVerDetalhes.addActionListener(new listarFiliaisListener());
+        botaoAdicionar.addActionListener(new listarFiliaisListener());
 
         janela.setSize(400, 400);
         janela.setResizable(false);
@@ -79,12 +80,20 @@ public class JanelaPesquisa {
 
     private void iniciarJanelaEstoque(String tituloJanela, String tituloPainel) {
         // Definição dos componentes
-        valorPesquisaNomeDeItem.getDocument().addDocumentListener(new Filtros());
+        valorPesquisaNomeDeItem.getDocument().addDocumentListener(new FiltrosListener());
 
         botaoAdicionar = new JButton("Adicionar Item");
         botaoVerDetalhes = new JButton("Ver Item");
-        botaoVerDetalhes.addActionListener(new gerenciarBotoes());
-        botaoAdicionar.addActionListener(new gerenciarBotoes());
+        switch (modo) {
+            case LISTAR_ESTOQUE_GERAL ->{
+                botaoVerDetalhes.addActionListener(new listarEstoqueGeralListener());
+                botaoAdicionar.addActionListener(new listarEstoqueGeralListener());
+            }
+            case LISTAR_ESTOQUE_FILIAL -> {
+                botaoAdicionar.addActionListener(new listarEstoqueFilialListener());
+                botaoAdicionar.addActionListener(new listarEstoqueFilialListener());
+            }
+        }
 
         listaEstoque = new JList<>(
                 controleEstoque.getEstoque().toArray(new Item[0])
@@ -92,7 +101,7 @@ public class JanelaPesquisa {
         listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaEstoque.setVisibleRowCount(10);
 
-        filtroEstoqueVazio.addItemListener(new Filtros());
+        filtroEstoqueVazio.addItemListener(new FiltrosListener());
 
         // -- CRIAÇÃO DO PAINEL DE PESQUISA POR NOME --
         // Nome: [                  ]
@@ -157,59 +166,66 @@ public class JanelaPesquisa {
             case LISTAR_ESTOQUE_GERAL -> "Erro de escolha: um item não foi selecionado";
             default -> null;
         };
-        JOptionPane.showMessageDialog(null,
-                mensagem,
-                "Erro de escolha", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 
-    class gerenciarBotoes implements ActionListener {
+    private class listarFiliaisListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-
             try {
-                switch (modo) {
-
-                    case LISTAR_FILIAIS -> {
-                        if (src == botaoAdicionar) {
-                            new DetalheFilial(controleEmpresa, JanelaPesquisa.this);
-                        } else {
-                            Filial filialSelecionada = listaFiliais.getSelectedValue();
-                            if (src == botaoVerDetalhes) {
-                                new DetalheFilial(controleEmpresa, JanelaPesquisa.this, filialSelecionada);
-                            } else if (src == botaoVerEstoque) {
-                                new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_FILIAL, listaFiliais.getSelectedValue());
-                            }
-                        }
-                    }
-
-                    case LISTAR_ESTOQUE_GERAL -> {
-                        if (src == botaoAdicionar) {
-                            new DetalheItem(controleEmpresa, JanelaPesquisa.this);
-                        } else if (src == botaoVerDetalhes) {
-                            Item itemEscolhido = listaEstoque.getSelectedValue();
-                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
-                        }
-                    }
-
-                    case LISTAR_ESTOQUE_FILIAL -> {
-                        if (src == botaoVerDetalhes) {
-                            Item itemEscolhido = listaEstoque.getSelectedValue();
-                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
-                        } else if (src == botaoAdicionar) {
-                            ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
-                            new DetalheItem(controleEmpresa, JanelaPesquisa.this, filialGerenciada);
-                        }
+                if (src == botaoAdicionar) {
+                    new DetalheFilial(controleEmpresa, JanelaPesquisa.this);
+                } else {
+                    Filial filialSelecionada = Objects.requireNonNull(listaFiliais.getSelectedValue());
+                    if (src == botaoVerDetalhes) {
+                        new DetalheFilial(controleEmpresa, JanelaPesquisa.this, filialSelecionada);
+                    } else if (src == botaoVerEstoque) {
+                        new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_FILIAL, listaFiliais.getSelectedValue());
                     }
                 }
             } catch (NullPointerException | NoSuchElementException exc) {
                 mensagemErroEscolhaVazia();
             }
-
         }
     }
 
-    private class Filtros implements DocumentListener, ItemListener {
+    private class listarEstoqueGeralListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+            try {
+                if (src == botaoAdicionar) {
+                    new DetalheItem(controleEmpresa, JanelaPesquisa.this);
+                } else if (src == botaoVerDetalhes) {
+                    Item itemEscolhido = listaEstoque.getSelectedValue();
+                    new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
+                }
+            } catch (NullPointerException | NoSuchElementException exc) {
+                mensagemErroEscolhaVazia();
+            }
+        }
+    }
+
+    private class listarEstoqueFilialListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+            try {
+                if (src == botaoVerDetalhes) {
+                    Item itemEscolhido = listaEstoque.getSelectedValue();
+                    new DetalheItem(controleEmpresa, JanelaPesquisa.this, itemEscolhido);
+                } else if (src == botaoAdicionar) {
+                    ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
+                    new DetalheItem(controleEmpresa, JanelaPesquisa.this, filialGerenciada);
+                }
+            } catch (NullPointerException | NoSuchElementException exc) {
+                mensagemErroEscolhaVazia();
+            }
+        }
+    }
+
+    private class FiltrosListener implements DocumentListener, ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
             refresh();
