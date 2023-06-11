@@ -92,9 +92,9 @@ public class JanelaEmpresa implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == verFil) {
-            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_FILIAIS);
+            new PesquisaFiliaisView(controleEmpresa);
         } else if (src == verEst) {
-            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_GERAL);
+            new PesquisaEstoqueView(controleEmpresa);
         }
     }
 }

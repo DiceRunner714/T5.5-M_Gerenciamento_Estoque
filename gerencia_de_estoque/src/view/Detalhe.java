@@ -11,19 +11,19 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class Detalhe implements ActionListener {
+abstract class Detalhe implements ActionListener {
     protected final ControleEmpresa controleEmpresa;
     protected final JFrame janela = new JFrame();
-    protected final JanelaPesquisa janelaPesquisa;
+    protected final PesquisaView pesquisaView;
     protected final ModosDetalhe modo;
     protected final JButton botaoAtualizar = new JButton("Atualizar");
     protected final JButton botaoExcluir = new JButton("Excluir");
     protected final JButton botaoAdicionar = new JButton("Adicionar");
     protected final JButton botaoCancelar = new JButton("Cancelar");
 
-    public Detalhe(ModosDetalhe modo, JanelaPesquisa janelaPesquisa, ControleEmpresa controleEmpresa) {
+    public Detalhe(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
         this.modo = modo;
-        this.janelaPesquisa = janelaPesquisa;
+        this.pesquisaView = pesquisaView;
         this.controleEmpresa = controleEmpresa;
     }
 
@@ -71,7 +71,7 @@ public abstract class Detalhe implements ActionListener {
             case ADICIONAR -> adicionarElemento();
             case EDITAR -> atualizarElemento();
         }
-        janelaPesquisa.refresh();
+        pesquisaView.refresh();
     }
 
     @Override

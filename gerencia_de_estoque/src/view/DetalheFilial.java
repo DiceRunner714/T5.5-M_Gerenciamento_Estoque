@@ -14,13 +14,13 @@ public class DetalheFilial extends Detalhe {
     private Filial filialEscolhida;
 
     // Construtor para adicionar uma filial nova
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
+    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
     }
 
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
+    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Filial filialEscolhida) {
+        super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
         criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
         popularFormularios();
@@ -47,7 +47,7 @@ public class DetalheFilial extends Detalhe {
     @Override
     protected void excluirElemento() {
         controleEmpresa.excluirFilial(filialEscolhida);
-        janelaPesquisa.refresh();
+        pesquisaView.refresh();
     }
 
     @Override

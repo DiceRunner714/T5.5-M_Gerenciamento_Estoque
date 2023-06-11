@@ -33,8 +33,8 @@ public class DetalheItem extends Detalhe {
         NOME, ID, CATEGORIA, VALOR, QUANTIDADE
     }
 
-    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
+    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
 
         ArrayList<Filial> filiaisDisponivels = controleEmpresa.getFiliais();
         opcoesFiliais = new JComboBox<>(filiaisDisponivels.toArray(new Filial[0]));// Java infere o tamanho do array
@@ -43,8 +43,8 @@ public class DetalheItem extends Detalhe {
     }
 
     // Construtor não vazio, item escolhido para modificar
-    public DetalheItem(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Item itemEscolhido) {
-        super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
+    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
+        super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
 
         this.itemEscolhido = itemEscolhido;
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
@@ -55,9 +55,8 @@ public class DetalheItem extends Detalhe {
     }
 
     // Construtor para adicionar item a uma filial
-    public DetalheItem(ControleEmpresa controleEmpresa,
-                       JanelaPesquisa janelaPesquisa, ControleEstoqueFilial controleEstoqueFilial) {
-        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
+    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
+        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         this.controleEstoque = controleEstoqueFilial;
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
@@ -115,10 +114,11 @@ public class DetalheItem extends Detalhe {
         if (modo == ModosDetalhe.EDITAR) {
             String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
             painelFormularios = new PainelFormulario(esquerdos, direitos, titulo);
-        } else {
-            // TODO: como checar se existem filiais
+        } else if (modo == ModosDetalhe.ADICIONAR && opcoesFiliais != null) {
             esquerdos.add(new JLabel("Filial: "));
             direitos.add(opcoesFiliais);
+            painelFormularios = new PainelFormulario(esquerdos, direitos, "Adicionar informações básicas");
+        } else {
             painelFormularios = new PainelFormulario(esquerdos, direitos, "Adicionar informações básicas");
         }
 
@@ -138,8 +138,7 @@ public class DetalheItem extends Detalhe {
                 opcoesPerigoaSaude,
                 opcoesRiscoDeFogo,
                 opcoesReatividade,
-                valorPerigoEspecifico,
-                isRestrito
+                valorPerigoEspecifico
         ));
         if (modo == ModosDetalhe.EDITAR) direitos.add(isRestrito);
         return new PainelFormulario(esquerdos, direitos, "Detalhes - Produto químico");
@@ -165,7 +164,7 @@ public class DetalheItem extends Detalhe {
     @Override
     protected void excluirElemento() {
         controleEstoque.removerItem(itemEscolhido);
-        janelaPesquisa.refresh();
+        pesquisaView.refresh();
     }
 
     @Override
