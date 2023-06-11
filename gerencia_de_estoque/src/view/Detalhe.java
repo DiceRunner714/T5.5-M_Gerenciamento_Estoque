@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class Detalhe implements ActionListener {
-    protected ControleEmpresa controleEmpresa;
-    protected JFrame janela = new JFrame();
-    protected JanelaPesquisa janelaPesquisa;
-    protected ModosDetalhe modo;
-    protected JButton botaoAtualizar = new JButton("Atualizar");
-    protected JButton botaoExcluir = new JButton("Excluir");
-    protected JButton botaoAdicionar = new JButton("Adicionar");
-    protected JButton botaoCancelar = new JButton("Cancelar");
+    protected final ControleEmpresa controleEmpresa;
+    protected final JFrame janela = new JFrame();
+    protected final JanelaPesquisa janelaPesquisa;
+    protected final ModosDetalhe modo;
+    protected final JButton botaoAtualizar = new JButton("Atualizar");
+    protected final JButton botaoExcluir = new JButton("Excluir");
+    protected final JButton botaoAdicionar = new JButton("Adicionar");
+    protected final JButton botaoCancelar = new JButton("Cancelar");
 
     public Detalhe(ModosDetalhe modo, JanelaPesquisa janelaPesquisa, ControleEmpresa controleEmpresa) {
         this.modo = modo;
