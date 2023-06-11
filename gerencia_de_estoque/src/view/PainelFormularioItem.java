@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PainelItem extends JPanel {
+public class PainelFormularioItem extends JPanel {
     private final JTextField valorNome = new JTextField();
     private final JTextField valorCategoria = new JTextField();
     private final JTextField valorValor = new JTextField();
@@ -23,7 +23,7 @@ public class PainelItem extends JPanel {
 
 
     // Editar item de uma filial
-    public PainelItem(Filial filialdoItem) {
+    public PainelFormularioItem(Filial filialdoItem) {
         this.filialdoItem = filialdoItem;
         ArrayList<JComponent> direitos = inicializarComponentesDireitos();
         direitos.add(isRestrito);
@@ -36,7 +36,7 @@ public class PainelItem extends JPanel {
     }
 
     // ADICIONAR ITEM A UMA FILIAL
-    public PainelItem() {
+    public PainelFormularioItem() {
 
         String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
         new PainelFormularioBuilder(this,
@@ -47,7 +47,7 @@ public class PainelItem extends JPanel {
     }
 
     // ADICIONAR ITEM GERAL
-    public PainelItem(ArrayList<Filial> filiaisDisponiveis) {
+    public PainelFormularioItem(ArrayList<Filial> filiaisDisponiveis) {
 
         opcoesFiliais = new JComboBox<>(filiaisDisponiveis.toArray(new Filial[0]));
 

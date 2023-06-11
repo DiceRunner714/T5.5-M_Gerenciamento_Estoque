@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class Detalhe implements ActionListener {
+abstract class DetalheView implements ActionListener {
     protected final ControleEmpresa controleEmpresa;
     protected final JFrame janela = new JFrame();
     protected final PesquisaView pesquisaView;
@@ -21,7 +21,7 @@ abstract class Detalhe implements ActionListener {
     protected final JButton botaoAdicionar = new JButton("Adicionar");
     protected final JButton botaoCancelar = new JButton("Cancelar");
 
-    public Detalhe(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
+    public DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
         this.modo = modo;
         this.pesquisaView = pesquisaView;
         this.controleEmpresa = controleEmpresa;
@@ -47,7 +47,7 @@ abstract class Detalhe implements ActionListener {
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         janela.add(
-                new PainelBotoes(botaoAdicionar, botaoCancelar, botaoAtualizar, botaoExcluir, modo, this)
+                new PainelPesquisaBotoes(botaoAdicionar, botaoCancelar, botaoAtualizar, botaoExcluir, modo, this)
                 ,c);
 
         // HABILITAR JANELA

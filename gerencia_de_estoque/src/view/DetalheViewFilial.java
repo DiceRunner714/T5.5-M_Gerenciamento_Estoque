@@ -7,19 +7,19 @@ import modelo.Filial;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class DetalheFilial extends Detalhe {
+public class DetalheViewFilial extends DetalheView {
     private final JTextField valorNome = new JTextField();
     private final JTextField valorLocalizacao = new JTextField();
     private final JTextField valorId = new JTextField();
     private Filial filialEscolhida;
 
     // Construtor para adicionar uma filial nova
-    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+    public DetalheViewFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
     }
 
-    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Filial filialEscolhida) {
+    public DetalheViewFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Filial filialEscolhida) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
         criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");

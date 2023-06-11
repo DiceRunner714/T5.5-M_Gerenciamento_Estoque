@@ -9,10 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
 
-public class PesquisaFiliaisView extends PesquisaView {
+public class PesquisaViewFilial extends PesquisaView {
     private JList<Filial> listaFiliais;
 
-    public PesquisaFiliaisView(ControleEmpresa controleEmpresa) {
+    public PesquisaViewFilial(ControleEmpresa controleEmpresa) {
         this.controleEmpresa = controleEmpresa;
         iniciarJanelaFiliais();
     }
@@ -49,19 +49,19 @@ public class PesquisaFiliaisView extends PesquisaView {
 
     @Override
     protected void adicionarElemento() {
-        new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this);
+        new DetalheViewFilial(controleEmpresa, PesquisaViewFilial.this);
     }
 
     @Override
     protected void visualizarElemento() {
-        new DetalheFilial(controleEmpresa, PesquisaFiliaisView.this, listaFiliais.getSelectedValue());
+        new DetalheViewFilial(controleEmpresa, PesquisaViewFilial.this, listaFiliais.getSelectedValue());
     }
 
     private class VerEstoqueListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new PesquisaEstoqueView(controleEmpresa, listaFiliais.getSelectedValue());
+                new PesquisaViewEstoque(controleEmpresa, listaFiliais.getSelectedValue());
             } catch (NullPointerException | NoSuchElementException exc) {
                 mensagemErroEscolhaVazia();
             }

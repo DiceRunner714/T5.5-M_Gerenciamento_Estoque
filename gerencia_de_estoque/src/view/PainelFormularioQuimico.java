@@ -8,13 +8,13 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PainelProdutoQuimico extends JPanel {
+public class PainelFormularioQuimico extends JPanel {
     private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JTextField valorPerigoEspecifico = new JTextField();
 
-    public PainelProdutoQuimico() {
+    public PainelFormularioQuimico() {
         ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
                 new JLabel("Risco a saúde: "),
                 new JLabel("Risco de fogo: "),
@@ -47,13 +47,13 @@ public class PainelProdutoQuimico extends JPanel {
         opcoesReatividade.setSelectedItem((itemEscolhido).getReatividade());
     }
 
-    public void adicionarProdutoQuimico(PainelItem painelItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException {
+    public void adicionarProdutoQuimico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException {
         controleEstoqueFilial.adicionarProdutoQuimico(
-                painelItem.getValorNome().getText(),
-                painelItem.getValorCategoria().getText(),
-                Double.parseDouble(painelItem.getValorValor().getText()),
-                Integer.parseInt(painelItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelItem.getValorID().getText()),
+                painelFormularioItem.getValorNome().getText(),
+                painelFormularioItem.getValorCategoria().getText(),
+                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelFormularioItem.getValorID().getText()),
                 valorPerigoEspecifico.getText(),
                 (Integer) opcoesRiscoDeFogo.getSelectedItem(),
                 (Integer) opcoesReatividade.getSelectedItem(),

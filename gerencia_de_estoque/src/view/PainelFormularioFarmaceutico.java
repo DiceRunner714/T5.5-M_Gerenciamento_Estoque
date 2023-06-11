@@ -8,14 +8,14 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PainelFarmaceutico extends JPanel {
+public class PainelFormularioFarmaceutico extends JPanel {
     private final JTextField valorTarja = new JTextField();
     private final JTextField valorComposicao = new JTextField();
     private final JCheckBox isRetencaoDeReceita = new JCheckBox("Retenção de receita");
     private final JCheckBox isGenerico = new JCheckBox("Medicamento genérico");
     private final JCheckBox isReceita = new JCheckBox("Necessita de receita");
 
-    public PainelFarmaceutico() {
+    public PainelFormularioFarmaceutico() {
         ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
                 new JLabel("Tarja: "),
                 new JLabel("Composição: ")
@@ -41,13 +41,13 @@ public class PainelFarmaceutico extends JPanel {
         );
     }
 
-    public void adicionarFarmaceutico(PainelItem painelItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException {
+    public void adicionarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException {
         controleEstoque.adicionarFarmaceutico(
-                painelItem.getValorNome().getText(),
-                painelItem.getValorCategoria().getText(),
-                Double.parseDouble(painelItem.getValorValor().getText()),
-                Integer.parseInt(painelItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelItem.getValorID().getText()),
+                painelFormularioItem.getValorNome().getText(),
+                painelFormularioItem.getValorCategoria().getText(),
+                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelFormularioItem.getValorID().getText()),
                 valorTarja.getText(),
                 valorComposicao.getText(),
                 isReceita.isSelected(),

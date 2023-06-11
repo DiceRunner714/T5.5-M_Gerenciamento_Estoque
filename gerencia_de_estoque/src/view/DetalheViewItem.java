@@ -9,11 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-public class DetalheItem extends Detalhe {
+public class DetalheViewItem extends DetalheView {
     //TODO: reintroduzir restrição
-    private PainelItem painelItem;
-    private PainelFarmaceutico painelFarmaceutico;
-    private PainelProdutoQuimico painelProdutoQuimico;
+    private PainelFormularioItem painelFormularioItem;
+    private PainelFormularioFarmaceutico painelFormularioFarmaceutico;
+    private PainelFormularioQuimico painelItemQuimico;
     private final JTabbedPane abaPaginada = new JTabbedPane();
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
@@ -26,7 +26,7 @@ public class DetalheItem extends Detalhe {
     }
 
     // Construtor para modificar um item
-    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
+    public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
 
         tipoDeEstoque = TipoDeEstoque.FILIAL;
@@ -47,14 +47,14 @@ public class DetalheItem extends Detalhe {
     }
 
     // Construtor para adicionar item a uma filial
-    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
+    public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         this.controleEstoque = controleEstoqueFilial;
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
 
     // Construtor para adicionar um item geral
-    public DetalheItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+    public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         tipoDeEstoque = TipoDeEstoque.GERAL;
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
@@ -64,25 +64,25 @@ public class DetalheItem extends Detalhe {
     protected ArrayList<JComponent> agruparTodosFormularios() {
 
         // Criar formularios principais
-        painelFarmaceutico = new PainelFarmaceutico();
-        painelProdutoQuimico = new PainelProdutoQuimico();
+        painelFormularioFarmaceutico = new PainelFormularioFarmaceutico();
+        painelItemQuimico = new PainelFormularioQuimico();
 
         ArrayList<JComponent> formularios = new ArrayList<>();
         criarPainelItem();
-        formularios.add(painelItem);
+        formularios.add(painelFormularioItem);
 
         switch (modo) {
             // Mostrar todas as opções de itens para adicionar
             case ADICIONAR -> {
-                abaPaginada.addTab("Produto Químico", painelProdutoQuimico);
-                abaPaginada.addTab("Farmacêutico", painelFarmaceutico);
+                abaPaginada.addTab("Produto Químico", painelItemQuimico);
+                abaPaginada.addTab("Farmacêutico", painelFormularioFarmaceutico);
                 formularios.add(abaPaginada);
             }
             // Mostrar só o formulário do tipo de item escolhido
             case EDITAR -> {
                 switch (tipodeItem) {
-                    case FARMACEUTICO -> formularios.add(painelFarmaceutico);
-                    case PRODUTOQUIMICO -> formularios.add(painelProdutoQuimico);
+                    case FARMACEUTICO -> formularios.add(painelFormularioFarmaceutico);
+                    case PRODUTOQUIMICO -> formularios.add(painelItemQuimico);
                 }
             }
         }
@@ -92,13 +92,13 @@ public class DetalheItem extends Detalhe {
     private void criarPainelItem() {
         if (modo == ModosDetalhe.EDITAR) {
             //Editar
-            painelItem = new PainelItem(filialdoItem);
+            painelFormularioItem = new PainelFormularioItem(filialdoItem);
         } else if (modo == ModosDetalhe.ADICIONAR && tipoDeEstoque == TipoDeEstoque.FILIAL) {
             // adicionar estoque de filial
-            painelItem = new PainelItem();
+            painelFormularioItem = new PainelFormularioItem();
         } else {
             // adicionar estoque geral
-            painelItem = new PainelItem(controleEmpresa.getFiliais());
+            painelFormularioItem = new PainelFormularioItem(controleEmpresa.getFiliais());
         }
     }
 
@@ -110,36 +110,36 @@ public class DetalheItem extends Detalhe {
 
     @Override
     protected void atualizarElemento() throws IdRepetidoException {
-        painelItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
+        painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
         switch (tipodeItem) {
             case PRODUTOQUIMICO -> {
-                painelProdutoQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+                painelItemQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
             }
             case FARMACEUTICO ->{
-                painelFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
+                painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
             }
         }
     }
 
     @Override
     protected void popularFormularios() {
-        painelItem.popularFormularios(itemEscolhido);
+        painelFormularioItem.popularFormularios(itemEscolhido);
         switch (tipodeItem) {
-            case PRODUTOQUIMICO -> painelProdutoQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
-            case FARMACEUTICO -> painelFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
+            case PRODUTOQUIMICO -> painelItemQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
+            case FARMACEUTICO -> painelFormularioFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
         }
     }
 
     @Override
     protected void adicionarElemento() throws IdRepetidoException {
         if (tipoDeEstoque == TipoDeEstoque.GERAL) {
-            controleEstoque = new ControleEstoqueFilial(controleEmpresa, painelItem.getSelectedFilial());
+            controleEstoque = new ControleEstoqueFilial(controleEmpresa, painelFormularioItem.getSelectedFilial());
         }
         Component componente = abaPaginada.getSelectedComponent();
-        if (componente == painelFarmaceutico) {
-            painelFarmaceutico.adicionarFarmaceutico(painelItem, controleEstoque);
-        } else if (componente == painelProdutoQuimico) {
-            painelProdutoQuimico.adicionarProdutoQuimico(painelItem, controleEstoque);
+        if (componente == painelFormularioFarmaceutico) {
+            painelFormularioFarmaceutico.adicionarFarmaceutico(painelFormularioItem, controleEstoque);
+        } else if (componente == painelItemQuimico) {
+            painelItemQuimico.adicionarProdutoQuimico(painelFormularioItem, controleEstoque);
         }
     }
 
