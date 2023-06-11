@@ -3,8 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-
-public class PainelPesquisa extends JPanel {
+class PainelPesquisa extends JPanel {
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos,
                                      JButton[] botoes, JComponent[] componentesExtras) {
 

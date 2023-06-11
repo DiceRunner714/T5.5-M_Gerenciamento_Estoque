@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PainelFormulario extends JPanel {
+class PainelFormulario extends JPanel {
     public <T extends JComponent> PainelFormulario(ArrayList<T> componentesEsquerdos,
                                                            ArrayList<T> componentesDireitos, String titulo) {
 

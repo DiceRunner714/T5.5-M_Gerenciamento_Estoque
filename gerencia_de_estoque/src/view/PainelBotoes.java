@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class PainelBotoes extends JPanel {
+class PainelBotoes extends JPanel {
     public PainelBotoes(JButton botaoAdicionar, JButton botaoCancelar,
                                JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
                                ActionListener botaoListener) {
