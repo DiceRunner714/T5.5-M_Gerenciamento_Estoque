@@ -65,8 +65,8 @@ public class JanelaPesquisa {
         listaFiliais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaFiliais.setVisibleRowCount(50);
 
-        new JanelaPesquisaBuilder(janela, "Pesquisa em filiais", listaFiliais,
-                new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque});
+       janela.add(new PainelPesquisa("Pesquisa em filiais", listaFiliais,
+                new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque}));
 
         botaoVerEstoque.addActionListener(new gerenciarBotoes());
         botaoVerDetalhes.addActionListener(new gerenciarBotoes());
@@ -111,9 +111,15 @@ public class JanelaPesquisa {
 
         // Criar janela de pesquisa
         janela = new JFrame(tituloJanela);
-        new JanelaPesquisaBuilder(janela, tituloPainel, listaEstoque,
-                new JButton[]{botaoAdicionar, botaoVerDetalhes},
-                new JComponent[]{filtroEstoqueVazio, painelPesquisa});
+        janela.add(
+                new PainelPesquisa(
+                        tituloPainel,
+                        listaEstoque,
+                        new JButton[]{botaoAdicionar, botaoVerDetalhes},
+                        new JComponent[]{filtroEstoqueVazio, painelPesquisa}
+                )
+        );
+
 
         janela.setSize(400, 400);
         janela.setResizable(false);
