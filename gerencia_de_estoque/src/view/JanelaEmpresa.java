@@ -15,7 +15,6 @@ public class JanelaEmpresa implements ActionListener {
     private static final JFrame janela = new JFrame("Empresa");
     private static final JButton verFil = new JButton("Ver Filiais");
     private static final JButton verEst = new JButton("Ver Estoque");
-
     private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
     public JanelaEmpresa() {
@@ -69,7 +68,6 @@ public class JanelaEmpresa implements ActionListener {
     public static void main(String[] args) {
 
         new JanelaEmpresa();
-        // TODO: remover essas filiais de exemplo
         try {
             controleEmpresa.adicionarFilial(
                     new Filial("abr", "brasil", 6)
@@ -93,13 +91,10 @@ public class JanelaEmpresa implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-
         if (src == verFil) {
-            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_FILIAIS);
-        }
-
-        if (src == verEst) {
-            new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_GERAL);
+            new PesquisaFiliaisView(controleEmpresa);
+        } else if (src == verEst) {
+            new PesquisaEstoqueView(controleEmpresa);
         }
     }
 }

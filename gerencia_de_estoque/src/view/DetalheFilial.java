@@ -14,29 +14,31 @@ public class DetalheFilial extends Detalhe {
     private Filial filialEscolhida;
 
     // Construtor para adicionar uma filial nova
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa) {
-        super(ModosDetalhe.ADICIONAR, janelaPesquisa, controleEmpresa);
-        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
+        super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
+        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
     }
 
-    public DetalheFilial(ControleEmpresa controleEmpresa, JanelaPesquisa janelaPesquisa, Filial filialEscolhida) {
-        super(ModosDetalhe.EDITAR, janelaPesquisa, controleEmpresa);
+    public DetalheFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Filial filialEscolhida) {
+        super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
-        criarJanela(criarPaineisFormularios(), 400, 200, "Filial:");
+        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
         popularFormularios();
     }
 
     @Override
-    protected ArrayList<JComponent> criarPaineisFormularios() {
+    protected ArrayList<JComponent> agruparTodosFormularios() {
         ArrayList<JComponent> paineis = new ArrayList<>();
-        JPanel formularios = new JPanel();
-        JLabel labelNome = new JLabel("Nome: ");
-        JLabel labelLocalizacao = new JLabel("Localização: ");
-        JLabel labelId = new JLabel("ID: ");
 
-        JComponent[] componentesEsquerdos = {labelNome, labelLocalizacao, labelId};
-        JComponent[] compontentesDireitos = {valorNome, valorLocalizacao, valorId};
-        new PainelFormulariosBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
+        JComponent[] componentesEsquerdos = {
+                new JLabel("Nome: "),
+                new JLabel("Localização: "),
+                new JLabel("ID: ")};
+        JComponent[] compontentesDireitos = {
+                valorNome,
+                valorLocalizacao,
+                valorId};
+        JPanel formularios = new PainelFormulario(componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
 
         paineis.add(formularios);
         return paineis;
@@ -45,7 +47,7 @@ public class DetalheFilial extends Detalhe {
     @Override
     protected void excluirElemento() {
         controleEmpresa.excluirFilial(filialEscolhida);
-        janelaPesquisa.refresh();
+        pesquisaView.refresh();
     }
 
     @Override

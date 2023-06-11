@@ -22,17 +22,18 @@ public class ProdutoQuimico extends Item {
 
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
-        this.restrito = false;
+
+        // Assumir que um item é perigoso quando não especificado é menos arriscado
+        riscoDeFogo = 5;
+        reatividade = 5;
+        perigoaSaude = 5;
+        perigoEspecifico = "";
+        this.restrito = true;
     }
 
-    @Override
-    protected void ajustarRestricao() {
+    private void ajustarRestricao() {
         // TODO: se essas qualidades não forem complementares então esse método irá causar problemas
-        if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
-            restrito = true;
-        } else {
-            restrito = false;
-        }
+        restrito = perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3;
     }
 
     public boolean isRestrito() {

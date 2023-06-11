@@ -24,9 +24,6 @@ public abstract class Item {
         valor = newValor;
         id = newId;
     }
-
-    protected abstract void ajustarRestricao();
-
     public abstract void restringir() throws NivelRestricaoInadequadoException;
 
     public abstract void liberar() throws NivelRestricaoInadequadoException;

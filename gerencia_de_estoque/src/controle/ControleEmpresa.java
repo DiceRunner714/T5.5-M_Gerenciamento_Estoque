@@ -7,7 +7,7 @@ import modelo.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControleEmpresa implements LeitorEstoque {
+public class ControleEmpresa implements ControleEstoque {
     private final Empresa empresa;
     private final ArrayList<Filial> filiais;
 
@@ -21,12 +21,12 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     public ArrayList<Item> getEstoque() {
-        return empresa.lerTodoEstoque();
+        return empresa.getEstoque();
     }
 
     public ArrayList<Item> getEstoqueVazio() {
         List<Item> estoqueLista = empresa
-                .lerTodoEstoque()
+                .getEstoque()
                 .stream()
                 .filter(item -> item.getQuantidade() == 0).toList();
         return new ArrayList<>(estoqueLista);
@@ -71,7 +71,6 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     // Essa função assume que todos os itens têm identificação única
-    // TODO: atualizar o método equals de cada item para ter uma função mais flexível
     public Filial buscarFilialaPartirdeItem(Item item) {
         return filiais.stream()
                 .filter(filial -> filial.getEstoque().contains(item))
@@ -80,12 +79,12 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
-        return empresa.buscaParcial(nome, caseSensitive);
+        return empresa.buscarItensParcial(nome, caseSensitive);
     }
 
     @Override
     public ArrayList<Item> buscarItens(String nome) {
-        return empresa.buscarItens(nome);
+        return empresa.buscarItens(nome, false);
     }
 
     public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {

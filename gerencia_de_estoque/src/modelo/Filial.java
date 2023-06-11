@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Filial {
+public class Filial implements LeitordeEstoque {
     private String nome;
     private String local;
     private int id;
@@ -16,8 +16,8 @@ public class Filial {
         estoque = new ArrayList<>();
     }
 
+    // -- CRUD DE ITEM --
     public void adicionarItem(Item i) {
-        // Adds an item to branch item list
         estoque.add(i);
     }
 
@@ -29,26 +29,43 @@ public class Filial {
         estoque.removeIf(item -> item.equals(itemEscolhido));
     }
 
+    // -- LEITURA DE ITEM --
     @Deprecated
     public Item buscarItem(String nome) {
         return estoque
                 .stream()
-                .filter(item -> Objects.equals(item.getNome(), nome)) // TODO: null safe, mas não sei se é boa idéia
+                .filter(item -> Objects.equals(item.getNome(), nome))
                 .findFirst()
                 .orElse(null);
     }
 
+    @Override
     public Item buscarItem(int id) {
-        return estoque
-                .stream()
-                .filter(item -> item.getId() == id)
-                .findFirst()
-                .orElse(null);
+        return estoque.stream()
+                .filter(item -> item.getId() == id).findFirst().orElseThrow();
     }
 
-    public ArrayList<Item> buscarItens(String nome) {
-        return new ArrayList<>(
-                estoque.stream().filter(item -> item.getNome().equals(nome)).toList()
+    @Override
+    public ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive) return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome().contains(nomeParcial)).toList()
+        );
+        else return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase())).toList()
+        );
+    }
+
+    @Override
+    public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
+        if (caseSensitive) return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome().equals(nome)).toList()
+        );
+        else return new ArrayList<>(
+                estoque.stream()
+                        .filter(item -> item.getNome().equalsIgnoreCase(nome)).toList()
         );
     }
 

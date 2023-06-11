@@ -11,26 +11,24 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class Detalhe implements ActionListener {
-    protected ControleEmpresa controleEmpresa;
-    protected JFrame janela = new JFrame();
-    protected JanelaPesquisa janelaPesquisa;
-    protected JPanel botoes = new JPanel();
-    protected ModosDetalhe modo;
-    protected JButton botaoAtualizar = new JButton("Atualizar");
-    protected JButton botaoExcluir = new JButton("Excluir");
-    protected JButton botaoAdicionar = new JButton("Adicionar");
-    protected JButton botaoCancelar = new JButton("Cancelar");
+abstract class Detalhe implements ActionListener {
+    protected final ControleEmpresa controleEmpresa;
+    protected final JFrame janela = new JFrame();
+    protected final PesquisaView pesquisaView;
+    protected final ModosDetalhe modo;
+    protected final JButton botaoAtualizar = new JButton("Atualizar");
+    protected final JButton botaoExcluir = new JButton("Excluir");
+    protected final JButton botaoAdicionar = new JButton("Adicionar");
+    protected final JButton botaoCancelar = new JButton("Cancelar");
 
-    public Detalhe(ModosDetalhe modo, JanelaPesquisa janelaPesquisa, ControleEmpresa controleEmpresa) {
+    public Detalhe(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
         this.modo = modo;
-        this.janelaPesquisa = janelaPesquisa;
+        this.pesquisaView = pesquisaView;
         this.controleEmpresa = controleEmpresa;
     }
 
     protected void criarJanela(Collection<? extends JComponent> formularios, int width, int height, String tituloDaJanela) {
         janela.setTitle(tituloDaJanela);
-
         janela.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
@@ -46,11 +44,11 @@ public abstract class Detalhe implements ActionListener {
         }
 
         // PAINEL DE BOTÕES
-        new PainelBotoesBuilder(botoes, botaoAdicionar, botaoCancelar,
-                botaoAtualizar, botaoExcluir, modo, this);
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        janela.add(botoes, c);
+        janela.add(
+                new PainelBotoes(botaoAdicionar, botaoCancelar, botaoAtualizar, botaoExcluir, modo, this)
+                ,c);
 
         // HABILITAR JANELA
         janela.setSize(width, height);
@@ -58,7 +56,7 @@ public abstract class Detalhe implements ActionListener {
         janela.setVisible(true);
     }
 
-    abstract protected ArrayList<JComponent> criarPaineisFormularios();
+    abstract protected ArrayList<JComponent> agruparTodosFormularios();
 
     abstract protected void excluirElemento();
 
@@ -73,7 +71,7 @@ public abstract class Detalhe implements ActionListener {
             case ADICIONAR -> adicionarElemento();
             case EDITAR -> atualizarElemento();
         }
-        janelaPesquisa.refresh();
+        pesquisaView.refresh();
     }
 
     @Override
@@ -111,8 +109,8 @@ public abstract class Detalhe implements ActionListener {
 
     // --POP UPS--
     protected void mensagemErroIdrepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(null,
-                e3.getMessage(),
-                "Erro de indentificação", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, e3.getMessage(), "Erro de indentificação", JOptionPane.ERROR_MESSAGE
+        );
     }
 }
