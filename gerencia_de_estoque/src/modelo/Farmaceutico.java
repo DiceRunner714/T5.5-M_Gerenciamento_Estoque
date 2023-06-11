@@ -20,23 +20,17 @@ public class Farmaceutico extends Item {
         this.retencaoDeReceita = retencaoDeReceita;
         this.composicao = composicao;
         this.generico = generico;
-        ajustarRestricao();
     }
 
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
-        this.restrito = false;
+        this.tarja = "preta";
+        this.composicao = "";
+        this.receita = true;
+        this.retencaoDeReceita = true;
+        this.generico = true;
+        this.restrito = true;
     }
-
-    @Override
-    protected void ajustarRestricao() {
-        if (tarja.equals("preta") && retencaoDeReceita) {
-            restrito = true;
-        } else {
-            restrito = false;
-        }
-    }
-
 
     public String listarCaracteristicasBasicas() {
 

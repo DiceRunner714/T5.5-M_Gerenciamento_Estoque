@@ -22,7 +22,13 @@ public class ProdutoQuimico extends Item {
 
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
-        this.restrito = false;
+
+        // Assumir que um item é perigoso quando não especificado é menos arriscado
+        riscoDeFogo = 5;
+        reatividade = 5;
+        perigoaSaude = 5;
+        perigoEspecifico = "";
+        this.restrito = true;
     }
 
     @Override
