@@ -34,46 +34,39 @@ public class Filial implements LeitordeEstoque {
     public Item buscarItem(String nome) {
         return estoque
                 .stream()
-                .filter(item -> Objects.equals(item.getNome(), nome)) // TODO: null safe, mas não sei se é boa idéia
+                .filter(item -> Objects.equals(item.getNome(), nome))
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public Item buscarItem(int id) {
-        return estoque
-                .stream()
-                .filter(item -> item.getId() == id)
-                .findFirst()
-                .orElse(null);
+        return estoque.stream()
+                .filter(item -> item.getId() == id).findFirst().orElseThrow();
     }
 
     @Override
     public ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
         if (caseSensitive) return new ArrayList<>(
                 estoque.stream()
-                        .filter(item -> item.getNome().contains(nomeParcial))
-                        .toList());
+                        .filter(item -> item.getNome().contains(nomeParcial)).toList()
+        );
         else return new ArrayList<>(
                 estoque.stream()
-                        .filter(item -> item.getNome()
-                                .toLowerCase()
-                                .contains(nomeParcial.toLowerCase()))
-                        .toList());
+                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase())).toList()
+        );
     }
 
     @Override
     public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
         if (caseSensitive) return new ArrayList<>(
                 estoque.stream()
-                        .filter(item -> item.getNome().equals(nome))
-                        .toList());
+                        .filter(item -> item.getNome().equals(nome)).toList()
+        );
         else return new ArrayList<>(
                 estoque.stream()
-                        .filter(item -> item.getNome()
-                                .toLowerCase()
-                                .equals(nome.toLowerCase()))
-                        .toList());
+                        .filter(item -> item.getNome().equalsIgnoreCase(nome)).toList()
+        );
     }
 
     public String listarCaracteristicasBasicacs() {

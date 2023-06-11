@@ -15,7 +15,6 @@ public class JanelaEmpresa implements ActionListener {
     private static final JFrame janela = new JFrame("Empresa");
     private static final JButton verFil = new JButton("Ver Filiais");
     private static final JButton verEst = new JButton("Ver Estoque");
-
     private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
     public JanelaEmpresa() {
@@ -96,9 +95,7 @@ public class JanelaEmpresa implements ActionListener {
 
         if (src == verFil) {
             new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_FILIAIS);
-        }
-
-        if (src == verEst) {
+        } else if (src == verEst) {
             new JanelaPesquisa(controleEmpresa, ModosPesquisa.LISTAR_ESTOQUE_GERAL);
         }
     }

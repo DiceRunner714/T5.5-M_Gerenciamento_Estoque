@@ -91,8 +91,7 @@ public class Empresa implements LeitordeEstoque {
                         .toList());
         else return new ArrayList<>(
                 getEstoque().stream()
-                        .filter(item -> item.getNome()
-                                .toLowerCase()
+                        .filter(item -> item.getNome().toLowerCase()
                                 .contains(nomeParcial.toLowerCase()))
                         .toList());
     }
@@ -100,15 +99,11 @@ public class Empresa implements LeitordeEstoque {
     @Override
     public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
         if (caseSensitive) return new ArrayList<>(
-                getEstoque().stream()
-                        .filter(item -> item.getNome().equals(nome))
-                        .toList());
+                getEstoque().stream().filter(item -> item.getNome().equals(nome)).toList()
+        );
         else return new ArrayList<>(
-                getEstoque().stream()
-                        .filter(item -> item.getNome()
-                                .toLowerCase()
-                                .equals(nome.toLowerCase()))
-                        .toList());
+                getEstoque().stream().filter(item -> item.getNome().equalsIgnoreCase(nome)).toList()
+        );
     }
 
     public String getNome() {
