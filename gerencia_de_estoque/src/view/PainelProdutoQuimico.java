@@ -1,16 +1,12 @@
 package view;
 
-import controle.ControleEstoque;
 import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
-import modelo.Item;
 import modelo.ProdutoQuimico;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PainelProdutoQuimico extends JPanel {
     private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
@@ -35,13 +31,13 @@ public class PainelProdutoQuimico extends JPanel {
     }
 
     public void atualizarProdutoQuimico(ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) {
-        controleEstoqueFilial.atualizarProdutoQuimico(
-                valorPerigoEspecifico.getText(),
-                (int) opcoesRiscoDeFogo.getSelectedItem(),
-                (int) opcoesReatividade.getSelectedItem(),
-                (int) opcoesPerigoaSaude.getSelectedItem(),
-                itemEscolhido
-        );
+            controleEstoqueFilial.atualizarProdutoQuimico(
+                    valorPerigoEspecifico.getText(),
+                    (int) opcoesRiscoDeFogo.getSelectedItem(),
+                    (int) opcoesReatividade.getSelectedItem(),
+                    (int) opcoesPerigoaSaude.getSelectedItem(),
+                    itemEscolhido
+            );
     }
 
     public void popularFormularios(ProdutoQuimico itemEscolhido) {

@@ -3,13 +3,10 @@ package view;
 import controle.ControleEstoqueFilial;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
-import modelo.ProdutoQuimico;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PainelFarmaceutico extends JPanel {
     private final JTextField valorTarja = new JTextField();

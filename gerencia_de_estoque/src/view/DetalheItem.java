@@ -15,7 +15,6 @@ public class DetalheItem extends Detalhe {
     private PainelFarmaceutico painelFarmaceutico;
     private PainelProdutoQuimico painelProdutoQuimico;
     private final JTabbedPane abaPaginada = new JTabbedPane();
-    private final JCheckBox isRestrito = new JCheckBox("restrito");
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
