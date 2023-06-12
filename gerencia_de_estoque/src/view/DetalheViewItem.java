@@ -2,6 +2,7 @@ package view;
 
 import controle.ControleEmpresa;
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.*;
 
@@ -39,7 +40,11 @@ public class DetalheViewItem extends DetalheView {
             tipodeItem = TipodeItem.PRODUTO_QUIMICO;
         }
 
-        filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+        try {
+            filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+        } catch (ElementoInexistenteException e) {
+            mensagemElementoInexistente(e);
+        }
         controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialdoItem);
 
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
@@ -103,22 +108,23 @@ public class DetalheViewItem extends DetalheView {
     }
 
     @Override
-    protected void excluirElemento() {
+    protected void excluirElemento() throws ElementoInexistenteException {
         controleEstoque.removerItem(itemEscolhido);
         pesquisaView.refresh();
     }
 
     @Override
-    protected void atualizarElemento() throws IdRepetidoException {
-        painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
-        switch (tipodeItem) {
-            case PRODUTO_QUIMICO -> {
-                painelItemQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+    protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException {
+            controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
+            painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
+            switch (tipodeItem) {
+                case PRODUTO_QUIMICO -> {
+                    painelItemQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+                }
+                case FARMACEUTICO ->{
+                    painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
+                }
             }
-            case FARMACEUTICO ->{
-                painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
-            }
-        }
     }
 
     @Override
@@ -136,10 +142,16 @@ public class DetalheViewItem extends DetalheView {
             controleEstoque = new ControleEstoqueFilial(controleEmpresa, painelFormularioItem.getSelectedFilial());
         }
         Component componente = abaPaginada.getSelectedComponent();
-        if (componente == painelFormularioFarmaceutico) {
-            painelFormularioFarmaceutico.adicionarFarmaceutico(painelFormularioItem, controleEstoque);
-        } else if (componente == painelItemQuimico) {
-            painelItemQuimico.adicionarProdutoQuimico(painelFormularioItem, controleEstoque);
+        try {
+            if (componente == painelFormularioFarmaceutico) {
+                painelFormularioFarmaceutico.adicionarFarmaceutico(painelFormularioItem, controleEstoque);
+            } else if (componente == painelItemQuimico) {
+                painelItemQuimico.adicionarProdutoQuimico(painelFormularioItem, controleEstoque);
+            }
+        } catch (ElementoInexistenteException e) {
+            mensagemElementoInexistente(e);
+            pesquisaView.refresh();
+            janela.dispose();
         }
     }
 

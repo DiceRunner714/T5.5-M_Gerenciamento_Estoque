@@ -1,6 +1,7 @@
 package view;
 
 import controle.ControleEmpresa;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 
 import javax.swing.*;
@@ -74,18 +75,27 @@ abstract class DetalheView {
 
     abstract protected ArrayList<JComponent> agruparTodosFormularios();
 
-    abstract protected void excluirElemento();
+    abstract protected void excluirElemento() throws ElementoInexistenteException;
 
     abstract protected void adicionarElemento() throws IdRepetidoException;
 
-    abstract protected void atualizarElemento() throws IdRepetidoException;
+    abstract protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException;
 
     abstract protected void popularFormularios();
 
     protected void enviarFormularios() throws IdRepetidoException, NumberFormatException, NullPointerException {
         switch (modo) {
             case ADICIONAR -> adicionarElemento();
-            case EDITAR -> atualizarElemento();
+                case EDITAR -> {
+                    try {
+                        atualizarElemento();
+                    } catch (ElementoInexistenteException e) {
+                        mensagemElementoInexistente(e);
+                        pesquisaView.refresh();
+                        janela.dispose();
+                    }
+                }
+
         }
         pesquisaView.refresh();
     }
@@ -111,8 +121,12 @@ abstract class DetalheView {
             } else {
                 if (src == botaoExcluir) {
                     if (mensagemConfirmarExclusao()) {
-                        excluirElemento();
-                        janela.dispose();
+                        try {
+                            excluirElemento();
+                            janela.dispose();
+                        } catch (ElementoInexistenteException e1) {
+                            mensagemElementoInexistente(e1);
+                        }
                     }
                 }else {
                     if (mensagemConfirmarSaida()) {
@@ -148,7 +162,12 @@ abstract class DetalheView {
                 botoes[1]);
         return escolhaPrompt == JOptionPane.YES_OPTION;
     }
-    // essa classe cria um novo item
+
+    protected void mensagemElementoInexistente(ElementoInexistenteException e) {
+        JOptionPane.showMessageDialog(null,
+                "Elemento inexistente: "+e.getMessage(),
+                "Elemento inexistente", JOptionPane.ERROR_MESSAGE);
+    }
 
     protected void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,

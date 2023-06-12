@@ -2,6 +2,7 @@ package view;
 
 
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Filial;
 import modelo.Item;
@@ -52,7 +53,7 @@ public class PainelFormularioItem extends PainelFormulario {
     }
 
     // Formulários só podem fazer duas coisas, receber dados, ou colocar dados
-    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException {
+    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException, ElementoInexistenteException {
         try {
             if (isRestrito.isSelected())
                 itemEscolhido.restringir();

@@ -12,31 +12,72 @@ public class ControleEstoqueFilial implements ControleEstoque {
     /* Coloquei uma controleEmpresa pois essa classe precisa estar
     ciente do estoque inteiro para evitar repetições
      */
+
+
     public ControleEstoqueFilial(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         this.controleEmpresa = controleEmpresa;
         this.filialEscolhida = filialEscolhida;
         estoqueFilial = filialEscolhida.getEstoque();
     }
 
-    private boolean idRepetido(int id) {
+    // __GERENCIAMENTO DE ITENS__
+
+    // --Métodos de checagem--
+    private boolean checkIdRepetido(int id) {
         return controleEmpresa
                 .getEstoque()
                 .stream().
                 anyMatch(item -> item.getId() == id);
     }
 
-    private boolean idRepetido(Item i) {
+    private boolean checkIdRepetido(Item i) {
         return controleEmpresa
                 .getEstoque()
                 .stream().
                 anyMatch(item -> item.getId() == i.getId());
     }
 
+    private boolean checkItemNaoExiste(Item i) {
+        return controleEmpresa.getEstoque().stream().noneMatch(i::equals);
+    }
+
+    private boolean checkItemNaoExiste(int id) {
+        return controleEmpresa.getEstoque().stream().noneMatch(item -> item.getId()==id);
+    }
+
+    // --Adicionar item--
+
+    // farmaceutico
+    public void adicionarFarmaceutico(Farmaceutico newFarmaceutico) throws IdRepetidoException, ElementoInexistenteException {
+        if (controleEmpresa.checkFilialNaoExiste(filialEscolhida)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
+        if (checkIdRepetido(newFarmaceutico)) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            estoqueFilial.add(newFarmaceutico);
+        }
+    }
+
+    public void adicionarFarmaceutico(String nome, String categoria, double valor,
+                                      int quantidade, int id) throws IdRepetidoException, ElementoInexistenteException {
+        if (controleEmpresa.checkFilialNaoExiste(filialEscolhida)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
+        if (checkIdRepetido(id)) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            Item newFarmaceutico = new Farmaceutico(nome, categoria, valor, quantidade, id);
+            estoqueFilial.add(newFarmaceutico);
+        }
+    }
     public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id,
                                       String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
-                                      boolean generico) throws IdRepetidoException {
-
-        if (idRepetido(id)) {
+                                      boolean generico) throws IdRepetidoException, ElementoInexistenteException {
+        if (controleEmpresa.checkFilialNaoExiste(filialEscolhida)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
+        if (checkIdRepetido(id)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             estoqueFilial.add(
@@ -47,20 +88,13 @@ public class ControleEstoqueFilial implements ControleEstoque {
         }
     }
 
-    public void adicionarFarmaceutico(String nome, String categoria, double valor,
-                                      int quantidade, int id) throws IdRepetidoException {
-
-        if (idRepetido(id)) {
-            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
-        } else {
-            Item newFarmaceutico = new Farmaceutico(nome, categoria, valor, quantidade, id);
-            estoqueFilial.add(newFarmaceutico);
-        }
-    }
-
+    // produto quimico
     public void adicionarProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id)
-            throws IdRepetidoException {
-        if (idRepetido(id)) {
+            throws IdRepetidoException, ElementoInexistenteException {
+        if (controleEmpresa.checkFilialNaoExiste(filialEscolhida)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
+        if (checkIdRepetido(id)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id);
@@ -70,9 +104,11 @@ public class ControleEstoqueFilial implements ControleEstoque {
 
     public void adicionarProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
                                         String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude)
-            throws IdRepetidoException {
-
-        if (idRepetido(id)) {
+            throws IdRepetidoException, ElementoInexistenteException {
+        if (controleEmpresa.checkFilialNaoExiste(filialEscolhida)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
+        if (checkIdRepetido(id)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id,
@@ -81,20 +117,30 @@ public class ControleEstoqueFilial implements ControleEstoque {
         }
     }
 
-    public void adicionarFarmaceutico(Farmaceutico newFarmaceutico)
-            throws IdRepetidoException {
-        if (idRepetido(newFarmaceutico)) {
-            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
-        } else {
-            estoqueFilial.add(newFarmaceutico);
+
+    // --Remover item--
+
+    public void removerItem(int id) throws ElementoInexistenteException {
+        if (checkItemNaoExiste(id)) {
+            throw new ElementoInexistenteException("O item escolhido não consta no estoque");
         }
+        filialEscolhida.removerItem(id);
     }
 
+    public void removerItem(Item i) throws ElementoInexistenteException {
+        if (checkItemNaoExiste(i)) {
+            throw new ElementoInexistenteException("O item escolhido não consta no estoque");
+        }
+        filialEscolhida.removerItem(i);
+    }
 
-    // Altera apenas as caraccterísticas básicas definidas na class Item
+    // --Atualizar Item--
     public void atualizarCaracteristicasBasicas(String newNome, String newCategoria, double newValor,
                                                 int newQuantidade, int newId, Item itemEscolhido)
-            throws IdRepetidoException {
+            throws IdRepetidoException, ElementoInexistenteException {
+        if (checkItemNaoExiste(itemEscolhido)) {
+            throw new ElementoInexistenteException("O item escolhido não consta no estoque");
+        }
         boolean idRepetido = controleEmpresa.getEstoque()
                 .stream()
                 .anyMatch(
@@ -110,7 +156,10 @@ public class ControleEstoqueFilial implements ControleEstoque {
     }
 
     public void atualizarFarmaceutico(String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
-                                      boolean generico, Farmaceutico f) {
+                                      boolean generico, Farmaceutico f) throws ElementoInexistenteException {
+        if (checkItemNaoExiste(f)) {
+            throw new ElementoInexistenteException("O item escolhido não consta no estoque");
+        }
         f.setComposicao(composicao);
         f.setTarja(tarja);
         f.setGenerico(generico);
@@ -119,7 +168,10 @@ public class ControleEstoqueFilial implements ControleEstoque {
     }
 
     public void atualizarProdutoQuimico(String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude,
-                                        ProdutoQuimico p) {
+                                        ProdutoQuimico p) throws ElementoInexistenteException {
+        if (checkItemNaoExiste(p)) {
+            throw new ElementoInexistenteException("O item escolhido não consta no estoque");
+        }
         p.setReatividade(reatividade);
         p.setPerigoaSaude(perigoaSaude);
         p.setPerigoEspecifico(perigoEspecifico);
@@ -142,14 +194,6 @@ public class ControleEstoqueFilial implements ControleEstoque {
     @Override
     public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
         return filialEscolhida.buscaParcial(nome, caseSensitive);
-    }
-
-    public void removerItem(int id) {
-        filialEscolhida.removerItem(id);
-    }
-
-    public void removerItem(Item i) {
-        filialEscolhida.removerItem(i);
     }
 
     public ArrayList<Item> getEstoque() {

@@ -1,6 +1,7 @@
 package view;
 
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.ProdutoQuimico;
 
@@ -27,7 +28,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
                 "Detalhes - Produto químico");
     }
 
-    public void atualizarProdutoQuimico(ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) {
+    public void atualizarProdutoQuimico(ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) throws ElementoInexistenteException {
             controleEstoqueFilial.atualizarProdutoQuimico(
                     valorPerigoEspecifico.getText(),
                     (int) opcoesRiscoDeFogo.getSelectedItem(),
@@ -44,7 +45,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
         opcoesReatividade.setSelectedItem((itemEscolhido).getReatividade());
     }
 
-    public void adicionarProdutoQuimico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException {
+    public void adicionarProdutoQuimico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoqueFilial) throws IdRepetidoException, ElementoInexistenteException {
         controleEstoqueFilial.adicionarProdutoQuimico(
                 painelFormularioItem.getValorNome().getText(),
                 painelFormularioItem.getValorCategoria().getText(),

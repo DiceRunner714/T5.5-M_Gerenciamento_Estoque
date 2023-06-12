@@ -2,6 +2,7 @@ package view;
 
 import controle.ControleEmpresa;
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 import modelo.Filial;
@@ -86,7 +87,7 @@ public class EmpresaView  {
             ControleEstoqueFilial meuEstoque2 = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(6));
             meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);
             meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
-        } catch (IdRepetidoException e) {
+        } catch (IdRepetidoException | ElementoInexistenteException e) {
             e.printStackTrace();
         }
     }

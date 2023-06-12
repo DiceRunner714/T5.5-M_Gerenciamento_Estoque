@@ -1,6 +1,7 @@
 package view;
 
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 
@@ -26,7 +27,7 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
                         isGenerico}, "Detalhes - Farmacêutico");
     }
 
-    public void atualizarFarmaceutico(ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) {
+    public void atualizarFarmaceutico(ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException {
         controleEstoque.atualizarFarmaceutico(
                 valorTarja.getText(),
                 valorComposicao.getText(),
@@ -37,7 +38,7 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
         );
     }
 
-    public void adicionarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException {
+    public void adicionarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException, ElementoInexistenteException {
         controleEstoque.adicionarFarmaceutico(
                 painelFormularioItem.getValorNome().getText(),
                 painelFormularioItem.getValorCategoria().getText(),
