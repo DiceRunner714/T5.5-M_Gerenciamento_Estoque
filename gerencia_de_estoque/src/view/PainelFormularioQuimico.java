@@ -8,26 +8,25 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PainelFormularioQuimico extends JPanel {
+public class PainelFormularioQuimico extends PainelFormulario {
     private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JComboBox<Integer> opcoesRiscoDeFogo = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JComboBox<Integer> opcoesReatividade = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
     private final JTextField valorPerigoEspecifico = new JTextField();
 
     public PainelFormularioQuimico() {
-        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
+        criarFormulario(
+                new JComponent[]{
                 new JLabel("Risco a saúde: "),
                 new JLabel("Risco de fogo: "),
                 new JLabel("Reatividade: "),
-                new JLabel("Perigo especifico: ")
-        ));
-        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
-                opcoesPerigoaSaude,
-                opcoesRiscoDeFogo,
-                opcoesReatividade,
-                valorPerigoEspecifico
-        ));
-        new PainelFormularioBuilder(this,esquerdos, direitos, "Detalhes - Produto químico");
+                new JLabel("Perigo especifico: ")},
+                new JComponent[]{
+                        opcoesPerigoaSaude,
+                        opcoesRiscoDeFogo,
+                        opcoesReatividade,
+                        valorPerigoEspecifico},
+                "Detalhes - Produto químico");
     }
 
     public void atualizarProdutoQuimico(ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) {

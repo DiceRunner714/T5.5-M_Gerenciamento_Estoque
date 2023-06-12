@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PainelFormularioFarmaceutico extends JPanel {
+public class PainelFormularioFarmaceutico extends PainelFormulario {
     private final JTextField valorTarja = new JTextField();
     private final JTextField valorComposicao = new JTextField();
     private final JCheckBox isRetencaoDeReceita = new JCheckBox("Retenção de receita");
@@ -16,18 +16,16 @@ public class PainelFormularioFarmaceutico extends JPanel {
     private final JCheckBox isReceita = new JCheckBox("Necessita de receita");
 
     public PainelFormularioFarmaceutico() {
-        ArrayList<JComponent> esquerdos = new ArrayList<>(Arrays.asList(
-                new JLabel("Tarja: "),
-                new JLabel("Composição: ")
-        ));
-        ArrayList<JComponent> direitos = new ArrayList<>(Arrays.asList(
-                valorTarja,
-                valorComposicao,
-                isReceita,
-                isRetencaoDeReceita,
-                isGenerico
-        ));
-        new PainelFormularioBuilder(this ,esquerdos, direitos, "Detalhes - Farmacêutico");
+        criarFormulario(
+                new JComponent[]{
+                        new JLabel("Tarja: "),
+                        new JLabel("Composição: ")},
+                new JComponent[]{
+                        valorTarja,
+                        valorComposicao,
+                        isReceita,
+                        isRetencaoDeReceita,
+                        isGenerico}, "Detalhes - Farmacêutico");
     }
 
     public void atualizarFarmaceutico(ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) {

@@ -30,18 +30,17 @@ public class DetalheViewFilial extends DetalheView {
     protected ArrayList<JComponent> agruparTodosFormularios() {
         ArrayList<JComponent> paineis = new ArrayList<>();
 
-        JComponent[] componentesEsquerdos = {
+        paineis.add(new PainelFormulario(
+                new JComponent[]{
                 new JLabel("Nome: "),
                 new JLabel("Localização: "),
-                new JLabel("ID: ")};
-        JComponent[] compontentesDireitos = {
-                valorNome,
-                valorLocalizacao,
-                valorId};
-        JPanel formularios = new JPanel();
-        new PainelFormularioBuilder(formularios, componentesEsquerdos, compontentesDireitos, "Informações da Filial:");
-
-        paineis.add(formularios);
+                new JLabel("ID: ")},
+                new JComponent[]{
+                        valorNome,
+                        valorLocalizacao,
+                        valorId},
+                "Informações da Filial:")
+        );
         return paineis;
     }
 
