@@ -27,16 +27,7 @@ abstract class DetalheView {
         janela.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                String botoes[] = {"Sim", "Não"};
-                int escolhaPrompt = JOptionPane.showOptionDialog(null,
-                        "Confirmar cancelamento? Dados não salvos serão descartados",
-                        "Confirmar saída",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,
-                        botoes,
-                        botoes[1]);
-                if (escolhaPrompt == JOptionPane.YES_OPTION) {
+                if (mensagemConfirmarSaida()) {
                     janela.dispose();
                 }
             }
@@ -118,12 +109,47 @@ abstract class DetalheView {
                     e3.printStackTrace();
                 }
             } else {
-                if (src == botaoExcluir) excluirElemento();
-                // tanto o botão de excluir quanto o de cancelar fecham a janela no final da operação
-                janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
+                if (src == botaoExcluir) {
+                    if (mensagemConfirmarExclusao()) {
+                        excluirElemento();
+                        janela.dispose();
+                    }
+                }else {
+                    if (mensagemConfirmarSaida()) {
+                        janela.dispose();
+                    }
+                }
             }
         }
     }
+
+    protected boolean mensagemConfirmarSaida() {
+        String botoes[] = {"Sim", "Não"};
+        int escolhaPrompt = JOptionPane.showOptionDialog(null,
+                "Confirmar saída? Dados não salvos serão descartados",
+                "Confirmar saída",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                botoes,
+                botoes[1]);
+        return escolhaPrompt == JOptionPane.YES_OPTION;
+    }
+
+    protected boolean mensagemConfirmarExclusao() {
+        String botoes[] = {"Sim", "Não"};
+        int escolhaPrompt = JOptionPane.showOptionDialog(null,
+                "Confirmar exclusão?",
+                "Confirmar saída",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                botoes,
+                botoes[1]);
+        return escolhaPrompt == JOptionPane.YES_OPTION;
+    }
+    // essa classe cria um novo item
+
     protected void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,
                 "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
