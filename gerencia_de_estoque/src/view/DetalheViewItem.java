@@ -20,7 +20,7 @@ public class DetalheViewItem extends DetalheView {
     private ControleEstoqueFilial controleEstoque;
     private Item itemEscolhido;
     private TipodeItem tipodeItem;
-    private TipoDeEstoque tipoDeEstoque;
+    private final TipoDeEstoque tipoDeEstoque;
 
     private enum TipoDeEstoque {
         GERAL, FILIAL
@@ -54,6 +54,7 @@ public class DetalheViewItem extends DetalheView {
     // Construtor para adicionar item a uma filial
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
+        tipoDeEstoque = TipoDeEstoque.FILIAL;
         this.controleEstoque = controleEstoqueFilial;
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
@@ -97,10 +98,10 @@ public class DetalheViewItem extends DetalheView {
     private void criarPainelItem() {
         if (modo == ModosDetalhe.EDITAR) {
             //Editar
-            painelFormularioItem = new PainelFormularioItem(filialdoItem);
+            painelFormularioItem = new PainelFormularioItem(filialdoItem, modo);
         } else if (modo == ModosDetalhe.ADICIONAR && tipoDeEstoque == TipoDeEstoque.FILIAL) {
             // adicionar estoque de filial
-            painelFormularioItem = new PainelFormularioItem();
+            painelFormularioItem = new PainelFormularioItem(controleEstoque.getFilialEscolhida(), modo);
         } else {
             // adicionar estoque geral
             painelFormularioItem = new PainelFormularioItem(controleEmpresa.getFiliais());

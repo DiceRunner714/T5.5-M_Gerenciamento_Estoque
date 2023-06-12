@@ -204,6 +204,9 @@ public class ControleEstoqueFilial implements ControleEstoque {
         filialEscolhida.setEstoque(estoque);
     }
 
+    public Filial getFilialEscolhida () {
+        return filialEscolhida;
+    }
     @Override
     public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
         return new ArrayList<>(

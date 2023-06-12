@@ -24,18 +24,14 @@ public class PainelFormularioItem extends PainelFormulario {
 
 
     // Editar item de uma filial
-    public PainelFormularioItem(Filial filialdoItem) {
+    public PainelFormularioItem(Filial filialdoItem, ModosDetalhe modo) {
         this.filialdoItem = filialdoItem;
         ArrayList<JComponent> direitos = inicializarComponentesDireitos();
-        direitos.add(isRestrito);
+        if (modo == ModosDetalhe.EDITAR) {
+            direitos.add(isRestrito);
+        }
         String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
         criarFormulario(inicializarComponentesEsquerdos(), direitos, titulo);
-    }
-
-    // ADICIONAR ITEM A UMA FILIAL
-    public PainelFormularioItem() {
-        String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-        criarFormulario(inicializarComponentesEsquerdos(), inicializarComponentesDireitos(), titulo);
     }
 
     // ADICIONAR ITEM GERAL
