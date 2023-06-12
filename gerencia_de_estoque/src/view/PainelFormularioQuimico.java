@@ -5,8 +5,6 @@ import controle.IdRepetidoException;
 import modelo.ProdutoQuimico;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PainelFormularioQuimico extends PainelFormulario {
     private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});

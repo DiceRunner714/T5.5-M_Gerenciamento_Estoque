@@ -20,8 +20,8 @@ public class EmpresaView implements ActionListener {
     public EmpresaView() {
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
         JLabel texto = new JLabel("""
-                <html>Um empreendimento de 
-                vendas on-line necessita de um sistema de controle e 
+                <html>Um empreendimento de
+                vendas on-line necessita de um sistema de controle e
                 gerenciamento de seu estoque. Eles precisam gerenciar
                 os itens de estoque e as filiais responsáveis e para isso
                 precisam poder cadastrar, remover, alterar e ler dados sobre

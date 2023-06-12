@@ -5,8 +5,6 @@ import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PainelFormularioFarmaceutico extends PainelFormulario {
     private final JTextField valorTarja = new JTextField();
