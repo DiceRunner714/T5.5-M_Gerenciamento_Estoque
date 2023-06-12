@@ -1,4 +1,4 @@
 package view;
 enum TipodeItem {
-    FARMACEUTICO, PRODUTOQUIMICO
+    FARMACEUTICO, PRODUTO_QUIMICO
 }

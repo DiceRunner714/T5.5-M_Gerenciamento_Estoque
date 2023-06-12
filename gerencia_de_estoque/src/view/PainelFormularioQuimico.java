@@ -50,7 +50,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
                 painelFormularioItem.getValorCategoria().getText(),
                 Double.parseDouble(painelFormularioItem.getValorValor().getText()),
                 Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelFormularioItem.getValorID().getText()),
+                Integer.parseInt(painelFormularioItem.getValorId().getText()),
                 valorPerigoEspecifico.getText(),
                 (Integer) opcoesRiscoDeFogo.getSelectedItem(),
                 (Integer) opcoesReatividade.getSelectedItem(),

@@ -36,7 +36,7 @@ public class DetalheViewItem extends DetalheView {
         if (itemEscolhido instanceof Farmaceutico) {
             tipodeItem = TipodeItem.FARMACEUTICO;
         } else if (itemEscolhido instanceof  ProdutoQuimico) {
-            tipodeItem = TipodeItem.PRODUTOQUIMICO;
+            tipodeItem = TipodeItem.PRODUTO_QUIMICO;
         }
 
         filialdoItem = controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
@@ -82,7 +82,7 @@ public class DetalheViewItem extends DetalheView {
             case EDITAR -> {
                 switch (tipodeItem) {
                     case FARMACEUTICO -> formularios.add(painelFormularioFarmaceutico);
-                    case PRODUTOQUIMICO -> formularios.add(painelItemQuimico);
+                    case PRODUTO_QUIMICO -> formularios.add(painelItemQuimico);
                 }
             }
         }
@@ -112,7 +112,7 @@ public class DetalheViewItem extends DetalheView {
     protected void atualizarElemento() throws IdRepetidoException {
         painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
         switch (tipodeItem) {
-            case PRODUTOQUIMICO -> {
+            case PRODUTO_QUIMICO -> {
                 painelItemQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
             }
             case FARMACEUTICO ->{
@@ -125,7 +125,7 @@ public class DetalheViewItem extends DetalheView {
     protected void popularFormularios() {
         painelFormularioItem.popularFormularios(itemEscolhido);
         switch (tipodeItem) {
-            case PRODUTOQUIMICO -> painelItemQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
+            case PRODUTO_QUIMICO -> painelItemQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
             case FARMACEUTICO -> painelFormularioFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
         }
     }

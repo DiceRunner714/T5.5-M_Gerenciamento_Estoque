@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModosPesquisa modo;
-    private final JTextField valorPesquisaNomeDeItem = new JTextField();
+    private final JTextField valorPesquisaNomeItem = new JTextField();
     private final ControleEstoque controleEstoque;
     private JList<Item> listaEstoque;
 
@@ -41,7 +41,7 @@ public class PesquisaViewEstoque extends PesquisaView {
 
     private void iniciarJanelaEstoque(String tituloJanela, String tituloPainel) {
         // Definição dos componentes
-        valorPesquisaNomeDeItem.getDocument().addDocumentListener(new FiltrosListener());
+        valorPesquisaNomeItem.getDocument().addDocumentListener(new FiltrosListener());
 
         botaoAdicionar = new JButton("Adicionar Item");
         botaoVerDetalhes = new JButton("Ver Item");
@@ -67,7 +67,7 @@ public class PesquisaViewEstoque extends PesquisaView {
         c.weightx = 0.9;
         c.anchor = GridBagConstraints.LINE_END;
         c.fill = GridBagConstraints.HORIZONTAL;
-        painelPesquisa.add(valorPesquisaNomeDeItem, c);
+        painelPesquisa.add(valorPesquisaNomeItem, c);
 
         // Criar janela de pesquisa
         JFrame janela = new JFrame(tituloJanela);
@@ -88,7 +88,7 @@ public class PesquisaViewEstoque extends PesquisaView {
     @Override
     public void refresh() {
             ArrayList<Item> estoqueApenasVazios;
-            String nomePesquisado = valorPesquisaNomeDeItem.getText();
+            String nomePesquisado = valorPesquisaNomeItem.getText();
             ArrayList<Item> estoquePrincipal = controleEstoque.buscarItensParcial(nomePesquisado, false);
 
             if (filtroEstoqueVazio.isSelected()) {

@@ -59,6 +59,7 @@ public class DetalheViewFilial extends DetalheView {
         );
     }
 
+    @Override
     protected void atualizarElemento() throws IdRepetidoException {
         controleEmpresa.atualizarFilial(
                 valorNome.getText(),

@@ -43,7 +43,7 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
                 painelFormularioItem.getValorCategoria().getText(),
                 Double.parseDouble(painelFormularioItem.getValorValor().getText()),
                 Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelFormularioItem.getValorID().getText()),
+                Integer.parseInt(painelFormularioItem.getValorId().getText()),
                 valorTarja.getText(),
                 valorComposicao.getText(),
                 isReceita.isSelected(),

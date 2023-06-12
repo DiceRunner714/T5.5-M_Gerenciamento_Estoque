@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class DetalheView implements ActionListener {
+abstract class DetalheView {
     protected final ControleEmpresa controleEmpresa;
     protected final JFrame janela = new JFrame();
     protected final PesquisaView pesquisaView;
@@ -47,7 +47,13 @@ abstract class DetalheView implements ActionListener {
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         janela.add(
-                new PainelPesquisaBotoes(botaoAdicionar, botaoCancelar, botaoAtualizar, botaoExcluir, modo, this)
+                new PainelDetalheBotoes(
+                        botaoAdicionar,
+                        botaoCancelar, botaoAtualizar,
+                        botaoExcluir,
+                        modo,
+                        new gerenciarElementoListener()
+                )
                 ,c);
 
         // HABILITAR JANELA
@@ -74,30 +80,31 @@ abstract class DetalheView implements ActionListener {
         pesquisaView.refresh();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
+    class gerenciarElementoListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
 
-        if (src == botaoAtualizar || src == botaoAdicionar) {
-            try {
-                enviarFormularios();
-            } catch (NumberFormatException e1) {
-                mensagemErrodeFormatacao();
-                e1.printStackTrace();
-            } catch (NullPointerException e2) {
-                mensagemErroFormularioVazio();
-                e2.printStackTrace();
-            } catch (IdRepetidoException e3) {
-                mensagemErroIdrepetido(e3);
-                e3.printStackTrace();
+            if (src == botaoAtualizar || src == botaoAdicionar) {
+                try {
+                    enviarFormularios();
+                } catch (NumberFormatException e1) {
+                    mensagemErrodeFormatacao();
+                    e1.printStackTrace();
+                } catch (NullPointerException e2) {
+                    mensagemErroFormularioVazio();
+                    e2.printStackTrace();
+                } catch (IdRepetidoException e3) {
+                    mensagemErroIdRepetido(e3);
+                    e3.printStackTrace();
+                }
+            } else {
+                if (src == botaoExcluir) excluirElemento();
+                // tanto o botão de excluir quanto o de cancelar fecham a janela no final da operação
+                janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
             }
-        } else {
-            if (src == botaoExcluir) excluirElemento();
-            // tanto o botão de excluir quanto o de cancelar fecham a janela no final da operação
-            janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
         }
     }
-
     protected void mensagemErrodeFormatacao() {
         JOptionPane.showMessageDialog(null,
                 "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
@@ -111,7 +118,7 @@ abstract class DetalheView implements ActionListener {
     }
 
     // --POP UPS--
-    protected void mensagemErroIdrepetido(IdRepetidoException e3) {
+    protected void mensagemErroIdRepetido(IdRepetidoException e3) {
         JOptionPane.showMessageDialog(
                 null, e3.getMessage(), "Erro de indentificação", JOptionPane.ERROR_MESSAGE
         );

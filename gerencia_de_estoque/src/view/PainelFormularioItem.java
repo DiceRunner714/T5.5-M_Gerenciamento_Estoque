@@ -16,7 +16,7 @@ public class PainelFormularioItem extends PainelFormulario {
     private final JTextField valorCategoria = new JTextField();
     private final JTextField valorValor = new JTextField();
     private final JTextField valorQuantidade = new JTextField();
-    private final JTextField valorID = new JTextField();
+    private final JTextField valorId = new JTextField();
     private final JCheckBox isRestrito = new JCheckBox("Restrito");
     private JComboBox<Filial> opcoesFiliais;
     private Filial filialdoItem;
@@ -63,7 +63,7 @@ public class PainelFormularioItem extends PainelFormulario {
                     valorCategoria.getText(),
                     Double.parseDouble(valorValor.getText()),
                     Integer.parseInt(valorQuantidade.getText()),
-                    Integer.parseInt(valorID.getText()),
+                    Integer.parseInt(valorId.getText()),
                     itemEscolhido
             );
         } catch (NivelRestricaoInadequadoException e1){
@@ -79,7 +79,7 @@ public class PainelFormularioItem extends PainelFormulario {
         valorCategoria.setText(itemEscolhido.getCategoria());
         valorValor.setText(String.valueOf(itemEscolhido.getValor()));
         valorQuantidade.setText(String.valueOf(itemEscolhido.getQuantidade()));
-        valorID.setText(String.valueOf(itemEscolhido.getId()));
+        valorId.setText(String.valueOf(itemEscolhido.getId()));
         isRestrito.setSelected(itemEscolhido.isRestrito());
     }
 
@@ -95,7 +95,7 @@ public class PainelFormularioItem extends PainelFormulario {
     private ArrayList<JComponent> inicializarComponentesDireitos() {
         return new ArrayList<>(Arrays.asList(
                 valorNome,
-                valorID,
+                valorId,
                 valorCategoria,
                 valorQuantidade,
                 valorValor
@@ -129,7 +129,7 @@ public class PainelFormularioItem extends PainelFormulario {
         return valorQuantidade;
     }
 
-    public JTextField getValorID() {
-        return valorID;
+    public JTextField getValorId() {
+        return valorId;
     }
 }

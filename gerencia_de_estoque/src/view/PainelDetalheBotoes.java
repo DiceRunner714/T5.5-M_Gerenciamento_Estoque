@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-class PainelPesquisaBotoes extends JPanel {
-    public PainelPesquisaBotoes(JButton botaoAdicionar, JButton botaoCancelar,
-                                JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
-                                ActionListener botaoListener) {
+class PainelDetalheBotoes extends JPanel {
+    public PainelDetalheBotoes(JButton botaoAdicionar, JButton botaoCancelar,
+                               JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
+                               ActionListener botaoListener) {
 
         this.setLayout(new FlowLayout(FlowLayout.TRAILING));
         switch (modo) {
