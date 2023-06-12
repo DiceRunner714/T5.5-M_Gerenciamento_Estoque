@@ -52,7 +52,7 @@ abstract class DetalheView {
                         botaoCancelar, botaoAtualizar,
                         botaoExcluir,
                         modo,
-                        new gerenciarElementoListener()
+                        new GerenciarElementoListener()
                 )
                 ,c);
 
@@ -80,7 +80,7 @@ abstract class DetalheView {
         pesquisaView.refresh();
     }
 
-    class gerenciarElementoListener implements ActionListener {
+    class GerenciarElementoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
