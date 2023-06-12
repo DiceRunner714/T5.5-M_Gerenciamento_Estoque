@@ -11,10 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EmpresaView implements ActionListener {
+public class EmpresaView  {
     private static final JFrame janela = new JFrame("Empresa");
-    private static final JButton verFil = new JButton("Ver Filiais");
-    private static final JButton verEst = new JButton("Ver Estoque");
+    private static final JButton verFiliais = new JButton("Ver Filiais");
+    private static final JButton verEstoque = new JButton("Ver Estoque");
     private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
     public EmpresaView() {
@@ -54,18 +54,18 @@ public class EmpresaView implements ActionListener {
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.fill = GridBagConstraints.NONE;
-        janela.add(verFil, c);
+        janela.add(verFiliais, c);
 
         c.gridx = 1;
-        janela.add(verEst, c);
+        janela.add(verEstoque, c);
 
         janela.setSize(400, 400);
         janela.setVisible(true);
         janela.setResizable(true);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        verFil.addActionListener(this);
-        verEst.addActionListener(this);
+        verFiliais.addActionListener(new estoqueOuFilialListener());
+        verEstoque.addActionListener(new estoqueOuFilialListener());
     }
 
     public static void main(String[] args) {
@@ -91,13 +91,16 @@ public class EmpresaView implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-        if (src == verFil) {
-            new PesquisaViewFilial(controleEmpresa);
-        } else if (src == verEst) {
-            new PesquisaViewEstoque(controleEmpresa);
+    class estoqueOuFilialListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+            if (src == verFiliais) {
+                new PesquisaViewFilial(controleEmpresa);
+            } else if (src == verEstoque) {
+                new PesquisaViewEstoque(controleEmpresa);
+            }
         }
     }
+
 }
