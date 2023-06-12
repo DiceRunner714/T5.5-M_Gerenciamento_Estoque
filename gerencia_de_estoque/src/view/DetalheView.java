@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,24 @@ abstract class DetalheView {
     protected final JButton botaoCancelar = new JButton("Cancelar");
 
     public DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
+        janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        janela.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                String botoes[] = {"Sim", "Não"};
+                int escolhaPrompt = JOptionPane.showOptionDialog(null,
+                        "Confirmar cancelamento? Dados não salvos serão descartados",
+                        "Confirmar saída",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        botoes,
+                        botoes[1]);
+                if (escolhaPrompt == JOptionPane.YES_OPTION) {
+                    janela.dispose();
+                }
+            }
+        });
         this.modo = modo;
         this.pesquisaView = pesquisaView;
         this.controleEmpresa = controleEmpresa;
