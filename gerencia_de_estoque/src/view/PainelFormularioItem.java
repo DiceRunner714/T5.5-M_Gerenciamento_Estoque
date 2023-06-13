@@ -21,12 +21,10 @@ public class PainelFormularioItem extends PainelFormulario {
     private final JTextField valorId = new JTextField();
     private final JCheckBox isRestrito = new JCheckBox("Restrito");
     private JComboBox<Filial> opcoesFiliais;
-    private Filial filialdoItem;
 
 
     // Editar item de uma filial
     public PainelFormularioItem(Filial filialdoItem, ModosDetalhe modo) {
-        this.filialdoItem = filialdoItem;
         List<JComponent> direitos = new ArrayList<>(inicializarComponentesDireitos());
         if (modo == ModosDetalhe.EDITAR) {
             direitos.add(isRestrito);
