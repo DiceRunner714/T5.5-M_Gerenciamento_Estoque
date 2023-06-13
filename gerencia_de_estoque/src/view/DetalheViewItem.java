@@ -118,14 +118,18 @@ public class DetalheViewItem extends DetalheView {
     @Override
     protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException {
             controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
-            painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
-            switch (tipodeItem) {
-                case PRODUTO_QUIMICO -> {
-                painelFormularioQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+            try {
+                painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
+                switch (tipodeItem) {
+                    case PRODUTO_QUIMICO -> {
+                        painelFormularioQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+                    }
+                    case FARMACEUTICO -> {
+                        painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
+                    }
                 }
-                case FARMACEUTICO ->{
-                    painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
-                }
+            } catch (NivelRestricaoInadequadoException e) {
+                mensagemErroRestricao(e);
             }
     }
 
@@ -157,4 +161,10 @@ public class DetalheViewItem extends DetalheView {
         }
     }
 
+
+    private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
+        JOptionPane.showMessageDialog(
+                null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
+        );
+    }
 }

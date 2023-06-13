@@ -48,26 +48,19 @@ public class PainelFormularioItem extends PainelFormulario {
     }
 
     // Formulários só podem fazer duas coisas, receber dados, ou colocar dados
-    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException, ElementoInexistenteException {
-        try {
-            if (isRestrito.isSelected())
-                itemEscolhido.restringir();
-            else
-                itemEscolhido.liberar();
-            controleEstoque.atualizarCaracteristicasBasicas(
-                    valorNome.getText(),
-                    valorCategoria.getText(),
-                    Double.parseDouble(valorValor.getText()),
-                    Integer.parseInt(valorQuantidade.getText()),
-                    Integer.parseInt(valorId.getText()),
-                    itemEscolhido
-            );
-        } catch (NivelRestricaoInadequadoException e1){
-            // Reiniciar o checkbox
-            isRestrito.setSelected(itemEscolhido.isRestrito());
-            mensagemErroRestricao(e1);
-            e1.printStackTrace();
-        }
+    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException, ElementoInexistenteException, NivelRestricaoInadequadoException {
+        if (isRestrito.isSelected())
+            itemEscolhido.restringir();
+        else
+            itemEscolhido.liberar();
+        controleEstoque.atualizarCaracteristicasBasicas(
+                valorNome.getText(),
+                valorCategoria.getText(),
+                Double.parseDouble(valorValor.getText()),
+                Integer.parseInt(valorQuantidade.getText()),
+                Integer.parseInt(valorId.getText()),
+                itemEscolhido
+        );
     }
 
     public void popularFormularios(Item itemEscolhido) {
@@ -97,12 +90,6 @@ public class PainelFormularioItem extends PainelFormulario {
                 valorValor
             );
 
-    }
-
-    private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
-        JOptionPane.showMessageDialog(
-                null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
-        );
     }
 
     public Filial getSelectedFilial() {
