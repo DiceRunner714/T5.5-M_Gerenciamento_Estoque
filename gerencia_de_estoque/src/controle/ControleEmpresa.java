@@ -4,12 +4,11 @@ import modelo.Empresa;
 import modelo.Filial;
 import modelo.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControleEmpresa implements ControleEstoque {
     private final Empresa empresa;
-    private final ArrayList<Filial> filiais;
+    private final List<Filial> filiais;
 
     public ControleEmpresa(String nome) {
         empresa = new Empresa(nome);
@@ -41,6 +40,7 @@ public class ControleEmpresa implements ControleEstoque {
             empresa.adicionarFilial(f);
         }
     }
+
     public void adicionarFilial(String nome, String local, int id) throws IdRepetidoException {
         boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == id);
         if (idRepetido) {
@@ -62,7 +62,7 @@ public class ControleEmpresa implements ControleEstoque {
                 .orElseThrow(() -> new ElementoInexistenteException("a filial escolhida não existe"));
     }
 
-    public ArrayList<Filial> getFiliais() {
+    public List<Filial> getFiliais() {
         return filiais;
     }
 
@@ -100,27 +100,25 @@ public class ControleEmpresa implements ControleEstoque {
     //__CONTROLE DE ITENS DO ESTOQUE GERAL__
 
     // --BUSCA--
-    public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
+    public List<Item> buscarItensParcial(String nome, boolean caseSensitive) {
         return empresa.buscarItensParcial(nome, caseSensitive);
     }
 
     @Override
-    public ArrayList<Item> buscarItens(String nome) {
+    public List<Item> buscarItens(String nome) {
         return empresa.buscarItens(nome, false);
     }
 
     //--FILTROS--
-    public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
-        return new ArrayList<>(
-                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
-        );
+    public List<Item> getItensVazios(List<Item> estoque) {
+        return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
     }
-    public ArrayList<Item> getEstoqueVazio() {
-        List<Item> estoqueLista = empresa
+
+    public List<Item> getEstoqueVazio() {
+        return  empresa
                 .getEstoque()
                 .stream()
                 .filter(item -> item.getQuantidade() == 0).toList();
-        return new ArrayList<>(estoqueLista);
     }
 
     // GETTERS
@@ -128,7 +126,7 @@ public class ControleEmpresa implements ControleEstoque {
         return empresa.getNome();
     }
 
-    public ArrayList<Item> getEstoque() {
+    public List<Item> getEstoque() {
         return empresa.getEstoque();
     }
 

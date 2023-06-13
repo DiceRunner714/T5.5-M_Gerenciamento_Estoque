@@ -7,6 +7,8 @@ import modelo.Filial;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DetalheViewFilial extends DetalheView {
     private final JTextField valorNome = new JTextField();
@@ -28,18 +30,18 @@ public class DetalheViewFilial extends DetalheView {
     }
 
     @Override
-    protected ArrayList<JComponent> agruparTodosFormularios() {
-        ArrayList<JComponent> paineis = new ArrayList<>();
+    protected List<JComponent> agruparTodosFormularios() {
+        List<JComponent> paineis = new ArrayList<>();
 
         paineis.add(new PainelFormulario(
-                new JComponent[]{
-                new JLabel("Nome: "),
-                new JLabel("Localização: "),
-                new JLabel("ID: ")},
-                new JComponent[]{
+                Arrays.asList(
+                        new JLabel("Nome: "),
+                        new JLabel("Localização: "),
+                        new JLabel("ID: ")),
+                Arrays.asList(
                         valorNome,
                         valorLocalizacao,
-                        valorId},
+                        valorId),
                 "Informações da Filial:")
         );
         return paineis;

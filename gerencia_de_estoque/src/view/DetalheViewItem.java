@@ -9,12 +9,13 @@ import modelo.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class DetalheViewItem extends DetalheView {
     //TODO: reintroduzir restrição
     private PainelFormularioItem painelFormularioItem;
     private PainelFormularioFarmaceutico painelFormularioFarmaceutico;
-    private PainelFormularioQuimico painelItemQuimico;
+    private PainelFormularioQuimico painelFormularioQuimico;
     private final JTabbedPane abaPaginada = new JTabbedPane();
     private Filial filialdoItem;
     private ControleEstoqueFilial controleEstoque;
@@ -67,20 +68,20 @@ public class DetalheViewItem extends DetalheView {
     }
 
     @Override
-    protected ArrayList<JComponent> agruparTodosFormularios() {
+    protected List<JComponent> agruparTodosFormularios() {
 
         // Criar formularios principais
         painelFormularioFarmaceutico = new PainelFormularioFarmaceutico();
-        painelItemQuimico = new PainelFormularioQuimico();
+        painelFormularioQuimico = new PainelFormularioQuimico();
 
-        ArrayList<JComponent> formularios = new ArrayList<>();
+        List<JComponent> formularios = new ArrayList<>();
         criarPainelItem();
         formularios.add(painelFormularioItem);
 
         switch (modo) {
             // Mostrar todas as opções de itens para adicionar
             case ADICIONAR -> {
-                abaPaginada.addTab("Produto Químico", painelItemQuimico);
+                abaPaginada.addTab("Produto Químico", painelFormularioQuimico);
                 abaPaginada.addTab("Farmacêutico", painelFormularioFarmaceutico);
                 formularios.add(abaPaginada);
             }
@@ -88,7 +89,7 @@ public class DetalheViewItem extends DetalheView {
             case EDITAR -> {
                 switch (tipodeItem) {
                     case FARMACEUTICO -> formularios.add(painelFormularioFarmaceutico);
-                    case PRODUTO_QUIMICO -> formularios.add(painelItemQuimico);
+                    case PRODUTO_QUIMICO -> formularios.add(painelFormularioQuimico);
                 }
             }
         }
@@ -120,7 +121,7 @@ public class DetalheViewItem extends DetalheView {
             painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
             switch (tipodeItem) {
                 case PRODUTO_QUIMICO -> {
-                    painelItemQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
+                painelFormularioQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
                 }
                 case FARMACEUTICO ->{
                     painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
@@ -132,7 +133,7 @@ public class DetalheViewItem extends DetalheView {
     protected void popularFormularios() {
         painelFormularioItem.popularFormularios(itemEscolhido);
         switch (tipodeItem) {
-            case PRODUTO_QUIMICO -> painelItemQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
+            case PRODUTO_QUIMICO -> painelFormularioQuimico.popularFormularios((ProdutoQuimico) itemEscolhido);
             case FARMACEUTICO -> painelFormularioFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
         }
     }
@@ -146,8 +147,8 @@ public class DetalheViewItem extends DetalheView {
         try {
             if (componente == painelFormularioFarmaceutico) {
                 painelFormularioFarmaceutico.adicionarFarmaceutico(painelFormularioItem, controleEstoque);
-            } else if (componente == painelItemQuimico) {
-                painelItemQuimico.adicionarProdutoQuimico(painelFormularioItem, controleEstoque);
+        } else if (componente == painelFormularioQuimico) {
+            painelFormularioQuimico.adicionarProdutoQuimico(painelFormularioItem, controleEstoque);
             }
         } catch (ElementoInexistenteException e) {
             mensagemElementoInexistente(e);

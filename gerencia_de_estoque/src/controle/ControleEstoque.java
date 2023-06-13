@@ -2,15 +2,15 @@ package controle;
 
 import modelo.Item;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ControleEstoque {
-    ArrayList<Item> buscarItens(String nome);
+    List<Item> buscarItens(String nome);
 
-    ArrayList<Item> getItensVazios(ArrayList<Item> estoque);
+    List<Item> getItensVazios(List<Item> estoque);
 
-    ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive);
+    List<Item> buscarItensParcial(String nome, boolean caseSensitive);
 
-    ArrayList<Item> getEstoque();
+    List<Item> getEstoque();
 
 }

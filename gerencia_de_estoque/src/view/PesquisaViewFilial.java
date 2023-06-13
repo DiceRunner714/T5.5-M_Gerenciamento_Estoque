@@ -7,6 +7,7 @@ import modelo.Filial;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class PesquisaViewFilial extends PesquisaView {
@@ -30,7 +31,7 @@ public class PesquisaViewFilial extends PesquisaView {
         listaFiliais.setVisibleRowCount(50);
 
         janela.add(new PainelPesquisa("Pesquisa em filiais", listaFiliais,
-                new JButton[]{botaoAdicionar, botaoVerDetalhes, botaoVerEstoque}));
+                Arrays.asList(botaoAdicionar, botaoVerDetalhes, botaoVerEstoque)));
 
         botaoVerEstoque.addActionListener(new VerEstoqueListener());
         botaoVerDetalhes.addActionListener(new ManipularElementoListener());

@@ -1,13 +1,13 @@
 package modelo;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface LeitordeEstoque {
-    ArrayList<Item> getEstoque();
+    List<Item> getEstoque();
 
     Item buscarItem(int id);
 
-    ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive);
+    List<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive);
 
-    ArrayList<Item> buscarItens(String nome, boolean caseSensitive);
+    List<Item> buscarItens(String nome, boolean caseSensitive);
 }
