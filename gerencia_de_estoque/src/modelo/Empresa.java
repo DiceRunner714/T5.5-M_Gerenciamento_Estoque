@@ -1,11 +1,12 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Empresa implements LeitordeEstoque {
 
     private String nome;
-    private ArrayList<Filial> filiais;
+    private List<Filial> filiais;
 
     public Empresa(String nome) {
         this.nome = nome;
@@ -57,8 +58,8 @@ public class Empresa implements LeitordeEstoque {
 
     // -- LEITURA DE ESTOQUE GERAL --
     @Override
-    public ArrayList<Item> getEstoque() {
-        ArrayList<Item> todosItens = new ArrayList<>();
+    public List<Item> getEstoque() {
+        List<Item> todosItens = new ArrayList<>();
         filiais.forEach(filial -> todosItens.addAll(filial.getEstoque()));
         return todosItens;
     }
@@ -84,26 +85,24 @@ public class Empresa implements LeitordeEstoque {
 
 
     @Override
-    public ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
-        if (caseSensitive) return new ArrayList<>(
+    public List<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive) return
                 getEstoque().stream()
                         .filter(item -> item.getNome().contains(nomeParcial))
-                        .toList());
-        else return new ArrayList<>(
+                        .toList();
+        else return
                 getEstoque().stream()
                         .filter(item -> item.getNome().toLowerCase()
                                 .contains(nomeParcial.toLowerCase()))
-                        .toList());
+                        .toList();
     }
 
     @Override
-    public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
-        if (caseSensitive) return new ArrayList<>(
-                getEstoque().stream().filter(item -> item.getNome().equals(nome)).toList()
-        );
-        else return new ArrayList<>(
-                getEstoque().stream().filter(item -> item.getNome().equalsIgnoreCase(nome)).toList()
-        );
+    public List<Item> buscarItens(String nome, boolean caseSensitive) {
+        if (caseSensitive) return
+                getEstoque().stream().filter(item -> item.getNome().equals(nome)).toList();
+        else return
+                getEstoque().stream().filter(item -> item.getNome().equalsIgnoreCase(nome)).toList();
     }
 
     public String getNome() {
@@ -114,7 +113,7 @@ public class Empresa implements LeitordeEstoque {
         this.nome = nome;
     }
 
-    public ArrayList<Filial> getFiliais() {
+    public List<Filial> getFiliais() {
         return filiais;
     }
 

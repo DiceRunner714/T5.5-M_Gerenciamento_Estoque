@@ -5,6 +5,7 @@ import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 public class PainelFormularioFarmaceutico extends PainelFormulario {
     private final JTextField valorTarja = new JTextField();
@@ -15,15 +16,16 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
 
     public PainelFormularioFarmaceutico() {
         criarFormulario(
-                new JComponent[]{
+                Arrays.asList(
                         new JLabel("Tarja: "),
-                        new JLabel("Composição: ")},
-                new JComponent[]{
+                        new JLabel("Composição: ")),
+                Arrays.asList(
                         valorTarja,
                         valorComposicao,
                         isReceita,
                         isRetencaoDeReceita,
-                        isGenerico}, "Detalhes - Farmacêutico");
+                        isGenerico)
+                        , "Detalhes - Farmacêutico");
     }
 
     public void atualizarFarmaceutico(ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) {

@@ -2,12 +2,12 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.List;
 class PainelPesquisa extends JPanel {
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos,
-                                     JButton[] botoes, JComponent[] componentesExtras) {
+                                     List<JButton> botoes, List<? extends JComponent> componentesExtras) {
 
-        construirBasico(stringTitulo, listaElementos, botoes, componentesExtras.length);
+        construirBasico(stringTitulo, listaElementos, botoes, componentesExtras.size());
         GridBagConstraints c = new GridBagConstraints();
 
         c.insets = new Insets(0, 20, 0, 10);
@@ -24,11 +24,11 @@ class PainelPesquisa extends JPanel {
 
     }
 
-    public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos, JButton[] botoes) {
+    public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos, List<JButton> botoes) {
         construirBasico(stringTitulo, listaElementos, botoes, 0);
     }
 
-    private <T> void construirBasico(String stringTitulo, JList<T> listaElementos, JButton[] botoes, int listaOffset) {
+    private <T> void construirBasico(String stringTitulo, JList<T> listaElementos, List<JButton> botoes, int listaOffset) {
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -65,16 +65,15 @@ class PainelPesquisa extends JPanel {
         c.fill = GridBagConstraints.BOTH;
         this.add(listaElementos, c);
 
-
     }
 
-    private JPanel criarPainelBotoes(JButton[] botoes) {
+    private JPanel criarPainelBotoes(List<JButton> botoes) {
         // Malha de botões
         JPanel malhaBotoes = new JPanel();
         JPanel painelBotoes = new JPanel();
         malhaBotoes.setLayout(new GridLayout(0, 1, 0, 10));
         // Equivalente a botao -> malhabotoes.add(botao)
-        Arrays.stream(botoes).forEach(malhaBotoes::add);
+        botoes.forEach(malhaBotoes::add);
         painelBotoes.add(malhaBotoes, BorderLayout.NORTH);
         return painelBotoes;
     }

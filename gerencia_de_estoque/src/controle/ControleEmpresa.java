@@ -4,32 +4,31 @@ import modelo.Empresa;
 import modelo.Filial;
 import modelo.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControleEmpresa implements ControleEstoque {
     private final Empresa empresa;
-    private final ArrayList<Filial> filiais;
+    private final List<Filial> filiais;
 
     public ControleEmpresa(String nome) {
         empresa = new Empresa(nome);
         filiais = empresa.getFiliais();
     }
 
-    public ArrayList<Filial> getFiliais() {
+    public List<Filial> getFiliais() {
         return filiais;
     }
 
-    public ArrayList<Item> getEstoque() {
+    public List<Item> getEstoque() {
         return empresa.getEstoque();
     }
 
-    public ArrayList<Item> getEstoqueVazio() {
-        List<Item> estoqueLista = empresa
+    public List<Item> getEstoqueVazio() {
+        return  empresa
                 .getEstoque()
                 .stream()
                 .filter(item -> item.getQuantidade() == 0).toList();
-        return new ArrayList<>(estoqueLista);
+
     }
 
     //TODO: essa função é de teste
@@ -78,19 +77,18 @@ public class ControleEmpresa implements ControleEstoque {
                 .orElseThrow();
     }
 
-    public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
+    public List<Item> buscarItensParcial(String nome, boolean caseSensitive) {
         return empresa.buscarItensParcial(nome, caseSensitive);
     }
 
     @Override
-    public ArrayList<Item> buscarItens(String nome) {
+    public List<Item> buscarItens(String nome) {
         return empresa.buscarItens(nome, false);
     }
 
-    public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
-        return new ArrayList<>(
-                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
-        );
+    public List<Item> getItensVazios(List<Item> estoque) {
+        return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
+
     }
 
     public String getNome() {

@@ -5,6 +5,7 @@ import controle.IdRepetidoException;
 import modelo.ProdutoQuimico;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 public class PainelFormularioQuimico extends PainelFormulario {
     private final JComboBox<Integer> opcoesPerigoaSaude = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
@@ -14,16 +15,16 @@ public class PainelFormularioQuimico extends PainelFormulario {
 
     public PainelFormularioQuimico() {
         criarFormulario(
-                new JComponent[]{
+                Arrays.asList(
                 new JLabel("Risco a saúde: "),
                 new JLabel("Risco de fogo: "),
                 new JLabel("Reatividade: "),
-                new JLabel("Perigo especifico: ")},
-                new JComponent[]{
+                new JLabel("Perigo especifico: ")),
+                Arrays.asList(
                         opcoesPerigoaSaude,
                         opcoesRiscoDeFogo,
                         opcoesReatividade,
-                        valorPerigoEspecifico},
+                        valorPerigoEspecifico),
                 "Detalhes - Produto químico");
     }
 

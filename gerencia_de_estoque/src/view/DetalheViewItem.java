@@ -8,6 +8,7 @@ import modelo.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class DetalheViewItem extends DetalheView {
     //TODO: reintroduzir restrição
@@ -61,13 +62,13 @@ public class DetalheViewItem extends DetalheView {
     }
 
     @Override
-    protected ArrayList<JComponent> agruparTodosFormularios() {
+    protected List<JComponent> agruparTodosFormularios() {
 
         // Criar formularios principais
         painelFormularioFarmaceutico = new PainelFormularioFarmaceutico();
         painelItemQuimico = new PainelFormularioQuimico();
 
-        ArrayList<JComponent> formularios = new ArrayList<>();
+        List<JComponent> formularios = new ArrayList<>();
         criarPainelItem();
         formularios.add(painelFormularioItem);
 
