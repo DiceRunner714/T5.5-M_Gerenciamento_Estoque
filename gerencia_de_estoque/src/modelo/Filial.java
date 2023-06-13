@@ -1,13 +1,14 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Filial implements LeitordeEstoque {
     private String nome;
     private String local;
     private int id;
-    private ArrayList<Item> estoque;
+    private List<Item> estoque;
 
     public Filial(String nome, String local, int id) {
         this.nome = nome;
@@ -41,32 +42,25 @@ public class Filial implements LeitordeEstoque {
 
     @Override
     public Item buscarItem(int id) {
-        return estoque.stream()
-                .filter(item -> item.getId() == id).findFirst().orElseThrow();
+        return estoque.stream().filter(item -> item.getId() == id).findFirst().orElseThrow();
     }
 
     @Override
-    public ArrayList<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
-        if (caseSensitive) return new ArrayList<>(
+    public List<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive) return
+                estoque.stream().filter(item -> item.getNome().contains(nomeParcial)).toList();
+        else return
                 estoque.stream()
-                        .filter(item -> item.getNome().contains(nomeParcial)).toList()
-        );
-        else return new ArrayList<>(
-                estoque.stream()
-                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase())).toList()
-        );
+                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase()))
+                        .toList();
     }
 
     @Override
-    public ArrayList<Item> buscarItens(String nome, boolean caseSensitive) {
-        if (caseSensitive) return new ArrayList<>(
-                estoque.stream()
-                        .filter(item -> item.getNome().equals(nome)).toList()
-        );
-        else return new ArrayList<>(
-                estoque.stream()
-                        .filter(item -> item.getNome().equalsIgnoreCase(nome)).toList()
-        );
+    public List<Item> buscarItens(String nome, boolean caseSensitive) {
+        if (caseSensitive) return
+                estoque.stream().filter(item -> item.getNome().equals(nome)).toList();
+        else return
+                estoque.stream().filter(item -> item.getNome().equalsIgnoreCase(nome)).toList();
     }
 
     public String listarCaracteristicasBasicacs() {
@@ -83,18 +77,16 @@ public class Filial implements LeitordeEstoque {
         return String.format("%d_%s", id, nome);
     }
 
-    public ArrayList<Item> getEstoque() {
+    public List<Item> getEstoque() {
         return estoque;
     }
 
-    public void setEstoque(ArrayList<Item> estoque) {
+    public void setEstoque(List<Item> estoque) {
         this.estoque = estoque;
     }
 
-    public ArrayList<Item> getEstoqueVazio() {
-        return new ArrayList<>(
-                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
-        );
+    public List<Item> getEstoqueVazio() {
+        return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
     }
 
     @Override
@@ -110,17 +102,17 @@ public class Filial implements LeitordeEstoque {
                 this.id == outraFilial.getId();
     }
 
-    public ArrayList<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
-        if (caseSensitive) return new ArrayList<>(
-                estoque.stream()
+    public List<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
+        if (caseSensitive)  {
+            return estoque.stream()
                         .filter(item -> item.getNome().contains(nomeParcial))
-                        .toList());
-        else return new ArrayList<>(
-                estoque.stream()
-                        .filter(item -> item.getNome()
-                                .toLowerCase()
-                                .contains(nomeParcial.toLowerCase()))
-                        .toList());
+                        .toList();
+        } else  {
+            return estoque.stream()
+                            .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase()))
+                            .toList();
+        }
+
     }
 
     public String getNome() {

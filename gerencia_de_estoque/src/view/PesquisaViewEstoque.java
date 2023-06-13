@@ -12,8 +12,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.List;
 public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModosPesquisa modo;
@@ -75,8 +75,8 @@ public class PesquisaViewEstoque extends PesquisaView {
                 new PainelPesquisa(
                         tituloPainel,
                         listaEstoque,
-                        new JButton[]{botaoAdicionar, botaoVerDetalhes},
-                        new JComponent[]{filtroEstoqueVazio, painelPesquisa}
+                        Arrays.asList(botaoAdicionar, botaoVerDetalhes),
+                        Arrays.asList(filtroEstoqueVazio, painelPesquisa)
                 )
         );
 
@@ -87,17 +87,17 @@ public class PesquisaViewEstoque extends PesquisaView {
 
     @Override
     public void refresh() {
-            ArrayList<Item> estoqueApenasVazios;
-            String nomePesquisado = valorPesquisaNomeItem.getText();
-            ArrayList<Item> estoquePrincipal = controleEstoque.buscarItensParcial(nomePesquisado, false);
+        List<Item> estoqueApenasVazios;
+        String nomePesquisado = valorPesquisaNomeItem.getText();
+        List<Item> estoquePrincipal = controleEstoque.buscarItensParcial(nomePesquisado, false);
 
-            if (filtroEstoqueVazio.isSelected()) {
-                estoqueApenasVazios = controleEstoque.getItensVazios(estoquePrincipal);
-                listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
-            } else {
+        if (filtroEstoqueVazio.isSelected()) {
+            estoqueApenasVazios = controleEstoque.getItensVazios(estoquePrincipal);
+            listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
+        } else {
                 listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
-            }
-            listaEstoque.updateUI();
+        }
+        listaEstoque.updateUI();
     }
 
     @Override

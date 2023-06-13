@@ -3,13 +3,14 @@ package controle;
 import modelo.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ControleEstoqueFilial implements ControleEstoque {
-    private final ArrayList<Item> estoqueFilial;
+    private final List<Item> estoqueFilial;
     private final Filial filialEscolhida;
     private final ControleEmpresa controleEmpresa;
 
-    /* Coloquei uma controleEmpresa pois essa classe precisa estar
+    /* Coloquei uma controleEmpresa, pois essa classe precisa estar
     ciente do estoque inteiro para evitar repetições
      */
     public ControleEstoqueFilial(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
@@ -135,12 +136,12 @@ public class ControleEstoqueFilial implements ControleEstoque {
     }
 
     @Override
-    public ArrayList<Item> buscarItens(String nome) {
+    public List<Item> buscarItens(String nome) {
         return filialEscolhida.buscarItens(nome, false);
     }
 
     @Override
-    public ArrayList<Item> buscarItensParcial(String nome, boolean caseSensitive) {
+    public List<Item> buscarItensParcial(String nome, boolean caseSensitive) {
         return filialEscolhida.buscaParcial(nome, caseSensitive);
     }
 
@@ -152,7 +153,7 @@ public class ControleEstoqueFilial implements ControleEstoque {
         filialEscolhida.removerItem(i);
     }
 
-    public ArrayList<Item> getEstoque() {
+    public List<Item> getEstoque() {
         return filialEscolhida.getEstoque();
     }
 
@@ -161,10 +162,8 @@ public class ControleEstoqueFilial implements ControleEstoque {
     }
 
     @Override
-    public ArrayList<Item> getItensVazios(ArrayList<Item> estoque) {
-        return new ArrayList<>(
-                estoque.stream().filter(item -> item.getQuantidade() == 0).toList()
-        );
+    public List<Item> getItensVazios(List<Item> estoque) {
+        return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
     }
 
 }

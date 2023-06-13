@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 
 abstract class DetalheView {
@@ -72,7 +72,7 @@ abstract class DetalheView {
         janela.setVisible(true);
     }
 
-    abstract protected ArrayList<JComponent> agruparTodosFormularios();
+    abstract protected List<JComponent> agruparTodosFormularios();
 
     abstract protected void excluirElemento();
 
@@ -124,7 +124,7 @@ abstract class DetalheView {
     }
 
     protected boolean mensagemConfirmarSaida() {
-        String botoes[] = {"Sim", "Não"};
+        String[] botoes = {"Sim", "Não"};
         int escolhaPrompt = JOptionPane.showOptionDialog(null,
                 "Confirmar saída? Dados não salvos serão descartados",
                 "Confirmar saída",
@@ -137,7 +137,7 @@ abstract class DetalheView {
     }
 
     protected boolean mensagemConfirmarExclusao() {
-        String botoes[] = {"Sim", "Não"};
+        String[] botoes = {"Sim", "Não"};
         int escolhaPrompt = JOptionPane.showOptionDialog(null,
                 "Confirmar exclusão?",
                 "Confirmar saída",

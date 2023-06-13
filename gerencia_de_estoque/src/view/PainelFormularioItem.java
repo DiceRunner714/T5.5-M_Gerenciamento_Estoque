@@ -10,6 +10,7 @@ import modelo.NivelRestricaoInadequadoException;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PainelFormularioItem extends PainelFormulario {
     private final JTextField valorNome = new JTextField();
@@ -25,7 +26,7 @@ public class PainelFormularioItem extends PainelFormulario {
     // Editar item de uma filial
     public PainelFormularioItem(Filial filialdoItem) {
         this.filialdoItem = filialdoItem;
-        ArrayList<JComponent> direitos = inicializarComponentesDireitos();
+        List<JComponent> direitos = new ArrayList<>(inicializarComponentesDireitos());
         direitos.add(isRestrito);
         String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
         criarFormulario(inicializarComponentesEsquerdos(), direitos, titulo);
@@ -38,12 +39,12 @@ public class PainelFormularioItem extends PainelFormulario {
     }
 
     // ADICIONAR ITEM GERAL
-    public PainelFormularioItem(ArrayList<Filial> filiaisDisponiveis) {
+    public PainelFormularioItem(List<Filial> filiaisDisponiveis) {
 
         opcoesFiliais = new JComboBox<>(filiaisDisponiveis.toArray(new Filial[0]));
 
-        ArrayList<JComponent> esquerdos = inicializarComponentesEsquerdos();
-        ArrayList<JComponent> direitos = inicializarComponentesDireitos();
+        List<JComponent> esquerdos = new ArrayList<>(inicializarComponentesEsquerdos());
+        List<JComponent> direitos = new ArrayList<>(inicializarComponentesDireitos());
         esquerdos.add(new JLabel("Filial: "));
         direitos.add(opcoesFiliais);
 
@@ -83,24 +84,24 @@ public class PainelFormularioItem extends PainelFormulario {
         isRestrito.setSelected(itemEscolhido.isRestrito());
     }
 
-    private ArrayList<JComponent> inicializarComponentesEsquerdos() {
-        return new ArrayList<>(Arrays.asList(
+    private List<JComponent> inicializarComponentesEsquerdos() {
+        return Arrays.asList(
                 new JLabel("Nome: "),
                 new JLabel("ID: "),
                 new JLabel("Categoria: "),
                 new JLabel("Quantidade: "),
-                new JLabel("Valor (R$): ")));
+                new JLabel("Valor (R$): "));
     }
 
-    private ArrayList<JComponent> inicializarComponentesDireitos() {
-        return new ArrayList<>(Arrays.asList(
+    private List<JComponent> inicializarComponentesDireitos() {
+        return Arrays.asList(
                 valorNome,
                 valorId,
                 valorCategoria,
                 valorQuantidade,
                 valorValor
-            )
-        );
+            );
+
     }
 
     private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
