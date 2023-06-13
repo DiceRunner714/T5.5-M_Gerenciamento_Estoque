@@ -20,12 +20,16 @@ public class ControleEmpresa implements ControleEstoque {
 
     // ___CONTROLE DE FILIAIS___
 
-    boolean checkFilialNaoExiste(Filial f) {
-        return filiais.stream().noneMatch(f::equals);
+    public void checkFilialNaoExiste(Filial f) throws ElementoInexistenteException {
+        if (filiais.stream().noneMatch(f::equals)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
     }
 
-    boolean checkFilialNaoExiste(int id) {
-        return filiais.stream().noneMatch(filial -> filial.getId()==id);
+    public void checkFilialNaoExiste(int id) throws ElementoInexistenteException {
+        if (filiais.stream().noneMatch(filial -> filial.getId()==id)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
     }
 
     // --CRIAR--
@@ -64,9 +68,7 @@ public class ControleEmpresa implements ControleEstoque {
 
     // --ATUALIZAR--
     public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException, ElementoInexistenteException {
-        if (checkFilialNaoExiste(f)) {
-            throw new ElementoInexistenteException("a filial escolhida não existe");
-        }
+        checkFilialNaoExiste(f);
         boolean idRepetido = filiais
                 .stream()
                 .anyMatch(filial -> (filial.getId() == newId) && (!filial.equals(f)));
@@ -86,16 +88,12 @@ public class ControleEmpresa implements ControleEstoque {
 
     // --REMOVER--
     public void excluirFilial(int id) throws ElementoInexistenteException {
-        if (checkFilialNaoExiste(id)) {
-            throw new ElementoInexistenteException("A Filial escolhida não existe");
-        }
+        checkFilialNaoExiste(id);
         empresa.removerFilial(id);
     }
 
     public void excluirFilial(Filial f) throws ElementoInexistenteException {
-        if (checkFilialNaoExiste(f)) {
-            throw new ElementoInexistenteException("A Filial escolhida não existe");
-        }
+        checkFilialNaoExiste(f);
         empresa.removerFilial(f);
     }
 
