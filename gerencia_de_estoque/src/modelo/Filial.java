@@ -148,9 +148,10 @@ public class Filial implements LeitordeEstoque {
         return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
     }
 
-    /**Override da classe Object
-     * @param o
-     * @return
+    /**Override da classe Object, permite compara se duas filiais contém os campos
+     * com valores iguais
+     * @param o objeto a ser comparado
+     * @return true se a filial contém as mesmas características, caso contrário false
      */
     @Override
     public boolean equals(Object o) {
