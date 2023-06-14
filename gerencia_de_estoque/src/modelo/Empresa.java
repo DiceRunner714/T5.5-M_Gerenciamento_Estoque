@@ -2,7 +2,6 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**Classe Empresa representa uma empresa que agrega filiais com números de indentificação distintas
  * @author André Emanuel Bipo da Silva
@@ -41,11 +40,7 @@ public class Empresa implements LeitordeEstoque {
      * @return primeira filial com o mesmo id presente na lista de filiais
      */
     public Filial lerFilial(int id) {
-        return filiais
-                .stream()
-                .filter(filial -> filial.getId() == id)
-                .findFirst()
-                .orElseThrow();
+        return filiais.stream().filter(filial -> filial.getId() == id).findFirst().orElseThrow();
     }
 
     /**
@@ -115,11 +110,7 @@ public class Empresa implements LeitordeEstoque {
      */
     @Deprecated
     public Item buscarItem(String nome) {
-        return getEstoque()
-                .stream()
-                .filter(item -> item.getNome().equals(nome))
-                .findFirst()
-                .orElse(null);
+        return getEstoque().stream().filter(item -> item.getNome().equals(nome)).findFirst().orElse(null);
     }
 
     /**Busca no estoque inteiro o primeiro item com o id definido, joga uma exceção caso não seja encontrado
@@ -130,11 +121,7 @@ public class Empresa implements LeitordeEstoque {
      */
     @Override
     public Item buscarItem(int id) {
-        return getEstoque()
-                .stream()
-                .filter(item -> item.getNome().equals(nome))
-                .findFirst()
-                .orElseThrow();
+        return getEstoque().stream().filter(item -> item.getNome().equals(nome)).findFirst().orElseThrow();
     }
 
 
@@ -146,14 +133,10 @@ public class Empresa implements LeitordeEstoque {
     @Override
     public List<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
         if (caseSensitive) return
-                getEstoque().stream()
-                        .filter(item -> item.getNome().contains(nomeParcial))
-                        .toList();
+                getEstoque().stream().filter(item -> item.getNome().contains(nomeParcial)).toList();
         else return
                 getEstoque().stream()
-                        .filter(item -> item.getNome().toLowerCase()
-                                .contains(nomeParcial.toLowerCase()))
-                        .toList();
+                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase())).toList();
     }
 
     /**Busca no estoque inteiro todos os itens com nomes iguais à string definida

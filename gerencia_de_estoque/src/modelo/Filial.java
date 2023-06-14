@@ -74,11 +74,7 @@ public class Filial implements LeitordeEstoque {
      */
     @Deprecated
     public Item buscarItem(String nome) {
-        return estoque
-                .stream()
-                .filter(item -> Objects.equals(item.getNome(), nome))
-                .findFirst()
-                .orElse(null);
+        return estoque.stream().filter(item -> Objects.equals(item.getNome(), nome)).findFirst().orElse(null);
     }
 
     /**Busca um item no estoque com o número de indentificação especificado
@@ -102,8 +98,7 @@ public class Filial implements LeitordeEstoque {
                 estoque.stream().filter(item -> item.getNome().contains(nomeParcial)).toList();
         else return
                 estoque.stream()
-                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase()))
-                        .toList();
+                        .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase())).toList();
     }
 
     /**Busca todos os itens do estoque com o mesmo nome especificado
@@ -173,9 +168,7 @@ public class Filial implements LeitordeEstoque {
      */
     public List<Item> buscaParcial(String nomeParcial, boolean caseSensitive) {
         if (caseSensitive)  {
-            return estoque.stream()
-                        .filter(item -> item.getNome().contains(nomeParcial))
-                        .toList();
+            return estoque.stream().filter(item -> item.getNome().contains(nomeParcial)).toList();
         } else  {
             return estoque.stream()
                             .filter(item -> item.getNome().toLowerCase().contains(nomeParcial.toLowerCase()))

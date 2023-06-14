@@ -114,7 +114,7 @@ abstract class DetalheView {
                         excluirElemento();
                         janela.dispose();
                     }
-                }else {
+                } else {
                     if (mensagemConfirmarSaida()) {
                         janela.dispose();
                     }
