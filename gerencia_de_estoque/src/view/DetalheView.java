@@ -71,6 +71,8 @@ abstract class DetalheView {
         janela.setSize(width, height);
         janela.setResizable(false);
         janela.setVisible(true);
+        janela.setLocationRelativeTo(null);
+
     }
 
     abstract protected List<JComponent> agruparTodosFormularios();

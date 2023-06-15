@@ -83,6 +83,8 @@ public class PesquisaViewEstoque extends PesquisaView {
         janela.setSize(400, 400);
         janela.setResizable(false);
         janela.setVisible(true);
+        janela.setLocationRelativeTo(null);
+
     }
 
     @Override
