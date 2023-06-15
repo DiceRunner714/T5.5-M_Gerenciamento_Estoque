@@ -2,6 +2,7 @@ package view;
 
 
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Filial;
 import modelo.Item;
@@ -20,22 +21,16 @@ public class PainelFormularioItem extends PainelFormulario {
     private final JTextField valorId = new JTextField();
     private final JCheckBox isRestrito = new JCheckBox("Restrito");
     private JComboBox<Filial> opcoesFiliais;
-    private Filial filialdoItem;
 
 
     // Editar item de uma filial
-    public PainelFormularioItem(Filial filialdoItem) {
-        this.filialdoItem = filialdoItem;
+    public PainelFormularioItem(Filial filialdoItem, ModosDetalhe modo) {
         List<JComponent> direitos = new ArrayList<>(inicializarComponentesDireitos());
-        direitos.add(isRestrito);
+        if (modo == ModosDetalhe.EDITAR) {
+            direitos.add(isRestrito);
+        }
         String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
         criarFormulario(inicializarComponentesEsquerdos(), direitos, titulo);
-    }
-
-    // ADICIONAR ITEM A UMA FILIAL
-    public PainelFormularioItem() {
-        String titulo = "Informações básicas - Filial do item escolhido: " + filialdoItem.getNome();
-        criarFormulario(inicializarComponentesEsquerdos(), inicializarComponentesDireitos(), titulo);
     }
 
     // ADICIONAR ITEM GERAL
@@ -53,26 +48,19 @@ public class PainelFormularioItem extends PainelFormulario {
     }
 
     // Formulários só podem fazer duas coisas, receber dados, ou colocar dados
-    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException {
-        try {
-            if (isRestrito.isSelected())
-                itemEscolhido.restringir();
-            else
-                itemEscolhido.liberar();
-            controleEstoque.atualizarCaracteristicasBasicas(
-                    valorNome.getText(),
-                    valorCategoria.getText(),
-                    Double.parseDouble(valorValor.getText()),
-                    Integer.parseInt(valorQuantidade.getText()),
-                    Integer.parseInt(valorId.getText()),
-                    itemEscolhido
-            );
-        } catch (NivelRestricaoInadequadoException e1){
-            // Reiniciar o checkbox
-            isRestrito.setSelected(itemEscolhido.isRestrito());
-            mensagemErroRestricao(e1);
-            e1.printStackTrace();
-        }
+    public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException, ElementoInexistenteException, NivelRestricaoInadequadoException {
+        if (isRestrito.isSelected())
+            itemEscolhido.restringir();
+        else
+            itemEscolhido.liberar();
+        controleEstoque.atualizarCaracteristicasBasicas(
+                valorNome.getText(),
+                valorCategoria.getText(),
+                Double.parseDouble(valorValor.getText()),
+                Integer.parseInt(valorQuantidade.getText()),
+                Integer.parseInt(valorId.getText()),
+                itemEscolhido
+        );
     }
 
     public void popularFormularios(Item itemEscolhido) {
@@ -102,12 +90,6 @@ public class PainelFormularioItem extends PainelFormulario {
                 valorValor
             );
 
-    }
-
-    private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
-        JOptionPane.showMessageDialog(
-                null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
-        );
     }
 
     public Filial getSelectedFilial() {
