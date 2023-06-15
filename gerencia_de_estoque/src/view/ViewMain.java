@@ -7,6 +7,7 @@ public class ViewMain {
         try {
             UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
             JFrame.setDefaultLookAndFeelDecorated(true);
+            JDialog.setDefaultLookAndFeelDecorated(true);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
         }
