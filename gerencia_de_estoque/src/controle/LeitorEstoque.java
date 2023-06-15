@@ -4,7 +4,7 @@ import modelo.Item;
 
 import java.util.List;
 
-public interface ControleEstoque {
+public interface LeitorEstoque {
     List<Item> buscarItens(String nome);
 
     List<Item> getItensVazios(List<Item> estoque);

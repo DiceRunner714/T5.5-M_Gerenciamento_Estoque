@@ -5,7 +5,7 @@ import modelo.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControleEstoqueFilial implements ControleEstoque {
+public class ControleEstoqueFilial implements LeitorEstoque {
     private final List<Item> estoqueFilial;
     private final Filial filialEscolhida;
     private final ControleEmpresa controleEmpresa;

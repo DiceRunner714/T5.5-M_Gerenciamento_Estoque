@@ -6,7 +6,7 @@ import modelo.Item;
 
 import java.util.List;
 
-public class ControleEmpresa implements ControleEstoque {
+public class ControleEmpresa implements LeitorEstoque {
     private final Empresa empresa;
     private final List<Filial> filiais;
 

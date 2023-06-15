@@ -1,7 +1,7 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.ControleEstoque;
+import controle.LeitorEstoque;
 import controle.ControleEstoqueFilial;
 import modelo.Filial;
 import modelo.Item;
@@ -18,20 +18,20 @@ public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModosPesquisa modo;
     private final JTextField valorPesquisaNomeItem = new JTextField();
-    private final ControleEstoque controleEstoque;
+    private final LeitorEstoque leitorEstoque;
     private JList<Item> listaEstoque;
 
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa) {
         modo = ModosPesquisa.LISTAR_ESTOQUE_GERAL;
         this.controleEmpresa = controleEmpresa;
-        this.controleEstoque = controleEmpresa;
+        this.leitorEstoque = controleEmpresa;
         iniciarJanelaEstoque("Estoque", "Estoque geral");
 
     }
 
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
-        controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
+        leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
         this.controleEmpresa = controleEmpresa;
         iniciarJanelaEstoque(
                 "Visualizando Estoque de: " + filialEscolhida,
@@ -48,7 +48,7 @@ public class PesquisaViewEstoque extends PesquisaView {
         botaoVerDetalhes.addActionListener(new ManipularElementoListener());
         botaoAdicionar.addActionListener(new ManipularElementoListener());
 
-        listaEstoque = new JList<>(controleEstoque.getEstoque().toArray(new Item[0]));
+        listaEstoque = new JList<>(leitorEstoque.getEstoque().toArray(new Item[0]));
         listaEstoque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaEstoque.setVisibleRowCount(10);
 
@@ -89,10 +89,10 @@ public class PesquisaViewEstoque extends PesquisaView {
     public void refresh() {
         List<Item> estoqueApenasVazios;
         String nomePesquisado = valorPesquisaNomeItem.getText();
-        List<Item> estoquePrincipal = controleEstoque.buscarItensParcial(nomePesquisado, false);
+        List<Item> estoquePrincipal = leitorEstoque.buscarItensParcial(nomePesquisado, false);
 
         if (filtroEstoqueVazio.isSelected()) {
-            estoqueApenasVazios = controleEstoque.getItensVazios(estoquePrincipal);
+            estoqueApenasVazios = leitorEstoque.getItensVazios(estoquePrincipal);
             listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
         } else {
                 listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
@@ -104,7 +104,7 @@ public class PesquisaViewEstoque extends PesquisaView {
     protected void adicionarElemento() {
         switch (modo) {
             case LISTAR_ESTOQUE_FILIAL -> {
-                ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) controleEstoque;
+                ControleEstoqueFilial filialGerenciada = (ControleEstoqueFilial) leitorEstoque;
                 new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, filialGerenciada);
             }
             case LISTAR_ESTOQUE_GERAL -> {
