@@ -1,6 +1,7 @@
 package view;
 
 import controle.ControleEmpresa;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Filial;
 
@@ -47,7 +48,7 @@ public class DetalheViewFilial extends DetalheView {
     }
 
     @Override
-    protected void excluirElemento() {
+    protected void excluirElemento() throws ElementoInexistenteException {
         controleEmpresa.excluirFilial(filialEscolhida);
         pesquisaView.refresh();
     }
@@ -62,7 +63,7 @@ public class DetalheViewFilial extends DetalheView {
     }
 
     @Override
-    protected void atualizarElemento() throws IdRepetidoException {
+    protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException {
         controleEmpresa.atualizarFilial(
                 valorNome.getText(),
                 valorLocalizacao.getText(),

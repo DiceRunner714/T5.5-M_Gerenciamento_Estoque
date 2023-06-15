@@ -52,18 +52,18 @@ public class Farmaceutico extends Item {
             restrito = true;
         } else {
             throw new NivelRestricaoInadequadoException(
-                    "Erro ao restringir: o nível risco desse farmacêutico não é baixo o suficiente"
+                    "Erro ao restringir: o nível de risco desse farmacêutico não é alto o suficiente"
             );
         }
     }
 
     //METODO LIBERAR
     public void liberar() throws NivelRestricaoInadequadoException {
-        if (tarja.equals("preta") && retencaoDeReceita) {
+        if (!(tarja.equals("preta") && retencaoDeReceita)) {
             restrito = false;
         } else {
             throw new NivelRestricaoInadequadoException(
-                    "Erro ao liberar: o nível risco desse farmacêutico não é alto o suficiente"
+                    "Erro ao liberar: o nível de risco desse farmacêutico não é baixo o suficiente"
             );
         }
     }

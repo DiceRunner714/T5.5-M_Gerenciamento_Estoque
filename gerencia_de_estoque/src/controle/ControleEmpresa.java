@@ -15,23 +15,23 @@ public class ControleEmpresa implements LeitorEstoque {
         filiais = empresa.getFiliais();
     }
 
-    public List<Filial> getFiliais() {
-        return filiais;
+
+
+    // ___CONTROLE DE FILIAIS___
+
+    public void checkFilialNaoExiste(Filial f) throws ElementoInexistenteException {
+        if (filiais.stream().noneMatch(f::equals)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
     }
 
-    public List<Item> getEstoque() {
-        return empresa.getEstoque();
+    public void checkFilialNaoExiste(int id) throws ElementoInexistenteException {
+        if (filiais.stream().noneMatch(filial -> filial.getId()==id)) {
+            throw new ElementoInexistenteException("A filial escolhida não existe");
+        }
     }
 
-    public List<Item> getEstoqueVazio() {
-        return  empresa
-                .getEstoque()
-                .stream()
-                .filter(item -> item.getQuantidade() == 0).toList();
-
-    }
-
-    //TODO: essa função é de teste
+    // --CRIAR--
     public void adicionarFilial(Filial f) throws IdRepetidoException {
         boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == f.getId());
         if (idRepetido) {
@@ -50,10 +50,27 @@ public class ControleEmpresa implements LeitorEstoque {
         }
     }
 
-    public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException {
+    // --LER/BUSCAR--
+    public Filial buscarFilial(int id) {
+        return empresa.lerFilial(id);
+    }
+
+    public Filial buscarFilialaPartirdeItem(Item item) throws ElementoInexistenteException {
+        return filiais.stream()
+                .filter(filial -> filial.getEstoque().contains(item))
+                .findFirst()
+                .orElseThrow(() -> new ElementoInexistenteException("a filial escolhida não existe"));
+    }
+
+    public List<Filial> getFiliais() {
+        return filiais;
+    }
+
+    // --ATUALIZAR--
+    public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException, ElementoInexistenteException {
+        checkFilialNaoExiste(f);
         boolean idRepetido = filiais
                 .stream()
-                // Atualizar se não houver uma filial na lista com o mesmo id, *Exceto ela mesma*
                 .anyMatch(filial -> (filial.getId() == newId) && (!filial.equals(f)));
         if (idRepetido) {
             throw new IdRepetidoException("Id repetido: a empresa já contém uma filial com esse Id");
@@ -69,14 +86,20 @@ public class ControleEmpresa implements LeitorEstoque {
 
     }
 
-    // Essa função assume que todos os itens têm identificação única
-    public Filial buscarFilialaPartirdeItem(Item item) {
-        return filiais.stream()
-                .filter(filial -> filial.getEstoque().contains(item))
-                .findFirst()
-                .orElseThrow();
+    // --REMOVER--
+    public void excluirFilial(int id) throws ElementoInexistenteException {
+        checkFilialNaoExiste(id);
+        empresa.removerFilial(id);
     }
 
+    public void excluirFilial(Filial f) throws ElementoInexistenteException {
+        checkFilialNaoExiste(f);
+        empresa.removerFilial(f);
+    }
+
+    //__CONTROLE DE ITENS DO ESTOQUE GERAL__
+
+    // --BUSCA--
     public List<Item> buscarItensParcial(String nome, boolean caseSensitive) {
         return empresa.buscarItensParcial(nome, caseSensitive);
     }
@@ -86,25 +109,25 @@ public class ControleEmpresa implements LeitorEstoque {
         return empresa.buscarItens(nome, false);
     }
 
+    //--FILTROS--
     public List<Item> getItensVazios(List<Item> estoque) {
         return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
-
     }
 
+    public List<Item> getEstoqueVazio() {
+        return  empresa
+                .getEstoque()
+                .stream()
+                .filter(item -> item.getQuantidade() == 0).toList();
+    }
+
+    // GETTERS
     public String getNome() {
         return empresa.getNome();
     }
 
-    public Filial buscarFilial(int id) {
-        return empresa.lerFilial(id);
-    }
-
-    public void excluirFilial(Filial f) {
-        empresa.removerFilial(f);
-    }
-
-    public void excluirFilial(int id) {
-        empresa.removerFilial(id);
+    public List<Item> getEstoque() {
+        return empresa.getEstoque();
     }
 
 }

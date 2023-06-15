@@ -2,6 +2,7 @@ package view;
 
 import controle.ControleEmpresa;
 import controle.ControleEstoqueFilial;
+import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
 import modelo.Filial;
@@ -18,7 +19,6 @@ public class EmpresaView  {
     private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
 
     public EmpresaView() {
-
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
         JLabel texto = new JLabel("""
                 <html>Um empreendimento de
@@ -62,14 +62,37 @@ public class EmpresaView  {
 
         janela.setSize(400, 400);
         janela.setVisible(true);
-        janela.setResizable(false);
+        janela.setResizable(true);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         verFiliais.addActionListener(new estoqueOuFilialListener());
         verEstoque.addActionListener(new estoqueOuFilialListener());
     }
 
-    static class estoqueOuFilialListener implements ActionListener {
+    public static void main(String[] args) {
+
+        new EmpresaView();
+        try {
+            controleEmpresa.adicionarFilial(
+                    new Filial("abr", "brasil", 6)
+            );
+            controleEmpresa.adicionarFilial(
+                    new Filial("sussy baki", "xina", 7)
+            );
+            ControleEstoqueFilial meuEstoque = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(7));
+            Farmaceutico farmaco = new Farmaceutico("Ablublublé", "né", 50.99, 5, 9);
+            farmaco.setGenerico(true);
+            meuEstoque.adicionarFarmaceutico(farmaco);
+            meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
+            ControleEstoqueFilial meuEstoque2 = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(6));
+            meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);
+            meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
+        } catch (IdRepetidoException | ElementoInexistenteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    class estoqueOuFilialListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
