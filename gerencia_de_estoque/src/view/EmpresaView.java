@@ -69,29 +69,6 @@ public class EmpresaView  {
         verEstoque.addActionListener(new estoqueOuFilialListener());
     }
 
-    public static void main(String[] args) {
-
-        new EmpresaView();
-        try {
-            controleEmpresa.adicionarFilial(
-                    new Filial("abr", "brasil", 6)
-            );
-            controleEmpresa.adicionarFilial(
-                    new Filial("sussy baki", "xina", 7)
-            );
-            ControleEstoqueFilial meuEstoque = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(7));
-            Farmaceutico farmaco = new Farmaceutico("Ablublublé", "né", 50.99, 5, 9);
-            farmaco.setGenerico(true);
-            meuEstoque.adicionarFarmaceutico(farmaco);
-            meuEstoque.adicionarFarmaceutico("vazio", "né", 50.99, 0, 12);
-            ControleEstoqueFilial meuEstoque2 = new ControleEstoqueFilial(controleEmpresa, controleEmpresa.buscarFilial(6));
-            meuEstoque2.adicionarProdutoQuimico("be", "né", 50.99, 5, 56);
-            meuEstoque2.adicionarFarmaceutico("asdf", "né", 50.99, 0, 0xFF);
-        } catch (IdRepetidoException | ElementoInexistenteException e) {
-            e.printStackTrace();
-        }
-    }
-
     class estoqueOuFilialListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
