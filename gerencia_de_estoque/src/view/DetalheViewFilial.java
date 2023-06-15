@@ -19,13 +19,13 @@ public class DetalheViewFilial extends DetalheView {
     // Construtor para adicionar uma filial nova
     public DetalheViewFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
-        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
+        criarJanela(agruparTodosFormularios(), 400, 250, "Filial:");
     }
 
     public DetalheViewFilial(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Filial filialEscolhida) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
         this.filialEscolhida = filialEscolhida;
-        criarJanela(agruparTodosFormularios(), 400, 200, "Filial:");
+        criarJanela(agruparTodosFormularios(), 400, 250, "Filial:");
         popularFormularios();
     }
 

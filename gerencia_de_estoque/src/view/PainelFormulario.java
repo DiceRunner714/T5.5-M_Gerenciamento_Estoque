@@ -23,6 +23,7 @@ public class PainelFormulario extends JPanel {
         JLabel labelTitulo = new JLabel(titulo);
 
         // Ajuste de título
+        c.insets = new Insets(10, 0, 10, 0);
         c.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
         c.weightx = 1;                          // % do espaço horizontal
         c.gridwidth = 2;                        // quantas células horizontais

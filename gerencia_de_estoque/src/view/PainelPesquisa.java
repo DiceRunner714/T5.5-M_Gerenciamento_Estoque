@@ -10,7 +10,7 @@ class PainelPesquisa extends JPanel {
         construirBasico(stringTitulo, listaElementos, botoes, componentesExtras.size());
         GridBagConstraints c = new GridBagConstraints();
 
-        c.insets = new Insets(0, 20, 0, 10);
+        c.insets = new Insets(0, 20, 10, 10);
         c.weightx = 0.9;
         c.weighty = 0.01;
         c.gridx = 0;
@@ -37,7 +37,7 @@ class PainelPesquisa extends JPanel {
         this.setLayout(new GridBagLayout());
 
         // adicionar Título
-        c.insets = new Insets(0, 20, 5, 10);
+        c.insets = new Insets(0, 20, 10, 10);
         c.weightx = 0.9;
         c.weighty = 0.01;
         c.gridy = 0;
