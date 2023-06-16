@@ -16,9 +16,10 @@ public class EmpresaView  {
     private static final JFrame janela = new JFrame("Empresa");
     private static final JButton verFiliais = new JButton("Ver Filiais");
     private static final JButton verEstoque = new JButton("Ver Estoque");
-    private static final ControleEmpresa controleEmpresa = new ControleEmpresa("ACME inc.");
+    private final ControleEmpresa controleEmpresa;
 
-    public EmpresaView() {
+    public EmpresaView(String nome) {
+        controleEmpresa = new ControleEmpresa(nome);
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
         JLabel texto = new JLabel("""
                 <html>Um empreendimento de
