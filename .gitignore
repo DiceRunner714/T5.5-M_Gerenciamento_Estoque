@@ -24,4 +24,4 @@ hs_err_pid*
 /.idea
 
 # Pasta de saída de testes
-/testsBin
+gerencia_de_estoque/testsBin
