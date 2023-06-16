@@ -9,7 +9,7 @@ class PainelDetalheBotoes extends JPanel {
                                JButton botaoAtualizar, JButton botaoExcluir, ModosDetalhe modo,
                                ActionListener botaoListener) {
 
-        this.setLayout(new FlowLayout(FlowLayout.TRAILING));
+        this.setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 0));
         switch (modo) {
             case EDITAR -> {
                 this.add(botaoAtualizar);

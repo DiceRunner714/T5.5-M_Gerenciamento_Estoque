@@ -62,7 +62,7 @@ public class EmpresaView  {
 
         janela.setSize(400, 400);
         janela.setVisible(true);
-        janela.setResizable(true);
+        janela.setResizable(false);
         janela.setLocationRelativeTo(null);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

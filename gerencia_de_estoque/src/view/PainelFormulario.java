@@ -22,6 +22,8 @@ public class PainelFormulario extends JPanel {
 
         JLabel labelTitulo = new JLabel(titulo);
 
+        int padding_lateral = 15;
+
         // Ajuste de título
         c.insets = new Insets(10, 0, 10, 0);
         c.anchor = GridBagConstraints.CENTER;   // alinhamento dentro das célula
@@ -37,7 +39,7 @@ public class PainelFormulario extends JPanel {
         c.anchor = GridBagConstraints.LINE_START;
         c.weightx = 0.3;
         c.gridwidth = 1;
-        c.insets = new Insets(5, 5, 5, 5);  // Padding
+        c.insets = new Insets(5, padding_lateral, 5, 5);  // Padding
         for (T componenteEsquerdo : componentesEsquerdos) {
             c.gridy++;
             this.add(componenteEsquerdo, c);
@@ -45,7 +47,7 @@ public class PainelFormulario extends JPanel {
 
         // Ajuste de campos
         c.anchor = GridBagConstraints.LINE_END;
-        c.insets = new Insets(5, 0, 5, 5);
+        c.insets = new Insets(5, 0, 5, padding_lateral);
         c.weightx = 0.6;
         c.gridx = 1;
         c.gridy = 0;

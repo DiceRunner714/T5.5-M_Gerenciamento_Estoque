@@ -57,6 +57,7 @@ abstract class DetalheView {
         // PAINEL DE BOTÕES
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.insets = new Insets(10,0, 0, 5);
         janela.add(
                 new PainelDetalheBotoes(
                         botaoAdicionar,
