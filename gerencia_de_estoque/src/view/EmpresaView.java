@@ -1,11 +1,6 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.ControleEstoqueFilial;
-import controle.ElementoInexistenteException;
-import controle.IdRepetidoException;
-import modelo.Farmaceutico;
-import modelo.Filial;
 
 import javax.swing.*;
 import java.awt.*;
