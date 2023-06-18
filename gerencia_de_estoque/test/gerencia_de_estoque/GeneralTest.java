@@ -14,10 +14,6 @@ import modelo.NivelRestricaoInadequadoException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author andre
  *
@@ -127,16 +123,14 @@ class GeneralTest {
 				"composicao", true, true, false);
 		
 		// Restringir farmaceutico
-		Assertions.assertThrows(NivelRestricaoInadequadoException.class,
-				() -> farmaNaoRestrito.restringir());
+		Assertions.assertThrows(NivelRestricaoInadequadoException.class, farmaNaoRestrito::restringir);
 		
-		Assertions.assertDoesNotThrow(() -> farmaRestrito.restringir());
+		Assertions.assertDoesNotThrow(farmaRestrito::restringir);
 		
 		// Liberar Farmaceutico
-		Assertions.assertDoesNotThrow(() -> farmaNaoRestrito.liberar());
+		Assertions.assertDoesNotThrow(farmaNaoRestrito::liberar);
 		
-		Assertions.assertThrows(NivelRestricaoInadequadoException.class,
-				() -> farmaRestrito.liberar());
+		Assertions.assertThrows(NivelRestricaoInadequadoException.class, farmaRestrito::liberar);
 		
 		// Produto Químico não restrito
 		ProdutoQuimico pqNaoRestrito = new ProdutoQuimico("nome", "categoria", 
@@ -149,14 +143,13 @@ class GeneralTest {
 		
 		// Restringir produto químico
 		Assertions.assertThrows(NivelRestricaoInadequadoException.class,
-				() -> pqNaoRestrito.restringir());
+				pqNaoRestrito::restringir);
 		
-		Assertions.assertDoesNotThrow(() -> pqRestrito.restringir());
+		Assertions.assertDoesNotThrow(pqRestrito::restringir);
 		
 		// Liberar produto químico
-		Assertions.assertDoesNotThrow(() -> pqNaoRestrito.liberar());
+		Assertions.assertDoesNotThrow(pqNaoRestrito::liberar);
 		
-		Assertions.assertThrows(NivelRestricaoInadequadoException.class,
-				() -> pqRestrito.liberar());
+		Assertions.assertThrows(NivelRestricaoInadequadoException.class, pqRestrito::liberar);
 	}
 }
