@@ -8,10 +8,9 @@ import controle.ControleEstoqueFilial;
 import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
-import modelo.ProdutoQuimico;
 import modelo.Filial;
-import modelo.Item;
 import modelo.NivelRestricaoInadequadoException;
+import modelo.ProdutoQuimico;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
