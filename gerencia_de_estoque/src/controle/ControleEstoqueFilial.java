@@ -168,6 +168,10 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         p.setRiscoDeFogo(riscoDeFogo);
     }
 
+    public void limparEstoque() {
+        filialEscolhida.setEstoque(new ArrayList<>());
+    }
+
     public void restringirItem(Item i) throws NivelRestricaoInadequadoException {
         i.restringir();
     }
