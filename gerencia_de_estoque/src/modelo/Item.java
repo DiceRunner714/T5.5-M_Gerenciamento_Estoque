@@ -1,5 +1,6 @@
 package modelo;
 
+
 public abstract class Item {
 
     protected boolean restrito;
