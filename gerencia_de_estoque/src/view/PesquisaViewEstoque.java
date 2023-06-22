@@ -1,8 +1,8 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.LeitorEstoque;
 import controle.ControleEstoqueFilial;
+import controle.LeitorEstoque;
 import modelo.Filial;
 import modelo.Item;
 
@@ -14,15 +14,16 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.List;
+
 public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
-    private final ModosPesquisa modo;
+    private final ModoListarEstoque modo;
     private final JTextField valorPesquisaNomeItem = new JTextField();
     private final LeitorEstoque leitorEstoque;
     private JList<Item> listaEstoque;
 
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa) {
-        modo = ModosPesquisa.LISTAR_ESTOQUE_GERAL;
+        modo = ModoListarEstoque.LISTAR_ESTOQUE_GERAL;
         this.controleEmpresa = controleEmpresa;
         this.leitorEstoque = controleEmpresa;
         iniciarJanelaEstoque("Estoque", "Estoque geral");
@@ -30,7 +31,7 @@ public class PesquisaViewEstoque extends PesquisaView {
     }
 
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
-        modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
+        modo = ModoListarEstoque.LISTAR_ESTOQUE_FILIAL;
         leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
         this.controleEmpresa = controleEmpresa;
         iniciarJanelaEstoque(
@@ -97,9 +98,16 @@ public class PesquisaViewEstoque extends PesquisaView {
             estoqueApenasVazios = leitorEstoque.getItensVazios(estoquePrincipal);
             listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
         } else {
-                listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
+            listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
         }
         listaEstoque.updateUI();
+    }
+
+    // --POP UPS--
+    @Override
+    protected void mensagemErroEscolhaVazia() {
+        String mensagem = "Erro de escolha: um item não foi selecionado";
+        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
@@ -119,6 +127,11 @@ public class PesquisaViewEstoque extends PesquisaView {
     protected void visualizarElemento() {
         Item itemEscolhido = listaEstoque.getSelectedValue();
         new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, itemEscolhido);
+    }
+
+    private enum ModoListarEstoque {
+        LISTAR_ESTOQUE_GERAL,
+        LISTAR_ESTOQUE_FILIAL,
     }
 
     private class FiltrosListener implements DocumentListener, ItemListener {
@@ -141,13 +154,6 @@ public class PesquisaViewEstoque extends PesquisaView {
         public void changedUpdate(DocumentEvent e) {
             refresh();
         }
-    }
-
-    // --POP UPS--
-    @Override
-    protected void mensagemErroEscolhaVazia() {
-        String mensagem = "Erro de escolha: um item não foi selecionado";
-        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 
 
