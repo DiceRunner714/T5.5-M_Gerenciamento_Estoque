@@ -124,7 +124,7 @@ abstract class DetalheView {
     abstract protected void adicionarElemento() throws IdRepetidoException;
 
     /**
-     * Define a opreação a ser executada ao modificar os campos de um elemento
+     * Define a operação a ser executada ao modificar os campos de um elemento
      *
      * @throws IdRepetidoException          caso o novo Id do elemento já seja existente na classe controle
      * @throws ElementoInexistenteException caso o elemento a ser atualizado não exista na classe controle
