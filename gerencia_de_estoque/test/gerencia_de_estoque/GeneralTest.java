@@ -8,9 +8,9 @@ import controle.ControleEstoqueFilial;
 import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
-import modelo.ProdutoQuimico;
 import modelo.Filial;
 import modelo.NivelRestricaoInadequadoException;
+import modelo.ProdutoQuimico;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -117,39 +117,196 @@ class GeneralTest {
 		// Farmaceutico não restrito
 		Farmaceutico farmaNaoRestrito = new Farmaceutico("nome", "categoria", 10.0, 30, 1, "preta",
 				"composicao", true, false, false);
-		
+
 		// Farmaceutico restrito
 		Farmaceutico farmaRestrito = new Farmaceutico("nome", "categoria", 10.0, 30, 1, "preta",
 				"composicao", true, true, false);
-		
+
 		// Restringir farmaceutico
 		Assertions.assertThrows(NivelRestricaoInadequadoException.class, farmaNaoRestrito::restringir);
-		
+
 		Assertions.assertDoesNotThrow(farmaRestrito::restringir);
-		
+
 		// Liberar Farmaceutico
 		Assertions.assertDoesNotThrow(farmaNaoRestrito::liberar);
-		
+
 		Assertions.assertThrows(NivelRestricaoInadequadoException.class, farmaRestrito::liberar);
-		
+
 		// Produto Químico não restrito
-		ProdutoQuimico pqNaoRestrito = new ProdutoQuimico("nome", "categoria", 
+		ProdutoQuimico pqNaoRestrito = new ProdutoQuimico("nome", "categoria",
 				15.1, 50, 2, "perigo especifico", 2, 1, 0);
-		
+
 		// Produto Químico restrito
-		ProdutoQuimico pqRestrito = new ProdutoQuimico("nome", "categoria", 
+		ProdutoQuimico pqRestrito = new ProdutoQuimico("nome", "categoria",
 				15.1, 50, 2, "perigo especifico", 5, 5, 5);
-		
-		
+
+
 		// Restringir produto químico
 		Assertions.assertThrows(NivelRestricaoInadequadoException.class,
 				pqNaoRestrito::restringir);
-		
+
 		Assertions.assertDoesNotThrow(pqRestrito::restringir);
-		
+
 		// Liberar produto químico
 		Assertions.assertDoesNotThrow(pqNaoRestrito::liberar);
-		
+
 		Assertions.assertThrows(NivelRestricaoInadequadoException.class, pqRestrito::liberar);
+	}
+
+	@Test
+	void testeItemInexistente() throws IdRepetidoException, ElementoInexistenteException {
+
+
+		// Adicionar uma filial a ter seu esstoque gerenciado
+		ControleEmpresa controleEmpresa = new ControleEmpresa("empresa");
+		Filial filialGerenciada = new Filial("nome", "local", 0);
+		controleEmpresa.adicionarFilial(filialGerenciada);
+
+		// Criar um controle do estoque dessa filial
+		ControleEstoqueFilial controleEstoque = new ControleEstoqueFilial(controleEmpresa, filialGerenciada);
+
+
+		// TESTE DE ATUALIZAÇÃO
+
+		// -- Características básicas --
+
+		Farmaceutico itemInexistente = new Farmaceutico(
+				"não presente",
+				"categoria",
+				1.0,
+				0,
+				0,
+				"preta",
+				"composicao",
+				true,
+				true,
+				false);
+
+		Farmaceutico itemExistente = new Farmaceutico(
+				"presente",
+				"categoria",
+				1.0,
+				0,
+				0,
+				"preta",
+				"composicao",
+				true,
+				true,
+				false);
+		controleEstoque.adicionarFarmaceutico(itemExistente);
+
+		Assertions.assertThrows(ElementoInexistenteException.class,
+				() -> controleEstoque.atualizarCaracteristicasBasicas(
+						"novo nome",
+						"nova categoria",
+						5.9,
+						5,
+						5,
+						itemInexistente));
+
+		Assertions.assertDoesNotThrow(() -> controleEstoque.atualizarCaracteristicasBasicas(
+				"novo nome",
+				"nova categoria",
+				5.9,
+				5,
+				5,
+				itemExistente));
+
+		// -- Campos Farmacêutico --
+		controleEstoque.limparEstoque();
+
+		Farmaceutico farmaceuticoInexistente = new Farmaceutico(
+				"Farma inexistente",
+				"categoria",
+				1.0,
+				0,
+				0,
+				"preta",
+				"composicao",
+				true,
+				true,
+				false);
+
+		Farmaceutico farmaceuticoExistente = new Farmaceutico(
+				"Farma existente",
+				"categoria",
+				1.0,
+				10,
+				0,
+				"preta",
+				"composicao",
+				true,
+				true,
+				false);
+		controleEstoque.adicionarFarmaceutico(farmaceuticoExistente);
+
+		Assertions.assertThrows(ElementoInexistenteException.class,() -> controleEstoque.atualizarFarmaceutico(
+				"tarja",
+				"composicao",
+				true,
+				true,
+				true,
+				farmaceuticoInexistente));
+
+		Assertions.assertDoesNotThrow(() -> controleEstoque.atualizarFarmaceutico(
+				"tarja",
+				"composicao",
+				true,
+				true,
+				true,
+				farmaceuticoExistente));
+
+		// -- Campos produto químico --
+
+		controleEstoque.limparEstoque();
+		ProdutoQuimico quimicoInexistente = new ProdutoQuimico(
+				"Inexistente",
+				"categoria",
+				10.0,
+				0,
+				0,
+				"perigo",
+				1 ,
+				1,
+				1);
+
+		ProdutoQuimico quimicoExistente = new ProdutoQuimico(
+				"Existente",
+				"categoria",
+				10.0,
+				0,
+				0,
+				"perigo",
+				1 ,
+				1,
+				1);
+		controleEstoque.adicionarProdutoQuimico(quimicoExistente);
+
+
+		Assertions.assertThrows(ElementoInexistenteException.class,
+				() -> controleEstoque.atualizarProdutoQuimico(
+						"radioativo",
+						5,
+						5,
+						5,
+						quimicoInexistente
+				));
+
+		Assertions.assertDoesNotThrow(() -> controleEstoque.atualizarProdutoQuimico(
+						"radioativo",
+						5,
+						5,
+						5,
+						quimicoExistente
+				));
+
+		// TESTE DE EXCLUSÃO
+		controleEstoque.limparEstoque();
+
+		controleEstoque.adicionarFarmaceutico(itemExistente);
+		Assertions.assertDoesNotThrow(() -> controleEstoque.removerItem(itemExistente));
+
+		Assertions.assertThrows(ElementoInexistenteException.class,() -> controleEstoque.removerItem(itemInexistente));
+
 	}
 }
