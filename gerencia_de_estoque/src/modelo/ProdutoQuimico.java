@@ -1,5 +1,13 @@
 package modelo;
 
+/**
+ * Classe ProdutoQuimico simula um produto do tipo produto quimico e herda da classe item
+ *
+ * @author Eduardo Matheus dos Santos Sandes
+ * @version 1.0
+ * @see Item
+ * @since 2023
+ */
 public class ProdutoQuimico extends Item {
 
     //variáveis da classe
@@ -9,6 +17,20 @@ public class ProdutoQuimico extends Item {
     private String perigoEspecifico;
 
     //metodo construtor
+
+    /**
+     * Cria um ProdutoQuimico com os atributos de Item e de ProdutoQuimico
+     *
+     * @param nome nome do produto químico
+     * @param categoria categoria do produto químico
+     * @param valor preço/custo do produto químico
+     * @param quantidade quantidade em disponível em estoque
+     * @param id numero que representa o item no estoque
+     * @param perigoEspecifico perigo específico do produto químico
+     * @param riscoDeFogo numero que indica quão inflamável é o produto quimico
+     * @param reatividade numero que indica a reatividade do produto químico
+     * @param perigoaSaude numero que indica o quão nocivo o produto químico é
+     */
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id,
                           String perigoEspecifico, int riscoDeFogo, int reatividade, int perigoaSaude) {
         super(nome, categoria, valor, quantidade, id);
@@ -20,6 +42,15 @@ public class ProdutoQuimico extends Item {
         ajustarRestricao();
     }
 
+    /**
+     * Cria um ProdutoQuimico apenas com os atributos da classe Item
+     *
+     * @param nome nome do produto químico
+     * @param categoria categoria do produto químico
+     * @param valor preço/custo do produto químico
+     * @param quantidade quantidade em disponível em estoque
+     * @param id numero que representa o item no estoque
+     */
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
         // Assumir que um item é perigoso quando não especificado é menos arriscado
@@ -54,6 +85,12 @@ public class ProdutoQuimico extends Item {
 
     //Outros metodos
     //METODO RESTRINGIR
+
+    /**
+     * Restringe um ProdutoQuimico caso seus atributos o caracterizem como nocivo ou perigoso
+     *
+     * @throws NivelRestricaoInadequadoException
+     */
     @Override
     public void restringir() throws NivelRestricaoInadequadoException {
         if (perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3) {
@@ -66,6 +103,12 @@ public class ProdutoQuimico extends Item {
     }
 
     //METODO LIBERAR
+
+    /**
+     * Libera um ProdutoQuimico caso seus atributos o caracterizem como seguro
+     *
+     * @throws NivelRestricaoInadequadoException
+     */
     @Override
     public void liberar() throws NivelRestricaoInadequadoException {
         if (perigoaSaude <= 2 && riscoDeFogo <= 2 && reatividade <= 2) {

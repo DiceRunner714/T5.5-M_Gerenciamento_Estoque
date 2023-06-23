@@ -1,5 +1,13 @@
 package modelo;
 
+/**
+ * Classe Farmaceutico simula um produto do tipo farmacêutico e herda da classe item
+ *
+ * @author Eduardo Matheus dos Santos Sandes
+ * @version 1.0
+ * @see Item
+ * @since  2023
+ */
 public class Farmaceutico extends Item {
     //variaveis da classe
     private String tarja;
@@ -8,6 +16,21 @@ public class Farmaceutico extends Item {
     private String composicao;
     private boolean generico;
 
+
+    /**
+     * Cria um Farmaceutico com os atributos de Item e Farmaceutico
+     *
+     * @param nome nome do farmacêutico
+     * @param categoria categoria do farmacêutico
+     * @param valor preço/custo do farmacêutico
+     * @param quantidade quantidade disponível em estoque
+     * @param id número que representa o item no estoque
+     * @param tarja tarja do farmacêutico
+     * @param composicao ingredientes presentes no farmacêutico
+     * @param receita indica se o farmacêutico possui receita ou não
+     * @param retencaoDeReceita retenção de receita
+     * @param generico indica se o famacêutico é genérico ou de marca
+     */
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
                         String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
                         boolean generico) {
@@ -20,6 +43,15 @@ public class Farmaceutico extends Item {
         ajustarRestricao();
     }
 
+    /**
+     * Cria um Farmaceutico apenas com os atributos da classe Item
+     *
+     * @param nome nome do farmacêutico
+     * @param categoria categoria do farmacêutico
+     * @param valor preço/custo do farmacêutico
+     * @param quantidade quantidade disponível em estoque
+     * @param id número que representa o item no estoque
+     */
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
         // Assumir que o item é perigoso
@@ -47,6 +79,12 @@ public class Farmaceutico extends Item {
 
     //Outros metodos
     //METODO RESTRINGIR
+
+    /**
+     * Restringe um Farmaceutico caso seus atributos o caracterizem como perigoso ou controlado
+     *
+     * @throws NivelRestricaoInadequadoException
+     */
     public void restringir() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
             restrito = true;
@@ -58,6 +96,12 @@ public class Farmaceutico extends Item {
     }
 
     //METODO LIBERAR
+
+    /**
+     * Libera um Farmaceutico caso seus atributos o caracterizem como seguro ou permitido
+     *
+     * @throws NivelRestricaoInadequadoException
+     */
     public void liberar() throws NivelRestricaoInadequadoException {
         if (!(tarja.equals("preta") && retencaoDeReceita)) {
             restrito = false;
