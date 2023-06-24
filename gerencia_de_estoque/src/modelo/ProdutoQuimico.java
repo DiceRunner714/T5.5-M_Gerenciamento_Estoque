@@ -48,7 +48,7 @@ public class ProdutoQuimico extends Item {
      * @param nome nome do produto químico
      * @param categoria categoria do produto químico
      * @param valor preço/custo do produto químico
-     * @param quantidade quantidade em disponível em estoque
+     * @param quantidade quantidade disponível em estoque
      * @param id numero que representa o item no estoque
      */
     public ProdutoQuimico(String nome, String categoria, double valor, int quantidade, int id) {

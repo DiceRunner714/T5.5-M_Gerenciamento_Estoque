@@ -6,6 +6,14 @@ import modelo.Item;
 
 import java.util.List;
 
+/**
+ * Controle da classe Empresa
+ * @author André Emanuel Bipo da Silva
+ * @version 1.0
+ * @see Empresa
+ * @see view.EmpresaView
+ * @since 2023
+ */
 public class ControleEmpresa implements LeitorEstoque {
     private final Empresa empresa;
     private final List<Filial> filiais;
@@ -19,12 +27,22 @@ public class ControleEmpresa implements LeitorEstoque {
 
     // ___CONTROLE DE FILIAIS___
 
+    /**
+     * Checa se uma filial pesquisada não existe na Empresa por uma instância de Filial
+     * @param f filial pesquisada
+     * @throws ElementoInexistenteException exceção de elemento inexistente
+     */
     void checkFilialNaoExiste(Filial f) throws ElementoInexistenteException {
         if (filiais.stream().noneMatch(f::equals)) {
             throw new ElementoInexistenteException("A filial escolhida não existe");
         }
     }
 
+    /**
+     * Checa se uma filial pesquisada não existe na Empresa pelo seu ID
+     * @param id id pesquisado
+     * @throws ElementoInexistenteException exceção de elemento inexistente
+     */
     void checkFilialNaoExiste(int id) throws ElementoInexistenteException {
         if (filiais.stream().noneMatch(filial -> filial.getId()==id)) {
             throw new ElementoInexistenteException("A filial escolhida não existe");
@@ -32,6 +50,12 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     // --CRIAR--
+
+    /**
+     * Adiciona uma filial à Empresa
+     * @param f filial a ser adicionada
+     * @throws IdRepetidoException exceção gerada caso já exista uma filial com mesmo id
+     */
     public void adicionarFilial(Filial f) throws IdRepetidoException {
         boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == f.getId());
         if (idRepetido) {
@@ -40,7 +64,13 @@ public class ControleEmpresa implements LeitorEstoque {
             empresa.adicionarFilial(f);
         }
     }
-
+    /**
+     * Adiciona uma filial à Empresa
+     * @param nome filial a ser adicionada
+     * @param id id da filial a ser adicionada
+     * @param local da filial a ser adicionada
+     * @throws IdRepetidoException exceção gerada caso já exista uma filial com mesmo id
+     */
     public void adicionarFilial(String nome, String local, int id) throws IdRepetidoException {
         boolean idRepetido = filiais.stream().anyMatch(filial -> filial.getId() == id);
         if (idRepetido) {
@@ -51,10 +81,22 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     // --LER/BUSCAR--
+
+    /**
+     * Busca uma filial por seu id
+     * @param id id da filial a ser encontrada
+     * @return filial
+     */
     public Filial buscarFilial(int id) {
         return empresa.lerFilial(id);
     }
 
+    /**
+     * Busca uma filial através de um item de seu estoque
+     * @param item item através do qual a filal será buscada
+     * @return filial
+     * @throws ElementoInexistenteException gera uma exceção caso a filial não exista
+     */
     public Filial buscarFilialaPartirdeItem(Item item) throws ElementoInexistenteException {
         return filiais.stream()
                 .filter(filial -> filial.getEstoque().contains(item))
@@ -67,6 +109,16 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     // --ATUALIZAR--
+
+    /**
+     * Atualiza os atributos de uma filial
+     * @param newNome novo nome da filial
+     * @param newLocal novo endereço da filial
+     * @param newId novo id da filial
+     * @param f filial
+     * @throws IdRepetidoException gera uma exceção caso o id seja repetido
+     * @throws ElementoInexistenteException gera uma exceção caso a filial não exista
+     */
     public void atualizarFilial(String newNome, String newLocal, int newId, Filial f) throws IdRepetidoException, ElementoInexistenteException {
         checkFilialNaoExiste(f);
         boolean idRepetido = filiais
@@ -87,11 +139,22 @@ public class ControleEmpresa implements LeitorEstoque {
     }
 
     // --REMOVER--
+
+    /**
+     * Exclui uma filial da Empresa por meio do id
+     * @param id id da filial a ser excluida
+     * @throws ElementoInexistenteException gera uma exceção caso a filial não exista na Empresa
+     */
     public void excluirFilial(int id) throws ElementoInexistenteException {
         checkFilialNaoExiste(id);
         empresa.removerFilial(id);
     }
 
+    /**
+     * Exclui uma filial da Empresa por meio do id
+     * @param f filial a ser excluida
+     * @throws ElementoInexistenteException gera uma exceção caso a filial não exista
+     */
     public void excluirFilial(Filial f) throws ElementoInexistenteException {
         checkFilialNaoExiste(f);
         empresa.removerFilial(f);
@@ -114,6 +177,10 @@ public class ControleEmpresa implements LeitorEstoque {
         return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();
     }
 
+    /**
+     * Busca no estoque inteiro e filtra os itens em falta ONDE?
+     * @return lista de itens com estoque vazio
+     */
     public List<Item> getEstoqueVazio() {
         return  empresa
                 .getEstoque()
