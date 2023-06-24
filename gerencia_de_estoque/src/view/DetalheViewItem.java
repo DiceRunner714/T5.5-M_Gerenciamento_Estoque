@@ -11,6 +11,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementação concreta de uma DetalheView destinada ao gerenciamento de detalhes
+ * de um item
+ *
+ * @author André Emanuel Bispo da Silva
+ * @version 1.0
+ * @since 2023
+ */
 public class DetalheViewItem extends DetalheView {
     private final JTabbedPane abaPaginada = new JTabbedPane();
     private final TipoDeEstoque tipoDeEstoque;
@@ -23,7 +31,14 @@ public class DetalheViewItem extends DetalheView {
     private Item itemEscolhido;
     private TipodeItem tipodeItem;
 
+    
     // Construtor para modificar um item
+    /**
+     * Construtor destinado a modificar ou excluir um item da classe de controle
+     * @param controleEmpresa classe de controle para gerenciamento de itens
+     * @param pesquisaView PesquisaView da qual essa janela se origina
+     * @param itemEscolhido item escolhido
+     */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
 
@@ -47,8 +62,14 @@ public class DetalheViewItem extends DetalheView {
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
         popularFormularios();
     }
-
-    // Construtor para adicionar item a uma filial
+    
+	// Construtor para adicionar item a uma filial
+    /**
+     * Construtor destinado a adicionar um item a uma filial
+     * @param controleEmpresa classe de controle para gerenciamento de itens
+     * @param pesquisaView PesquisaView da qual essa janela se origina
+     * @param controleEstoqueFilial classe de controle para manipular estoque de uma filial
+     */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         tipoDeEstoque = TipoDeEstoque.FILIAL;
@@ -57,12 +78,22 @@ public class DetalheViewItem extends DetalheView {
     }
 
     // Construtor para adicionar um item geral
+    /**
+     * Construtor destinado a adicionar um item geral
+     * @param controleEmpresa classe de controle para gerenciamento de itens e
+     * de filiais
+     * @param pesquisaView PesquisaView da qual essa janela se origina
+     */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
         tipoDeEstoque = TipoDeEstoque.GERAL;
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
     }
 
+    /**
+     * Cria os formulários principais
+     * @return formularios
+     */
     @Override
     protected List<JComponent> agruparTodosFormularios() {
 
@@ -91,13 +122,23 @@ public class DetalheViewItem extends DetalheView {
         }
         return formularios;
     }
-
+    
+    /**
+     * Exclui um item
+     * @throws ElementoInexistenteException exceção gerada caso o item não
+     * exista no estoque da empresa
+     */
     @Override
+    
     protected void excluirElemento() throws ElementoInexistenteException {
         controleEstoque.removerItem(itemEscolhido);
         pesquisaView.refresh();
     }
-
+    /**
+     * Adiciona um item ao estoque
+     * @throws IdRepetidoException exceção gerada caso já exista um item com
+     * mesmo id
+     */
     @Override
     protected void adicionarElemento() throws IdRepetidoException {
         if (tipoDeEstoque == TipoDeEstoque.GERAL) {
@@ -116,7 +157,14 @@ public class DetalheViewItem extends DetalheView {
             janela.dispose();
         }
     }
-
+    
+    /**
+     * Atualiza um item
+     * @throws IdRepetidoException exceção gerada caso o usuário tente atualizar
+     * o id para um que já existe no estoque
+     * @throws ElementoInexistenteException exceção gerada ao tentar atualizar um
+     * item que não existe no estoque
+     */
     @Override
     protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException {
         controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
@@ -134,7 +182,9 @@ public class DetalheViewItem extends DetalheView {
             mensagemErroRestricao(e);
         }
     }
-
+    /**
+     * Popular formulários com informações do item escolhido
+     */
     @Override
     protected void popularFormularios() {
         painelFormularioItem.popularFormularios(itemEscolhido);
@@ -143,7 +193,10 @@ public class DetalheViewItem extends DetalheView {
             case FARMACEUTICO -> painelFormularioFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
         }
     }
-
+    
+    /**
+     * Cria painel do item
+     */
     private void criarPainelItem() {
         if (modo == ModosDetalhe.EDITAR) {
             //Editar
@@ -157,17 +210,32 @@ public class DetalheViewItem extends DetalheView {
         }
     }
 
+    /**
+     * Gera mensagem de erro de restrição
+     * @param e
+     */
     private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
         JOptionPane.showMessageDialog(
                 null, e.getMessage(), "Erro de restrição:", JOptionPane.ERROR_MESSAGE
         );
     }
 
+    /**
+     * Tipo de Estoque
+	 * @author André Emanuel Bispo da Silva
+	 * @version 1.0
+	 * @since 2023
+     */
     private enum TipoDeEstoque {
         GERAL, FILIAL
     }
 
-
+    /**
+     * Tipo de Item
+	 * @author André Emanuel Bispo da Silva
+	 * @version 1.0
+	 * @since 2023
+     */
     private enum TipodeItem {
         FARMACEUTICO, PRODUTO_QUIMICO
 
