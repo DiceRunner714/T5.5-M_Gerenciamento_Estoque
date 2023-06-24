@@ -212,7 +212,8 @@ public class DetalheViewItem extends DetalheView {
 
     /**
      * Gera mensagem de erro de restrição
-     * @param e
+     * @param e exceção jogada ao tentar restringir/liberar um item que não
+     * permite tal operação
      */
     private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
         JOptionPane.showMessageDialog(

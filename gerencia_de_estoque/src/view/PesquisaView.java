@@ -44,6 +44,13 @@ public abstract class PesquisaView {
 	 * @since 2023
      */
     protected class ManipularElementoListener implements ActionListener {
+    	/**
+    	 * Override do método ActionPerformed da interface ActionListener,
+         * escolhe a operação correta dependendo do botão selecionado:
+         * adicionar ou ver elemento
+         *
+         * @param e the event to be processed
+    	 */
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             try {
