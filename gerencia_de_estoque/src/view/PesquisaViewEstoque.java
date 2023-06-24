@@ -15,6 +15,16 @@ import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Classe PesquisaViewEstoque representa janela destinada para pesquisa de 
+ * itens no estoque geral ou de uma filial escolhida
+ * @author André Emanuel Bispo da Silva
+ * @author Cássio Sousa dos Reis
+ * @version 1.0
+ * @see PesquisaView
+ * @since 2023
+ *
+ */
 public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
     private final ModoListarEstoque modo;
@@ -22,6 +32,11 @@ public class PesquisaViewEstoque extends PesquisaView {
     private final LeitorEstoque leitorEstoque;
     private JList<Item> listaEstoque;
 
+    /**
+     * Construtor cria uma janela que contém o estoque geral da empresa
+     * @param controleEmpresa Instância de ControleEmpresa, necessário
+     * para pesquisar o estoque geral da empresa
+     */
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa) {
         modo = ModoListarEstoque.LISTAR_ESTOQUE_GERAL;
         this.controleEmpresa = controleEmpresa;
@@ -29,7 +44,14 @@ public class PesquisaViewEstoque extends PesquisaView {
         iniciarJanelaEstoque("Estoque", "Estoque geral");
 
     }
-
+    
+    /**
+     * Construtor cria uma janela que contém o estoque da filial escolhida,
+     * utiliza a classe ControleEstoqueFilial para realizar a leitura do estoque
+     * @param controleEmpresa Instância de ControleEmpresa, necessário
+     * para pesquisar o estoque da filial escolhida
+     * @param filialEscolhida Filial cujo estoque será pesquisado
+     */
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         modo = ModoListarEstoque.LISTAR_ESTOQUE_FILIAL;
         leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
@@ -40,6 +62,11 @@ public class PesquisaViewEstoque extends PesquisaView {
         );
     }
 
+    /**
+     * Define os componentes e cria o painel de pesquisa de estoque
+     * @param tituloJanela Título da janela
+     * @param tituloPainel Título do painel
+     */
     private void iniciarJanelaEstoque(String tituloJanela, String tituloPainel) {
         // Definição dos componentes
         valorPesquisaNomeItem.getDocument().addDocumentListener(new FiltrosListener());
@@ -87,7 +114,11 @@ public class PesquisaViewEstoque extends PesquisaView {
         janela.setLocationRelativeTo(null);
 
     }
-
+    /**
+     * Atualiza a listagem de itens no estoque se o filtro de estoque vazio
+     * for ativado/desativado ou se o usuário pesquisar algum item 
+     * pelo seu nome
+     */
     @Override
     public void refresh() {
         List<Item> estoqueApenasVazios;
@@ -104,12 +135,19 @@ public class PesquisaViewEstoque extends PesquisaView {
     }
 
     // --POP UPS--
+    /**
+     * Gera uma mensagem de erro quando o usuário não selecionou nenhum item,
+     * mas tenta visualizar detalhes através do botão de ver item.
+     */
     @Override
     protected void mensagemErroEscolhaVazia() {
         String mensagem = "Erro de escolha: um item não foi selecionado";
         JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Chama método que cria tela para adicionar item ao estoque
+     */
     @Override
     protected void adicionarElemento() {
         switch (modo) {
@@ -122,18 +160,33 @@ public class PesquisaViewEstoque extends PesquisaView {
             }
         }
     }
-
+    
+    /**
+     * Chama método que cria tela para visualizar ou modificar um item
+     */
     @Override
     protected void visualizarElemento() {
         Item itemEscolhido = listaEstoque.getSelectedValue();
         new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, itemEscolhido);
     }
-
+    
+    /**
+     * Modos de listagem de estoque
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
+     */
     private enum ModoListarEstoque {
         LISTAR_ESTOQUE_GERAL,
         LISTAR_ESTOQUE_FILIAL,
     }
-
+    
+    /**
+     * Define os eventos dos filtros, atualizando a janela
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
+     */
     private class FiltrosListener implements DocumentListener, ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
