@@ -92,6 +92,12 @@ public class PesquisaViewFilial extends PesquisaView {
      * @since 2023
      */
     private class VerEstoqueListener implements ActionListener {
+    	/**
+    	 * Override do método ActionPerformed da interface ActionListener,
+         * tenta criar janela para pesquisa de estoque de uma filial
+         * escolhida
+         * @param e the event to be processed
+    	 */
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -102,11 +108,11 @@ public class PesquisaViewFilial extends PesquisaView {
         }
     }
 
+    // --POP UPS--
     /**
      * Gera uma mensagem de erro quando o usuário não selecionou nenhuma filial,
      * mas tenta visualizar detalhes através do botão de ver filial.
      */
-    // --POP UPS--
     @Override
     protected void mensagemErroEscolhaVazia() {
         String mensagem = "Erro de escolha: uma filial não foi selecionada";
