@@ -4,7 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-
+/**
+ * JPanel formulário com os campos de Farmaceutico, herda da classe JPanel
+ * @author André Emanuel Bipo da Silva
+ * @version 1.0
+ * @see JPanel
+ * @see PainelFormularioItem
+ * @see PainelFormularioFarmaceutico
+ * @see PainelFormularioQuimico
+ * @since 2023
+ */
 public class PainelFormulario extends JPanel {
 
     public PainelFormulario() {
@@ -15,6 +24,13 @@ public class PainelFormulario extends JPanel {
         criarFormulario(componentesEsquerdos, componentesDireitos, titulo);
     }
 
+    /**
+     * Define o layout e adicionar os componentes ao painel
+     * @param componentesEsquerdos
+     * @param componentesDireitos
+     * @param titulo
+     * @param <T>
+     */
     public <T extends JComponent> void criarFormulario(List<T> componentesEsquerdos, List<T> componentesDireitos, String titulo) {
 
         this.setLayout(new GridBagLayout());
