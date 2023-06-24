@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Classe PesquisaViewFilial representa janela destinada para pesquisa de 
- * filiais
+ * filiais, herda de PesquisaView
  * @author André Emanuel Bispo da Silva
  * @author Cássio Sousa dos Reis
  * @version 1.0

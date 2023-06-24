@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Classe PesquisaViewEstoque representa janela destinada para pesquisa de 
- * itens no estoque geral ou de uma filial escolhida
+ * itens no estoque geral ou de uma filial escolhida, herda de PesquisaView
  * @author André Emanuel Bispo da Silva
  * @author Cássio Sousa dos Reis
  * @version 1.0
@@ -115,9 +115,7 @@ public class PesquisaViewEstoque extends PesquisaView {
 
     }
     /**
-     * Atualiza a listagem de itens no estoque se o filtro de estoque vazio
-     * for ativado/desativado ou se o usuário pesquisar algum item 
-     * pelo seu nome
+     * Atualiza a listagem de itens do estoque na interface gráfica 
      */
     @Override
     public void refresh() {
@@ -182,7 +180,8 @@ public class PesquisaViewEstoque extends PesquisaView {
     }
     
     /**
-     * Define os eventos dos filtros, atualizando a janela
+     * Define os eventos dos filtros, atualizando a janela quando ocorre alguma
+     * mudança
      * @author André Emanuel Bispo da Silva
      * @version 1.0
      * @since 2023

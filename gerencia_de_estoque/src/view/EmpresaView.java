@@ -81,7 +81,7 @@ public class EmpresaView  {
     }
     
     /**
-     * Define o comportamento dos botões de ver filiais e de ver estoque
+     * Controla os eventos dos botões de ver filiais e de ver estoque
      * @author André Emanuel Bipo da Silva
      * @version 1.0
      * @since 2023
