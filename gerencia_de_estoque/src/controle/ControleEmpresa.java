@@ -19,13 +19,13 @@ public class ControleEmpresa implements LeitorEstoque {
 
     // ___CONTROLE DE FILIAIS___
 
-    public void checkFilialNaoExiste(Filial f) throws ElementoInexistenteException {
+    void checkFilialNaoExiste(Filial f) throws ElementoInexistenteException {
         if (filiais.stream().noneMatch(f::equals)) {
             throw new ElementoInexistenteException("A filial escolhida não existe");
         }
     }
 
-    public void checkFilialNaoExiste(int id) throws ElementoInexistenteException {
+    void checkFilialNaoExiste(int id) throws ElementoInexistenteException {
         if (filiais.stream().noneMatch(filial -> filial.getId()==id)) {
             throw new ElementoInexistenteException("A filial escolhida não existe");
         }
