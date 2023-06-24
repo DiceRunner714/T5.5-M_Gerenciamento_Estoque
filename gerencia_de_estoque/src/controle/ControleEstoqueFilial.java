@@ -342,6 +342,10 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         return filialEscolhida.buscaParcial(nome, caseSensitive);
     }
 
+    /**
+     * Busca o estoque de uma filial escolhida
+     * @return estoque da filial escolhida
+     */
     public List<Item> getEstoque() {
         return filialEscolhida.getEstoque();
     }
@@ -353,6 +357,12 @@ public class ControleEstoqueFilial implements LeitorEstoque {
     public Filial getFilialEscolhida() {
         return filialEscolhida;
     }
+
+    /**
+     * Busca por todos os itens que estão em falta (quantidade = 0)
+     * @param estoque
+     * @return item vazios
+     */
     @Override
     public List<Item> getItensVazios(List<Item> estoque) {
         return estoque.stream().filter(item -> item.getQuantidade() == 0).toList();

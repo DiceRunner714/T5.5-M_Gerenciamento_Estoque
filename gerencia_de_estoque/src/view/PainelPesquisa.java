@@ -3,7 +3,22 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+
+/**
+ * Criar um Painel de Pesquisa
+ * @author André Emanuel Bispo da Silva
+ * @version 1.0
+ * @since 2023
+ */
 class PainelPesquisa extends JPanel {
+    /**
+     * Método construtor
+     * @param stringTitulo
+     * @param listaElementos
+     * @param botoes
+     * @param componentesExtras
+     * @param <T>
+     */
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos,
                                      List<JButton> botoes, List<? extends JComponent> componentesExtras) {
 
@@ -24,10 +39,25 @@ class PainelPesquisa extends JPanel {
 
     }
 
+    /**
+     * Construtor simplificado,
+     * @param stringTitulo
+     * @param listaElementos
+     * @param botoes
+     * @param <T>
+     */
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos, List<JButton> botoes) {
         construirBasico(stringTitulo, listaElementos, botoes, 0);
     }
 
+    /**
+     * Constrói o painel básico com o título, a lista de elementos e os botões
+     * @param stringTitulo titulo do painel
+     * @param listaElementos
+     * @param botoes
+     * @param listaOffset
+     * @param <T>
+     */
     private <T> void construirBasico(String stringTitulo, JList<T> listaElementos, List<JButton> botoes, int listaOffset) {
 
         this.setLayout(new GridBagLayout());
@@ -67,6 +97,11 @@ class PainelPesquisa extends JPanel {
 
     }
 
+    /**
+     * Cria um painel de botões a partir de uma lista de botões fornecida
+     * @param botoes
+     * @return
+     */
     private JPanel criarPainelBotoes(List<JButton> botoes) {
         // Malha de botões
         JPanel malhaBotoes = new JPanel();
