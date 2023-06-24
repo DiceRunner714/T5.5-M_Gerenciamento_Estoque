@@ -23,7 +23,7 @@ import java.util.List;
  * @version 1.0
  * @since 2023
  */
-abstract class DetalheView {
+public abstract class DetalheView {
     protected final ControleEmpresa controleEmpresa;
     protected final JFrame janela = new JFrame();
     protected final PesquisaView pesquisaView;

@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
 
-abstract class PesquisaView {
+public abstract class PesquisaView {
     protected ControleEmpresa controleEmpresa;
     protected JButton botaoVerDetalhes;
     protected JButton botaoAdicionar;
