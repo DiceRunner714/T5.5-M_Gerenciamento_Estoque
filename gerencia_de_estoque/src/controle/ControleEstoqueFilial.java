@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControleEstoqueFilial implements LeitorEstoque {
-    private final List<Item> estoqueFilial;
     private final Filial filialEscolhida;
     private final ControleEmpresa controleEmpresa;
 
@@ -16,7 +15,6 @@ public class ControleEstoqueFilial implements LeitorEstoque {
     public ControleEstoqueFilial(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
         this.controleEmpresa = controleEmpresa;
         this.filialEscolhida = filialEscolhida;
-        estoqueFilial = filialEscolhida.getEstoque();
     }
 
     // __GERENCIAMENTO DE ITENS__
@@ -56,7 +54,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         if (checkIdRepetido(newFarmaceutico)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
-            estoqueFilial.add(newFarmaceutico);
+            filialEscolhida.adicionarItem(newFarmaceutico);
         }
     }
 
@@ -67,7 +65,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             Item newFarmaceutico = new Farmaceutico(nome, categoria, valor, quantidade, id);
-            estoqueFilial.add(newFarmaceutico);
+            filialEscolhida.adicionarItem(newFarmaceutico);
         }
     }
     public void adicionarFarmaceutico(String nome, String categoria, double valor, int quantidade, int id,
@@ -77,7 +75,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         if (checkIdRepetido(id)) {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
-            estoqueFilial.add(
+            filialEscolhida.adicionarItem(
                     new Farmaceutico(
                             nome, categoria, valor, quantidade, id, tarja, composicao, receita, retencaoDeReceita, generico
                     )
@@ -93,7 +91,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
             throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
         } else {
             Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id);
-            estoqueFilial.add(newProdutoQuimico);
+            filialEscolhida.adicionarItem(newProdutoQuimico);
         }
     }
 
@@ -106,7 +104,16 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         } else {
             Item newProdutoQuimico = new ProdutoQuimico(nome, categoria, valor, quantidade, id,
                     perigoEspecifico, riscoDeFogo, reatividade, perigoaSaude);
-            estoqueFilial.add(newProdutoQuimico);
+            filialEscolhida.adicionarItem(newProdutoQuimico);
+        }
+    }
+
+    public void adicionarProdutoQuimico(ProdutoQuimico newProdutoQuimico) throws IdRepetidoException, ElementoInexistenteException {
+        controleEmpresa.checkFilialNaoExiste(filialEscolhida);
+        if (checkIdRepetido(newProdutoQuimico)) {
+            throw new IdRepetidoException("Id repetido: a empresa já contém um item com esse id");
+        } else {
+            filialEscolhida.adicionarItem(newProdutoQuimico);
         }
     }
 
@@ -159,6 +166,10 @@ public class ControleEstoqueFilial implements LeitorEstoque {
         p.setPerigoaSaude(perigoaSaude);
         p.setPerigoEspecifico(perigoEspecifico);
         p.setRiscoDeFogo(riscoDeFogo);
+    }
+
+    public void limparEstoque() {
+        filialEscolhida.setEstoque(new ArrayList<>());
     }
 
     public void restringirItem(Item i) throws NivelRestricaoInadequadoException {

@@ -11,11 +11,17 @@ abstract class PesquisaView {
     protected ControleEmpresa controleEmpresa;
     protected JButton botaoVerDetalhes;
     protected JButton botaoAdicionar;
+
     abstract void refresh();
+
     abstract protected void mensagemErroEscolhaVazia();
+
     abstract protected void adicionarElemento();
+
     abstract protected void visualizarElemento();
+
     protected class ManipularElementoListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             try {

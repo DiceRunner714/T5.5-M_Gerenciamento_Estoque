@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 abstract class DetalheView {
     protected final ControleEmpresa controleEmpresa;
@@ -23,7 +23,7 @@ abstract class DetalheView {
     protected final JButton botaoAdicionar = new JButton("Adicionar");
     protected final JButton botaoCancelar = new JButton("Cancelar");
 
-    public DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
+    protected DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
         janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         janela.addWindowListener(new WindowAdapter() {
             @Override
@@ -57,7 +57,7 @@ abstract class DetalheView {
         // PAINEL DE BOTÕES
         c.weighty = 0.6;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        c.insets = new Insets(10,0, 0, 5);
+        c.insets = new Insets(10, 0, 0, 5);
         janela.add(
                 new PainelDetalheBotoes(
                         botaoAdicionar,
@@ -66,7 +66,7 @@ abstract class DetalheView {
                         modo,
                         new GerenciarElementoListener()
                 )
-                ,c);
+                , c);
 
         // HABILITAR JANELA
         janela.setSize(width, height);
@@ -89,21 +89,72 @@ abstract class DetalheView {
     protected void enviarFormularios() throws IdRepetidoException, NumberFormatException, NullPointerException {
         switch (modo) {
             case ADICIONAR -> adicionarElemento();
-                case EDITAR -> {
-                    try {
-                        atualizarElemento();
-                    } catch (ElementoInexistenteException e) {
-                        mensagemElementoInexistente(e);
-                        pesquisaView.refresh();
-                        janela.dispose();
-                    }
+            case EDITAR -> {
+                try {
+                    atualizarElemento();
+                } catch (ElementoInexistenteException e) {
+                    mensagemElementoInexistente(e);
+                    pesquisaView.refresh();
+                    janela.dispose();
                 }
+            }
 
         }
         pesquisaView.refresh();
     }
 
-    class GerenciarElementoListener implements ActionListener {
+    protected boolean mensagemConfirmarSaida() {
+        String[] botoes = {"Sim", "Não"};
+        int escolhaPrompt = JOptionPane.showOptionDialog(null,
+                "Confirmar saída? Dados não salvos serão descartados",
+                "Confirmar saída",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                botoes,
+                botoes[1]);
+        return escolhaPrompt == JOptionPane.YES_OPTION;
+    }
+
+    protected boolean mensagemConfirmarExclusao() {
+        String[] botoes = {"Sim", "Não"};
+        int escolhaPrompt = JOptionPane.showOptionDialog(null,
+                "Confirmar exclusão?",
+                "Confirmar saída",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                botoes,
+                botoes[1]);
+        return escolhaPrompt == JOptionPane.YES_OPTION;
+    }
+
+    protected void mensagemElementoInexistente(ElementoInexistenteException e) {
+        JOptionPane.showMessageDialog(null,
+                "Elemento inexistente: " + e.getMessage(),
+                "Elemento inexistente", JOptionPane.ERROR_MESSAGE);
+    }
+
+    protected void mensagemErrodeFormatacao() {
+        JOptionPane.showMessageDialog(null,
+                "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
+                "Erro de formatação", JOptionPane.ERROR_MESSAGE);
+    }
+
+    protected void mensagemErroFormularioVazio() {
+        JOptionPane.showMessageDialog(null,
+                "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
+                "Erro de entrada", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // --POP UPS--
+    protected void mensagemErroIdRepetido(IdRepetidoException e3) {
+        JOptionPane.showMessageDialog(
+                null, e3.getMessage(), "Erro de indentificação", JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    protected class GerenciarElementoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
@@ -138,56 +189,5 @@ abstract class DetalheView {
                 }
             }
         }
-    }
-
-    protected boolean mensagemConfirmarSaida() {
-        String[] botoes = {"Sim", "Não"};
-        int escolhaPrompt = JOptionPane.showOptionDialog(null,
-                "Confirmar saída? Dados não salvos serão descartados",
-                "Confirmar saída",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                botoes,
-                botoes[1]);
-        return escolhaPrompt == JOptionPane.YES_OPTION;
-    }
-
-    protected boolean mensagemConfirmarExclusao() {
-        String[] botoes = {"Sim", "Não"};
-        int escolhaPrompt = JOptionPane.showOptionDialog(null,
-                "Confirmar exclusão?",
-                "Confirmar saída",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                botoes,
-                botoes[1]);
-        return escolhaPrompt == JOptionPane.YES_OPTION;
-    }
-
-    protected void mensagemElementoInexistente(ElementoInexistenteException e) {
-        JOptionPane.showMessageDialog(null,
-                "Elemento inexistente: "+e.getMessage(),
-                "Elemento inexistente", JOptionPane.ERROR_MESSAGE);
-    }
-
-    protected void mensagemErrodeFormatacao() {
-        JOptionPane.showMessageDialog(null,
-                "Erro de formatação: assegure-se que valores numéricos foram inseridos corretamente.",
-                "Erro de formatação", JOptionPane.ERROR_MESSAGE);
-    }
-
-    protected void mensagemErroFormularioVazio() {
-        JOptionPane.showMessageDialog(null,
-                "Erro de entrada: assegure-se que todos os formulários foram preenchidos.",
-                "Erro de entrada", JOptionPane.ERROR_MESSAGE);
-    }
-
-    // --POP UPS--
-    protected void mensagemErroIdRepetido(IdRepetidoException e3) {
-        JOptionPane.showMessageDialog(
-                null, e3.getMessage(), "Erro de indentificação", JOptionPane.ERROR_MESSAGE
-        );
     }
 }
