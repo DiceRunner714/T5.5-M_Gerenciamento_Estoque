@@ -118,7 +118,11 @@ public class PesquisaViewEstoque extends PesquisaView {
     @Override
     protected void visualizarElemento() {
         Item itemEscolhido = listaEstoque.getSelectedValue();
-        new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, itemEscolhido);
+        if (itemEscolhido != null) {
+            new DetalheViewItem(controleEmpresa, PesquisaViewEstoque.this, itemEscolhido);
+        } else {
+            mensagemErroEscolhaVazia();
+        }
     }
 
     private class FiltrosListener implements DocumentListener, ItemListener {
