@@ -161,6 +161,11 @@ public class Filial implements LeitordeEstoque {
                 this.id == outraFilial.getId();
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, local, id);
+    }
+
     /**Busca todos os itens do estoque com um nome contendo a string especificada
      * @param nomeParcial string a compara com os nomes dos itens
      * @param caseSensitive sensibilidade a letras maiúsculas e minúsculas
