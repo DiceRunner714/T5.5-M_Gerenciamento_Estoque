@@ -26,19 +26,22 @@
 # Gerenciador de Estoque
 Esse projeto é uma aplicação de gerenciar estoques de uma empresa por meio de uma interface gráfica.
 
-## Screenshots:
+## Screenshots
 ![janela principal](recursos/recursos-readme/screenshots/principal.png)
 ![editar filiais](recursos/recursos-readme/screenshots/filial.png)
 ![visualizar estoque](recursos/recursos-readme/screenshots/estoque.png)
 ![adicionar item](recursos/recursos-readme/screenshots/editar-item.png)
 
+## Uso
+
+
 ## Tecnologias
-Foi utilizado a linguagem de programação java, com a framework JUnit para testes
+Foi utilizada a linguagem de programação java, com a framework JUnit para testes
 e o Look and Feel customizado flatlaf
 
 ## Status
 O projeto está na etapa final de desenvolvimento, no final da qual será lançada
-a versão 2.0 do projeto
+a versão 2.0
 
 ## Grupo
 Somos do grupo número 5, do tema 5: "Gerenciamento de estoque", da turma T03(Manhã)
