@@ -144,20 +144,10 @@ public class Filial implements LeitordeEstoque {
         return String.format("%d_%s", id, nome);
     }
 
-    /**
-     * Retorna o estoque da filial
-     *
-     * @return uma lista com todos os itens da filial
-     */
     public List<Item> getEstoque() {
         return estoque;
     }
 
-    /**
-     * Substitui o estoque da filial
-     *
-     * @param estoque lista de itens a ser utilizada na substituição
-     */
     public void setEstoque(List<Item> estoque) {
         this.estoque = estoque;
     }

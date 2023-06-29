@@ -103,12 +103,6 @@ public class Empresa implements LeitordeEstoque {
 
 
     // -- LEITURA DE ESTOQUE GERAL --
-
-    /**
-     * Retorna uma lista com todos os itens dos estoques de cada filial presente na empresa
-     *
-     * @return uma lista com todos os itens de todas as filiais
-     */
     @Override
     public List<Item> getEstoque() {
         List<Item> todosItens = new ArrayList<>();
