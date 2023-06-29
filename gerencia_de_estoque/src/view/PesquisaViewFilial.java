@@ -82,7 +82,11 @@ public class PesquisaViewFilial extends PesquisaView {
      */
     @Override
     protected void visualizarElemento() {
-        new DetalheViewFilial(controleEmpresa, PesquisaViewFilial.this, listaFiliais.getSelectedValue());
+        if (listaFiliais.getSelectedValue() != null) {
+            new DetalheViewFilial(controleEmpresa, PesquisaViewFilial.this, listaFiliais.getSelectedValue());
+        } else {
+            mensagemErroEscolhaVazia();
+        }
     }
     
     /**
