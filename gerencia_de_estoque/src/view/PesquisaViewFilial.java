@@ -10,14 +10,31 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+/**
+ * Classe PesquisaViewFilial representa janela destinada para pesquisa de 
+ * filiais, herda de PesquisaView
+ * @author André Emanuel Bispo da Silva
+ * @author Cássio Sousa dos Reis
+ * @version 1.0
+ * @see PesquisaView
+ * @since 2023
+ */
 public class PesquisaViewFilial extends PesquisaView {
     private JList<Filial> listaFiliais;
 
+    /**
+     * Construtor cria janela para pesquisa de filiais
+     * @param controleEmpresa Instância de ControleEmpresa para realizar 
+     * a pesquisa de filiais
+     */
     public PesquisaViewFilial(ControleEmpresa controleEmpresa) {
         this.controleEmpresa = controleEmpresa;
         iniciarJanelaFiliais();
     }
-
+    
+    /**
+     * Define os componentes e cria painel para pesquisa de filiais
+     */
     private void iniciarJanelaFiliais() {
         JFrame janela = new JFrame("Filial");
 
@@ -43,17 +60,26 @@ public class PesquisaViewFilial extends PesquisaView {
         janela.setLocationRelativeTo(null);
     }
 
+    /**
+     * Atualiza a lista de filiais na interface gráfica
+     */
     @Override
     public void refresh() {
                 listaFiliais.setListData(controleEmpresa.getFiliais().toArray(new Filial[0]));
                 listaFiliais.updateUI();
     }
-
+    
+    /**
+     * Chama método que cria janela para adicionar filial
+     */
     @Override
     protected void adicionarElemento() {
         new DetalheViewFilial(controleEmpresa, PesquisaViewFilial.this);
     }
-
+    
+    /**
+     * Chama método que cria tela para visualizar ou modificar uma filial
+     */
     @Override
     protected void visualizarElemento() {
         if (listaFiliais.getSelectedValue() != null) {
@@ -62,8 +88,20 @@ public class PesquisaViewFilial extends PesquisaView {
             mensagemErroEscolhaVazia();
         }
     }
-
+    
+    /**
+     * Define os eventos quando o botão de ver estoque (de uma filial) é pressionado
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
+     */
     private class VerEstoqueListener implements ActionListener {
+    	/**
+    	 * Override do método ActionPerformed da interface ActionListener,
+         * tenta criar janela para pesquisa de estoque de uma filial
+         * escolhida
+         * @param e the event to be processed
+    	 */
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -75,6 +113,10 @@ public class PesquisaViewFilial extends PesquisaView {
     }
 
     // --POP UPS--
+    /**
+     * Gera uma mensagem de erro quando o usuário não selecionou nenhuma filial,
+     * mas tenta visualizar detalhes através do botão de ver filial.
+     */
     @Override
     protected void mensagemErroEscolhaVazia() {
         String mensagem = "Erro de escolha: uma filial não foi selecionada";

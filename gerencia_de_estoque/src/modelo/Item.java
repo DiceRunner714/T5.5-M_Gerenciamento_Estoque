@@ -1,5 +1,14 @@
 package modelo;
 
+/**
+ * Classe abstrata Item define atributos e metodos para as classes filhas: Farmaceutico e Produto Quimico
+ *
+ * @author Cássio Sousa dos Reis
+ * @version 1.0
+ * @see Farmaceutico
+ * @see ProdutoQuimico
+ * @since 2023
+ */
 public abstract class Item {
 
     protected boolean restrito;
@@ -9,6 +18,15 @@ public abstract class Item {
     private double valor;
     private int id;
 
+    /**
+     * Construtor da classe Item
+     *
+     * @param nome       nome do item
+     * @param categoria  categoria do item
+     * @param valor      preço/custo do item
+     * @param quantidade quantidade disponível em estoque
+     * @param id         número que representa o item no estoque
+     */
     public Item(String nome, String categoria, double valor, int quantidade, int id) {
         this.nome = nome;
         this.quantidade = quantidade;
@@ -17,6 +35,15 @@ public abstract class Item {
         this.id = id;
     }
 
+    /**
+     * Metodo usado para atualizar os atributos de um item
+     *
+     * @param newNome       novo nome do item
+     * @param newCategoria  nova categoria do item
+     * @param newValor      novo valor do item
+     * @param newQuantidade nova quantidade do item
+     * @param newId         novo id do item
+     */
     public void atualizarCaracteristicasBasicas(String newNome, String newCategoria, double newValor, int newQuantidade, int newId) {
         nome = newNome;
         quantidade = newQuantidade;
@@ -24,13 +51,37 @@ public abstract class Item {
         valor = newValor;
         id = newId;
     }
+
+    /**
+     * Método usado para restringir um item.
+     * Gera uma exceção caso o item nao possa ser restringido com base em seus atributos
+     *
+     * @throws NivelRestricaoInadequadoException caso esse item não tenha o estado necessário para ser restrito
+     */
     public abstract void restringir() throws NivelRestricaoInadequadoException;
+
+    /**
+     * Método usado para liberar um item.
+     * Gera uma exceção caso o item nao possa ser liberado com base em seus atributos
+     *
+     * @throws NivelRestricaoInadequadoException caso esse item não tenha o estado necessário para ser liberado
+     */
     public abstract void liberar() throws NivelRestricaoInadequadoException;
 
     // Criado para automaticamente ajustar a restrição ao criar um item
+
+    /**
+     * Método para automaticamente ajustar a restrição ao criar um item
+     */
     protected abstract void ajustarRestricao();
+
     abstract public boolean isRestrito();
 
+    /**
+     * Lista as características básicas desse item, destinado para uso em linha de comando
+     *
+     * @return uma string com as características básicas desse item
+     */
     public String listarCaracteristicasBasicas() {
         return String.format("""
                         ---Produto----

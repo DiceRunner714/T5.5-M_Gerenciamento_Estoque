@@ -1,8 +1,8 @@
 package view;
 
 import controle.ControleEmpresa;
-import controle.LeitorEstoque;
 import controle.ControleEstoqueFilial;
+import controle.LeitorEstoque;
 import modelo.Filial;
 import modelo.Item;
 
@@ -14,23 +14,46 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.List;
+
+/**
+ * Classe PesquisaViewEstoque representa janela destinada para pesquisa de 
+ * itens no estoque geral ou de uma filial escolhida, herda de PesquisaView
+ * @author André Emanuel Bispo da Silva
+ * @author Cássio Sousa dos Reis
+ * @version 1.0
+ * @see PesquisaView
+ * @since 2023
+ *
+ */
 public class PesquisaViewEstoque extends PesquisaView {
     private final JCheckBox filtroEstoqueVazio = new JCheckBox("Filtrar por estoque vazio");
-    private final ModosPesquisa modo;
+    private final ModoListarEstoque modo;
     private final JTextField valorPesquisaNomeItem = new JTextField();
     private final LeitorEstoque leitorEstoque;
     private JList<Item> listaEstoque;
 
+    /**
+     * Construtor cria uma janela que contém o estoque geral da empresa
+     * @param controleEmpresa Instância de ControleEmpresa, necessário
+     * para pesquisar o estoque geral da empresa
+     */
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa) {
-        modo = ModosPesquisa.LISTAR_ESTOQUE_GERAL;
+        modo = ModoListarEstoque.LISTAR_ESTOQUE_GERAL;
         this.controleEmpresa = controleEmpresa;
         this.leitorEstoque = controleEmpresa;
         iniciarJanelaEstoque("Estoque", "Estoque geral");
 
     }
-
+    
+    /**
+     * Construtor cria uma janela que contém o estoque da filial escolhida,
+     * utiliza a classe ControleEstoqueFilial para realizar a leitura do estoque
+     * @param controleEmpresa Instância de ControleEmpresa, necessário
+     * para pesquisar o estoque da filial escolhida
+     * @param filialEscolhida Filial cujo estoque será pesquisado
+     */
     public PesquisaViewEstoque(ControleEmpresa controleEmpresa, Filial filialEscolhida) {
-        modo = ModosPesquisa.LISTAR_ESTOQUE_FILIAL;
+        modo = ModoListarEstoque.LISTAR_ESTOQUE_FILIAL;
         leitorEstoque = new ControleEstoqueFilial(controleEmpresa, filialEscolhida);
         this.controleEmpresa = controleEmpresa;
         iniciarJanelaEstoque(
@@ -39,6 +62,11 @@ public class PesquisaViewEstoque extends PesquisaView {
         );
     }
 
+    /**
+     * Define os componentes e cria o painel de pesquisa de estoque
+     * @param tituloJanela Título da janela
+     * @param tituloPainel Título do painel
+     */
     private void iniciarJanelaEstoque(String tituloJanela, String tituloPainel) {
         // Definição dos componentes
         valorPesquisaNomeItem.getDocument().addDocumentListener(new FiltrosListener());
@@ -86,7 +114,9 @@ public class PesquisaViewEstoque extends PesquisaView {
         janela.setLocationRelativeTo(null);
 
     }
-
+    /**
+     * Atualiza a listagem de itens do estoque na interface gráfica 
+     */
     @Override
     public void refresh() {
         List<Item> estoqueApenasVazios;
@@ -97,11 +127,25 @@ public class PesquisaViewEstoque extends PesquisaView {
             estoqueApenasVazios = leitorEstoque.getItensVazios(estoquePrincipal);
             listaEstoque.setListData(estoqueApenasVazios.toArray(new Item[0]));
         } else {
-                listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
+            listaEstoque.setListData(estoquePrincipal.toArray(new Item[0]));
         }
         listaEstoque.updateUI();
     }
 
+    // --POP UPS--
+    /**
+     * Gera uma mensagem de erro quando o usuário não selecionou nenhum item,
+     * mas tenta visualizar detalhes através do botão de ver item.
+     */
+    @Override
+    protected void mensagemErroEscolhaVazia() {
+        String mensagem = "Erro de escolha: um item não foi selecionado";
+        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Chama método que cria tela para adicionar item ao estoque
+     */
     @Override
     protected void adicionarElemento() {
         switch (modo) {
@@ -114,7 +158,10 @@ public class PesquisaViewEstoque extends PesquisaView {
             }
         }
     }
-
+    
+    /**
+     * Chama método que cria tela para visualizar ou modificar um item
+     */
     @Override
     protected void visualizarElemento() {
         Item itemEscolhido = listaEstoque.getSelectedValue();
@@ -124,7 +171,25 @@ public class PesquisaViewEstoque extends PesquisaView {
             mensagemErroEscolhaVazia();
         }
     }
-
+    
+    /**
+     * Modos de listagem de estoque
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
+     */
+    private enum ModoListarEstoque {
+        LISTAR_ESTOQUE_GERAL,
+        LISTAR_ESTOQUE_FILIAL,
+    }
+    
+    /**
+     * Define os eventos dos filtros, atualizando a janela quando ocorre alguma
+     * mudança
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
+     */
     private class FiltrosListener implements DocumentListener, ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -145,13 +210,6 @@ public class PesquisaViewEstoque extends PesquisaView {
         public void changedUpdate(DocumentEvent e) {
             refresh();
         }
-    }
-
-    // --POP UPS--
-    @Override
-    protected void mensagemErroEscolhaVazia() {
-        String mensagem = "Erro de escolha: um item não foi selecionado";
-        JOptionPane.showMessageDialog(null, mensagem, "Erro de escolha", JOptionPane.ERROR_MESSAGE);
     }
 
 
