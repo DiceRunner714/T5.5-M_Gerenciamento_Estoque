@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * JPanel formulário com os campos de Farmaceutico, herda da classe JPanel
+ *
  * @author André Emanuel Bipo da Silva
  * @version 1.0
  * @see JPanel
@@ -16,20 +17,32 @@ import java.util.List;
  */
 public class PainelFormulario extends JPanel {
 
+    /**
+     * Construtor vazio permite subclasses inicializarem seus componentes antes de criar o formulário
+     */
     public PainelFormulario() {
-        
+
     }
 
+    /**
+     * Construtor que cria o formulário com os componentes especificados
+     *
+     * @param componentesEsquerdos componentes à esquerda no formulário
+     * @param componentesDireitos  componentes à direita no formulário
+     * @param titulo               título do formulário
+     * @param <T>                  tipo dos componentes, deve ser subclasse de JComponent
+     */
     public <T extends JComponent> PainelFormulario(List<T> componentesEsquerdos, List<T> componentesDireitos, String titulo) {
         criarFormulario(componentesEsquerdos, componentesDireitos, titulo);
     }
 
     /**
      * Define o layout e adicionar os componentes ao painel
-     * @param componentesEsquerdos
-     * @param componentesDireitos
-     * @param titulo
-     * @param <T>
+     *
+     * @param componentesEsquerdos componentes á esquerda da malha
+     * @param componentesDireitos  componentes à direita da malha
+     * @param titulo               título do formulário
+     * @param <T>                  tipo do componente, deve ser subclasse de JCompoentn
      */
     public <T extends JComponent> void criarFormulario(List<T> componentesEsquerdos, List<T> componentesDireitos, String titulo) {
 
@@ -72,7 +85,6 @@ public class PainelFormulario extends JPanel {
             this.add(componenteDireito, c);
         }
     }
-
 
 
 }
