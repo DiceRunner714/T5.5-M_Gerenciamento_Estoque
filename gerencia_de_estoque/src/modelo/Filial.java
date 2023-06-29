@@ -176,42 +176,21 @@ public class Filial implements LeitordeEstoque {
         }
 
     }
-
-    /**
-     * @return nome da filial
-     */
     public String getNome() {
         return nome;
     }
-
-    /**
-     * @param nome nome da filial
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
-
     public String getLocal() {
         return local;
     }
-
-    /**
-     * @param local locallização geográfica da filial
-     */
     public void setLocal(String local) {
         this.local = local;
     }
-
-    /**
-     * @return número de identificação da filial
-     */
     public int getId() {
         return id;
     }
-
-    /**
-     * @param id número de identificação da filial
-     */
     public void setId(int id) {
         this.id = id;
     }
