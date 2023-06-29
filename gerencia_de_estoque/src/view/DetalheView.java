@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * Classe abstrata detalheView representa a visualização de detalhes de um objeto qualquer,
  * com um ou mais painéis contendo formulários, que permitem a atualização e exclusão de objetos
@@ -33,6 +32,7 @@ public abstract class DetalheView {
     protected final JButton botaoAdicionar = new JButton("Adicionar");
     protected final JButton botaoCancelar = new JButton("Cancelar");
 
+
     /**
      * Construtor define popup de confirmação de saída e campos protegidos
      *
@@ -40,7 +40,7 @@ public abstract class DetalheView {
      * @param pesquisaView    Janela de pesquisa da qual advém esse objeto
      * @param controleEmpresa classe para permitir as operações de controle
      */
-    public DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
+    protected DetalheView(ModosDetalhe modo, PesquisaView pesquisaView, ControleEmpresa controleEmpresa) {
         janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         janela.addWindowListener(new WindowAdapter() {
             @Override
@@ -245,7 +245,7 @@ public abstract class DetalheView {
      * @version 1.0
      * @since 2023
      */
-    class GerenciarElementoListener implements ActionListener {
+    protected class GerenciarElementoListener implements ActionListener {
         /**
          * Override do método ActionPerformed da interface ActionListener,
          * escolhe a operação correta dependendo do botão selecionado:

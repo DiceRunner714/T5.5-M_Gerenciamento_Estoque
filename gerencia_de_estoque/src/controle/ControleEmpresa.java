@@ -182,10 +182,7 @@ public class ControleEmpresa implements LeitorEstoque {
      * @return lista de itens com estoque vazio
      */
     public List<Item> getEstoqueVazio() {
-        return  empresa
-                .getEstoque()
-                .stream()
-                .filter(item -> item.getQuantidade() == 0).toList();
+        return  empresa.getEstoque().stream().filter(item -> item.getQuantidade() == 0).toList();
     }
 
     // GETTERS

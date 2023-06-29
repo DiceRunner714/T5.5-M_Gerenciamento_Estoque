@@ -20,6 +20,7 @@ public abstract class PesquisaView {
     protected ControleEmpresa controleEmpresa;
     protected JButton botaoVerDetalhes;
     protected JButton botaoAdicionar;
+
     /**
      * Atualiza elementos na interface gráfica
      */
@@ -51,6 +52,7 @@ public abstract class PesquisaView {
          *
          * @param e the event to be processed
     	 */
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             try {
