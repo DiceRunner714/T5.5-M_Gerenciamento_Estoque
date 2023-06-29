@@ -24,8 +24,13 @@
 </p>
 
 # Gerenciador de Estoque
-T5.5-M_Gerenciamento_Estoque
-Mini projeto do Grupo 5 do Tema 5 da turma 03 de orientação a objetos com a fabiana, 2023.1
+Esse projeto é uma aplicação de gerenciar estoques de uma empresa por meio de uma interface gráfica.
+
+## Screenshots:
+![janela principal](recursos/recursos-readme/screenshots/principal.png)
+![editar filiais](recursos/recursos-readme/screenshots/filial.png)
+![visualizar estoque](recursos/recursos-readme/screenshots/estoque.png)
+![adicionar item](recursos/recursos-readme/screenshots/editar-item.png)
 
 ## Tecnologias
 Foi utilizado a linguagem de programação java, com a framework JUnit para testes
