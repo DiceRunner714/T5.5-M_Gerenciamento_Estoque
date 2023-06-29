@@ -32,6 +32,7 @@ pode ter zero ou mais filiais, com um estoque cada
 
 - [Screenshots](#screenshots)
 - [Diagramas](#diagramas)
+- [Uso](#uso)
 - [Tecnologias](#tecnologias)
 - [Status](#status)
 - [Grupo](#grupo)
@@ -53,9 +54,14 @@ pode ter zero ou mais filiais, com um estoque cada
 
 ![Diagrama pacotes](recursos/diagramas/diagrama-pacotes.png)
 
+## Uso
+
+Para iniciar a interface gráfica apenas é necessário rodar o ponto de entrada main na classe
+```ViewMain``` do pacote view, dentro da pasta ```src``` do projeto
+
 ## Tecnologias
 
-Foi utilizada a linguagem de programação java, com a framework JUnit para testes
+Foi utilizada a linguagem de programação ```java``` em conjunção a framework ```JUnit``` para testes
 e o Look and Feel customizado flatlaf para swing
 
 ## Status
