@@ -6,7 +6,7 @@ package modelo;
  * @author Eduardo Matheus dos Santos Sandes
  * @version 1.0
  * @see Item
- * @since  2023
+ * @since 2023
  */
 public class Farmaceutico extends Item {
     //variaveis da classe
@@ -20,16 +20,16 @@ public class Farmaceutico extends Item {
     /**
      * Cria um Farmaceutico com os atributos de Item e Farmaceutico
      *
-     * @param nome nome do farmacêutico
-     * @param categoria categoria do farmacêutico
-     * @param valor preço/custo do farmacêutico
-     * @param quantidade quantidade disponível em estoque
-     * @param id número que representa o item no estoque
-     * @param tarja tarja do farmacêutico
-     * @param composicao ingredientes presentes no farmacêutico
-     * @param receita indica se o farmacêutico possui receita ou não
+     * @param nome              nome do farmacêutico
+     * @param categoria         categoria do farmacêutico
+     * @param valor             preço/custo do farmacêutico
+     * @param quantidade        quantidade disponível em estoque
+     * @param id                número que representa o item no estoque
+     * @param tarja             tarja do farmacêutico
+     * @param composicao        ingredientes presentes no farmacêutico
+     * @param receita           indica se o farmacêutico possui receita ou não
      * @param retencaoDeReceita retenção de receita
-     * @param generico indica se o famacêutico é genérico ou de marca
+     * @param generico          indica se o famacêutico é genérico ou de marca
      */
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id,
                         String tarja, String composicao, boolean receita, boolean retencaoDeReceita,
@@ -46,11 +46,11 @@ public class Farmaceutico extends Item {
     /**
      * Cria um Farmaceutico apenas com os atributos da classe Item
      *
-     * @param nome nome do farmacêutico
-     * @param categoria categoria do farmacêutico
-     * @param valor preço/custo do farmacêutico
+     * @param nome       nome do farmacêutico
+     * @param categoria  categoria do farmacêutico
+     * @param valor      preço/custo do farmacêutico
      * @param quantidade quantidade disponível em estoque
-     * @param id número que representa o item no estoque
+     * @param id         número que representa o item no estoque
      */
     public Farmaceutico(String nome, String categoria, double valor, int quantidade, int id) {
         super(nome, categoria, valor, quantidade, id);
@@ -83,7 +83,7 @@ public class Farmaceutico extends Item {
     /**
      * Restringe um Farmaceutico caso seus atributos o caracterizem como perigoso ou controlado
      *
-     * @throws NivelRestricaoInadequadoException
+     * @throws NivelRestricaoInadequadoException caso esse item não tenha o estado necessário para ser restrito
      */
     public void restringir() throws NivelRestricaoInadequadoException {
         if (tarja.equals("preta") && retencaoDeReceita) {
@@ -100,7 +100,7 @@ public class Farmaceutico extends Item {
     /**
      * Libera um Farmaceutico caso seus atributos o caracterizem como seguro ou permitido
      *
-     * @throws NivelRestricaoInadequadoException
+     * @throws NivelRestricaoInadequadoException caso esse item não tenha o estado necessário para ser liberado
      */
     public void liberar() throws NivelRestricaoInadequadoException {
         if (!(tarja.equals("preta") && retencaoDeReceita)) {
