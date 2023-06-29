@@ -25,7 +25,16 @@
 
 # Gerenciador de Estoque
 
-Esse projeto é uma aplicação de gerenciar estoques de uma empresa por meio de uma interface gráfica.
+Esse projeto é uma aplicação de gerenciar estoques de uma empresa por meio de uma interface gráfica. Onde uma empresa
+pode ter zero ou mais filiais, com um estoque cada
+
+## Tabela de conteúdos
+
+- [Screenshots](#screenshots)
+- [Diagramas](#diagramas)
+- [Tecnologias](#tecnologias)
+- [Status](#status)
+- [Grupo](#grupo)
 
 ## Screenshots
 
