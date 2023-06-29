@@ -1,5 +1,26 @@
 <p id="header" align="center">
-    <img src="recursos/screenshots/401285_java_icon.svg" alt="ícone do java" width="300">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100"/>
+</p>
+
+<p id="main-icon" align="center">
+    <img src="recursos/recursos-readme/icone-java.svg" alt="java" width="300">
+</p>
+
+<p align="center">
+    Powered by:
+</p>
+<p id="languages" align="center">
+    <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+</p>
+
+<p id="ides" align="center">
+    <img src="https://img.shields.io/badge/Eclipse-FE7A16.svg?style=for-the-badge&logo=Eclipse&logoColor=white" alt="Eclipse">
+    <img src="https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA">
+</p>
+<p id="ides" align="center">
+    <img src="https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge" alt="Arch">
+    <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="Ubuntu">
+    <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows">
 </p>
 
 # Gerenciador de Estoque
