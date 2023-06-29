@@ -32,7 +32,8 @@ public interface LeitordeEstoque {
     /**
      * Busca por itens pelos seus nomes completos
      *
-     * @param nome nome completo do item a ser pesquisado
+     * @param nome          nome completo do item a ser pesquisado
+     * @param caseSensitive sensibilidade à letras maiúsculas e minúsculas
      * @return itens com o nome escolhido
      */
     List<Item> buscarItens(String nome, boolean caseSensitive);

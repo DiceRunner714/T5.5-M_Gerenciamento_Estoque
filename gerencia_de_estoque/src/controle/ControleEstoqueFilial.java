@@ -352,10 +352,10 @@ public class ControleEstoqueFilial implements LeitorEstoque {
     }
 
     /**
-     * Busca um item no estoque através de seu nome, case insensitive
+     * Busca itens no estoque dessa filial através de seu nome, case insensitive
      *
-     * @param nome
-     * @return item buscado
+     * @param nome nome completo dos itens a serem buscados
+     * @return lista de itens com o mesmo nome escolhido
      */
     @Override
     public List<Item> buscarItens(String nome) {
@@ -363,10 +363,10 @@ public class ControleEstoqueFilial implements LeitorEstoque {
     }
 
     /**
-     * Busca um item no estoque através de seu nome, case sensitive
+     * Busca um item no estoque dessa filial através de parte do seu nome
      *
-     * @param nomeParcial
-     * @return item buscado
+     * @param nomeParcial parte do nome dos itens a serem buscados
+     * @return Uma lista com todos os items que contém o nomeParcial em seu nome
      */
     @Override
     public List<Item> buscarItensParcial(String nomeParcial, boolean caseSensitive) {
@@ -393,7 +393,7 @@ public class ControleEstoqueFilial implements LeitorEstoque {
     /**
      * Busca por todos os itens que estão em falta (quantidade = 0)
      *
-     * @param estoque
+     * @param estoque estoque a ser filtrado
      * @return item vazios
      */
     @Override
