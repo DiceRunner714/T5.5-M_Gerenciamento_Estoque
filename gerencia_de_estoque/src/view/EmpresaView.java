@@ -8,27 +8,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Classe EmpresaView representa a tela de menu da empresa, por meio da qual 
+ * Classe EmpresaView representa a tela de menu da empresa, por meio da qual
  * é possível abrir tela de pesquisa das filiais cadastradas ou tela de pesquisa
  * de seu estoque inteiro
+ *
  * @author André Emanuel Bipo da Silva
  * @author Cássio Sousa dos Reis
  * @version 1.0
  * @see controle.ControleEmpresa
  * @since 2023
  */
-public class EmpresaView  {
+public class EmpresaView {
     private static final JFrame janela = new JFrame("Empresa");
     private static final JButton verFiliais = new JButton("Ver Filiais");
     private static final JButton verEstoque = new JButton("Ver Estoque");
     private final ControleEmpresa controleEmpresa;
-    
+
+
     /**
-     * Construtor cria tela de menu da empresa
-     * @param nome Nome da empresa
+     * Construtor cria uma EmpresaView com base em uma controleEmpresa criada externamente
+     *
+     * @param controleEmpresa controleEmpresa a ser utilizada por essa EmpresaView
      */
-    public EmpresaView(String nome) {
-        controleEmpresa = new ControleEmpresa(nome);
+    public EmpresaView(ControleEmpresa controleEmpresa) {
+        this.controleEmpresa = controleEmpresa;
         JLabel titulo = new JLabel("Empresa: " + controleEmpresa.getNome());
         JLabel texto = new JLabel("""
                 <html>Um empreendimento de
@@ -38,7 +41,7 @@ public class EmpresaView  {
                 precisam poder cadastrar, remover, alterar e ler dados sobre
                 as filiais e os itens. </html>
                 """
-                );
+        );
 
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -79,9 +82,19 @@ public class EmpresaView  {
         verFiliais.addActionListener(new estoqueOuFilialListener());
         verEstoque.addActionListener(new estoqueOuFilialListener());
     }
-    
+
+    /**
+     * Construtor cria tela de menu da empresa baseado em seu nome
+     *
+     * @param nome Nome da empresa
+     */
+    public EmpresaView(String nome) {
+        this(new ControleEmpresa(nome));
+    }
+
     /**
      * Controla os eventos dos botões de ver filiais e de ver estoque
+     *
      * @author André Emanuel Bipo da Silva
      * @version 1.0
      * @since 2023
