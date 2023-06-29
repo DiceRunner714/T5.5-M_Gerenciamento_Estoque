@@ -56,7 +56,7 @@ pode ter zero ou mais filiais, com um estoque cada
 ## Tecnologias
 
 Foi utilizada a linguagem de programação java, com a framework JUnit para testes
-e o Look and Feel customizado flatlaf
+e o Look and Feel customizado flatlaf para swing
 
 ## Status
 
