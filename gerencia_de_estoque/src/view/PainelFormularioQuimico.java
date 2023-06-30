@@ -78,53 +78,36 @@ public class PainelFormularioQuimico extends PainelFormulario {
                 (int) opcoesRiscoDeFogo.getSelectedItem(),
                 (int) opcoesReatividade.getSelectedItem());
 
-        if (painelFormularioItem.getIsRestrito().isSelected()) {
-            if (podeRestringir) {
-                controleEstoqueFilial.atualizarCaracteristicasBasicas(
-                        painelFormularioItem.getValorNome().getText(),
-                        painelFormularioItem.getValorCategoria().getText(),
-                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
-                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
-                        itemEscolhido
-                );
-                controleEstoqueFilial.atualizarProdutoQuimico(
-                        valorPerigoEspecifico.getText(),
-                        (int) opcoesRiscoDeFogo.getSelectedItem(),
-                        (int) opcoesReatividade.getSelectedItem(),
-                        (int) opcoesPerigoaSaude.getSelectedItem(),
-                        itemEscolhido
-                );
-                itemEscolhido.restringir();
-            } else {
-                throw new NivelRestricaoInadequadoException(
-                        "Erro de restrição: O nível de risco escolhido não é alto o suficiente"
-                );
-            }
-        } else {
-            if (podeLiberar) {
-                controleEstoqueFilial.atualizarCaracteristicasBasicas(
-                        painelFormularioItem.getValorNome().getText(),
-                        painelFormularioItem.getValorCategoria().getText(),
-                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
-                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
-                        itemEscolhido
-                );
-                controleEstoqueFilial.atualizarProdutoQuimico(
-                        valorPerigoEspecifico.getText(),
-                        (int) opcoesRiscoDeFogo.getSelectedItem(),
-                        (int) opcoesReatividade.getSelectedItem(),
-                        (int) opcoesPerigoaSaude.getSelectedItem(),
-                        itemEscolhido
-                );
-                itemEscolhido.liberar();
-            } else {
-                throw new NivelRestricaoInadequadoException(
-                        "Erro de restrição: O nível de risco escolhido não é baixo o suficiente"
-                );
-            }
+        boolean restritoEscolhido = painelFormularioItem.getIsRestrito().isSelected();
+
+        if ((restritoEscolhido && !podeRestringir) || (!restritoEscolhido && podeLiberar)) {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro de restrição: O nível de risco escolhido não é adequado"
+            );
         }
+
+        controleEstoqueFilial.atualizarCaracteristicasBasicas(
+                painelFormularioItem.getValorNome().getText(),
+                painelFormularioItem.getValorCategoria().getText(),
+                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                itemEscolhido
+        );
+        controleEstoqueFilial.atualizarProdutoQuimico(
+                valorPerigoEspecifico.getText(),
+                (int) opcoesRiscoDeFogo.getSelectedItem(),
+                (int) opcoesReatividade.getSelectedItem(),
+                (int) opcoesPerigoaSaude.getSelectedItem(),
+                itemEscolhido
+        );
+
+        if (restritoEscolhido) {
+            itemEscolhido.restringir();
+        } else {
+            itemEscolhido.liberar();
+        }
+
 
     }
 
