@@ -112,6 +112,28 @@ public class Farmaceutico extends Item {
         }
     }
 
+    /**
+     * Checa previamente se esse farmacêutico pode ser restrito com base nas características escolhidas
+     *
+     * @param tarja             tarja escolhida para o teste
+     * @param retencaoDeReceita estado de retenção de receita escolhida para o teste
+     * @return true se com essas características o farmacêutico poderia ser restrito sem erros
+     */
+    public boolean checarPodeRestringir(String tarja, boolean retencaoDeReceita) {
+        return tarja.equals("preta") && retencaoDeReceita;
+    }
+
+    /**
+     * Checa previamente se esse farmacêutico pode ser liberado com base nas características escolhidas
+     *
+     * @param tarja             tarja escolhida para o teste
+     * @param retencaoDeReceita estado de retenção de receita escolhida para o teste
+     * @return true se com essas características o farmacêutico poderia ser liberado sem erros
+     */
+    public boolean checarPodeLiberar(String tarja, boolean retencaoDeReceita) {
+        return !checarPodeRestringir(tarja, retencaoDeReceita);
+    }
+
     @Override
     protected void ajustarRestricao() {
         restrito = tarja.equals("preta") && retencaoDeReceita;

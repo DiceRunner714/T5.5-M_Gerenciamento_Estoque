@@ -4,12 +4,14 @@ import controle.ControleEstoqueFilial;
 import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 import modelo.Farmaceutico;
+import modelo.NivelRestricaoInadequadoException;
 
 import javax.swing.*;
 import java.util.Arrays;
 
 /**
  * Painel formulário com os campos de Farmaceutico, herda da classe PainelFormulario
+ *
  * @author André Emanuel Bipo da Silva
  * @version 1.0
  * @see PainelFormulario
@@ -36,15 +38,17 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
                         isReceita,
                         isRetencaoDeReceita,
                         isGenerico)
-                        , "Detalhes - Farmacêutico");
+                , "Detalhes - Farmacêutico");
     }
 
     /**
      * Atualiza as informações de um farmacêutico no estoque
-      * @param controleEstoque controle do estoque
-     * @param itemEscolhido farmacêutico a ser atualizado
+     *
+     * @param controleEstoque controle do estoque
+     * @param itemEscolhido   farmacêutico a ser atualizado
      * @throws ElementoInexistenteException gera uma exceção caso farmacêutico escolhido não exista
      */
+    @Deprecated
     public void atualizarFarmaceutico(ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException {
         controleEstoque.atualizarFarmaceutico(
                 valorTarja.getText(),
@@ -57,10 +61,60 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
     }
 
     /**
+     * Atualiza as informações completas de um farmacêutico no estoque
+     *
+     * @param painelFormularioItem painel com formulários referentes as características básicas desse item
+     * @param controleEstoque      controle do estoque
+     * @param itemEscolhido        farmacêutico a ser atualizado
+     * @throws ElementoInexistenteException gera uma exceção caso farmacêutico escolhido não exista
+     */
+    public void atualizarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException, NivelRestricaoInadequadoException, IdRepetidoException {
+        boolean restritoEscolhido = painelFormularioItem.getIsRestrito().isSelected();
+
+        boolean podeRestringir = itemEscolhido.checarPodeRestringir(
+                valorTarja.getText(),
+                isRetencaoDeReceita.isSelected());
+        boolean podeLiberar = itemEscolhido.checarPodeLiberar(
+                valorTarja.getText(),
+                isRetencaoDeReceita.isSelected());
+
+        if ((restritoEscolhido && !podeRestringir) || (!restritoEscolhido && podeLiberar)) {
+            throw new NivelRestricaoInadequadoException(
+                    "Erro de restrição: O nível de risco escolhido não é adequado"
+            );
+        }
+
+        controleEstoque.atualizarCaracteristicasBasicas(
+                painelFormularioItem.getValorNome().getText(),
+                painelFormularioItem.getValorCategoria().getText(),
+                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                itemEscolhido
+        );
+        controleEstoque.atualizarFarmaceutico(
+                valorTarja.getText(),
+                valorComposicao.getText(),
+                isReceita.isSelected(),
+                isRetencaoDeReceita.isSelected(),
+                isGenerico.isSelected(),
+                itemEscolhido
+        );
+
+        if (restritoEscolhido) {
+            itemEscolhido.restringir();
+        } else {
+            itemEscolhido.liberar();
+        }
+
+    }
+
+    /**
      * Adiciona um novo produto químico ao estoque
-     * @param painelFormularioItem painel do item
-     * @param controleEstoque controle do estoque
-     * @throws IdRepetidoException gera uma exceção caso id do novo item seja igual a um existente
+     *
+     * @param painelFormularioItem painel com formulários referentes as características básicas desse item
+     * @param controleEstoque      controle do estoque
+     * @throws IdRepetidoException          gera uma exceção caso id do novo item seja igual a um existente
      * @throws ElementoInexistenteException gera uma exceção caso farmacêutico escolhido não exista
      */
     public void adicionarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque) throws IdRepetidoException, ElementoInexistenteException {
@@ -77,8 +131,10 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
                 isGenerico.isSelected()
         );
     }
+
     /**
      * Preenche os campos do formulário com as informações de um farmacêutico específico
+     *
      * @param itemEscolhido farmacêutico escolhido
      */
     public void popularFormularios(Farmaceutico itemEscolhido) {

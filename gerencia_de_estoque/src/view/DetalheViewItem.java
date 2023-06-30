@@ -31,13 +31,15 @@ public class DetalheViewItem extends DetalheView {
     private Item itemEscolhido;
     private TipodeItem tipodeItem;
 
-    
+
     // Construtor para modificar um item
+
     /**
      * Construtor destinado a modificar ou excluir um item da classe de controle
+     *
      * @param controleEmpresa classe de controle para gerenciamento de itens
-     * @param pesquisaView PesquisaView da qual essa janela se origina
-     * @param itemEscolhido item escolhido
+     * @param pesquisaView    PesquisaView da qual essa janela se origina
+     * @param itemEscolhido   item escolhido
      */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, Item itemEscolhido) {
         super(ModosDetalhe.EDITAR, pesquisaView, controleEmpresa);
@@ -62,12 +64,14 @@ public class DetalheViewItem extends DetalheView {
         criarJanela(agruparTodosFormularios(), 600, 600, "Item:");
         popularFormularios();
     }
-    
-	// Construtor para adicionar item a uma filial
+
+    // Construtor para adicionar item a uma filial
+
     /**
      * Construtor destinado a adicionar um item a uma filial
-     * @param controleEmpresa classe de controle para gerenciamento de itens
-     * @param pesquisaView PesquisaView da qual essa janela se origina
+     *
+     * @param controleEmpresa       classe de controle para gerenciamento de itens
+     * @param pesquisaView          PesquisaView da qual essa janela se origina
      * @param controleEstoqueFilial classe de controle para manipular estoque de uma filial
      */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView, ControleEstoqueFilial controleEstoqueFilial) {
@@ -78,11 +82,13 @@ public class DetalheViewItem extends DetalheView {
     }
 
     // Construtor para adicionar um item geral
+
     /**
      * Construtor destinado a adicionar um item geral
+     *
      * @param controleEmpresa classe de controle para gerenciamento de itens e
-     * de filiais
-     * @param pesquisaView PesquisaView da qual essa janela se origina
+     *                        de filiais
+     * @param pesquisaView    PesquisaView da qual essa janela se origina
      */
     public DetalheViewItem(ControleEmpresa controleEmpresa, PesquisaView pesquisaView) {
         super(ModosDetalhe.ADICIONAR, pesquisaView, controleEmpresa);
@@ -92,6 +98,7 @@ public class DetalheViewItem extends DetalheView {
 
     /**
      * Cria os formulários principais
+     *
      * @return formularios
      */
     @Override
@@ -122,22 +129,25 @@ public class DetalheViewItem extends DetalheView {
         }
         return formularios;
     }
-    
+
     /**
      * Exclui um item
+     *
      * @throws ElementoInexistenteException exceção gerada caso o item não
-     * exista no estoque da empresa
+     *                                      exista no estoque da empresa
      */
     @Override
-    
+
     protected void excluirElemento() throws ElementoInexistenteException {
         controleEstoque.removerItem(itemEscolhido);
         pesquisaView.refresh();
     }
+
     /**
      * Adiciona um item ao estoque
+     *
      * @throws IdRepetidoException exceção gerada caso já exista um item com
-     * mesmo id
+     *                             mesmo id
      */
     @Override
     protected void adicionarElemento() throws IdRepetidoException {
@@ -157,33 +167,38 @@ public class DetalheViewItem extends DetalheView {
             janela.dispose();
         }
     }
-    
+
     /**
      * Atualiza um item
-     * @throws IdRepetidoException exceção gerada caso o usuário tente atualizar
-     * o id para um que já existe no estoque
+     *
+     * @throws IdRepetidoException          exceção gerada caso o usuário tente atualizar
+     *                                      o id para um que já existe no estoque
      * @throws ElementoInexistenteException exceção gerada ao tentar atualizar um
-     * item que não existe no estoque
+     *                                      item que não existe no estoque
      */
     @Override
     protected void atualizarElemento() throws IdRepetidoException, ElementoInexistenteException {
         controleEmpresa.buscarFilialaPartirdeItem(itemEscolhido);
         try {
-            painelFormularioItem.atualizarCaracteristicasBasicas(controleEstoque, itemEscolhido);
             switch (tipodeItem) {
-                case PRODUTO_QUIMICO -> {
-                    painelFormularioQuimico.atualizarProdutoQuimico(controleEstoque, (ProdutoQuimico) itemEscolhido);
-                }
-                case FARMACEUTICO -> {
-                    painelFormularioFarmaceutico.atualizarFarmaceutico(controleEstoque, (Farmaceutico) itemEscolhido);
-                }
+                case PRODUTO_QUIMICO -> painelFormularioQuimico.atualizarProdutoQuimico(
+                        painelFormularioItem,
+                        controleEstoque,
+                        (ProdutoQuimico) itemEscolhido
+                );
+                case FARMACEUTICO -> painelFormularioFarmaceutico.atualizarFarmaceutico(
+                        painelFormularioItem,
+                        controleEstoque,
+                        (Farmaceutico) itemEscolhido
+                );
             }
         } catch (NivelRestricaoInadequadoException e) {
             mensagemErroRestricao(e);
         }
     }
+
     /**
-     * Popular formulários com informações do item escolhido
+     * Popular formulário com informações do item escolhido
      */
     @Override
     protected void popularFormularios() {
@@ -193,7 +208,7 @@ public class DetalheViewItem extends DetalheView {
             case FARMACEUTICO -> painelFormularioFarmaceutico.popularFormularios((Farmaceutico) itemEscolhido);
         }
     }
-    
+
     /**
      * Cria painel do item
      */
@@ -212,8 +227,9 @@ public class DetalheViewItem extends DetalheView {
 
     /**
      * Gera mensagem de erro de restrição
+     *
      * @param e exceção jogada ao tentar restringir/liberar um item que não
-     * permite tal operação
+     *          permite tal operação
      */
     private void mensagemErroRestricao(NivelRestricaoInadequadoException e) {
         JOptionPane.showMessageDialog(
@@ -223,9 +239,10 @@ public class DetalheViewItem extends DetalheView {
 
     /**
      * Tipo de Estoque
-	 * @author André Emanuel Bispo da Silva
-	 * @version 1.0
-	 * @since 2023
+     *
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
      */
     private enum TipoDeEstoque {
         GERAL, FILIAL
@@ -233,9 +250,10 @@ public class DetalheViewItem extends DetalheView {
 
     /**
      * Tipo de Item
-	 * @author André Emanuel Bispo da Silva
-	 * @version 1.0
-	 * @since 2023
+     *
+     * @author André Emanuel Bispo da Silva
+     * @version 1.0
+     * @since 2023
      */
     private enum TipodeItem {
         FARMACEUTICO, PRODUTO_QUIMICO
