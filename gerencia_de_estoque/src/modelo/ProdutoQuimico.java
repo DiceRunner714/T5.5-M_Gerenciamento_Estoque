@@ -87,6 +87,30 @@ public class ProdutoQuimico extends Item {
     //METODO RESTRINGIR
 
     /**
+     * Checa previamente se esse produto químico pode ser restrito com as características escolhidas
+     *
+     * @param perigoaSaude perigo a saúde escolhido
+     * @param riscoDeFogo  risco de fogo escolhido
+     * @param reatividade  reatividade escolhida
+     * @return true se com essas características o químico poderia ser restrito sem erros
+     */
+    public boolean checarPodeRestringir(int perigoaSaude, int riscoDeFogo, int reatividade) {
+        return perigoaSaude >= 3 || riscoDeFogo >= 3 || reatividade >= 3;
+    }
+
+    /**
+     * Checa previamente se esse produto químico pode ser liberado com as características escolhidas
+     *
+     * @param perigoaSaude perigo a saúde escolhido
+     * @param riscoDeFogo  risco de fogo escolhido
+     * @param reatividade  reatividade escolhida
+     * @return true se com essas características o químico poderia ser liberado sem erros
+     */
+    public boolean checarPodeLiberar(int perigoaSaude, int riscoDeFogo, int reatividade) {
+        return perigoaSaude <= 2 && riscoDeFogo <= 2 && reatividade <= 2;
+    }
+
+    /**
      * Restringe um ProdutoQuimico caso seus atributos o caracterizem como nocivo ou perigoso
      *
      * @throws NivelRestricaoInadequadoException caso o nível de perigo desse produto químico seja abaixo do mínimo
