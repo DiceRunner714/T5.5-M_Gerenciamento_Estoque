@@ -89,9 +89,9 @@ public class ProdutoQuimico extends Item {
     /**
      * Checa previamente se esse produto químico pode ser restrito base nas características escolhidas
      *
-     * @param perigoaSaude perigo a saúde escolhido
-     * @param riscoDeFogo  risco de fogo escolhido
-     * @param reatividade  reatividade escolhida
+     * @param perigoaSaude perigo a saúde escolhido para o teste
+     * @param riscoDeFogo  risco de fogo escolhido para o teste
+     * @param reatividade  reatividade escolhida para o teste
      * @return true se com essas características o químico poderia ser restrito sem erros
      */
     public boolean checarPodeRestringir(int perigoaSaude, int riscoDeFogo, int reatividade) {
@@ -101,9 +101,9 @@ public class ProdutoQuimico extends Item {
     /**
      * Checa previamente se esse produto químico pode ser liberado base nas características escolhidas
      *
-     * @param perigoaSaude perigo a saúde escolhido
-     * @param riscoDeFogo  risco de fogo escolhido
-     * @param reatividade  reatividade escolhida
+     * @param perigoaSaude perigo a saúde escolhido para o teste
+     * @param riscoDeFogo  risco de fogo escolhido para o teste
+     * @param reatividade  reatividade escolhida para o teste
      * @return true se com essas características o químico poderia ser liberado sem erros
      */
     public boolean checarPodeLiberar(int perigoaSaude, int riscoDeFogo, int reatividade) {
