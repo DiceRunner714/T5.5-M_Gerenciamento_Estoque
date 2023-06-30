@@ -62,9 +62,17 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
 
     public void atualizarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException, NivelRestricaoInadequadoException, IdRepetidoException {
         if (painelFormularioItem.getIsRestrito().isSelected()) {
-            itemEscolhido.restringir();
+            if (itemEscolhido.checarPodeRestringir(valorTarja.getText(), isRetencaoDeReceita.isSelected())) {
+                itemEscolhido.restringir();
+            } else {
+                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+            }
         } else {
-            itemEscolhido.liberar();
+            if (itemEscolhido.checarPodeLiberar(valorTarja.getText(), isRetencaoDeReceita.isSelected())) {
+                itemEscolhido.liberar();
+            } else {
+                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+            }
         }
         controleEstoque.atualizarCaracteristicasBasicas(
                 painelFormularioItem.getValorNome().getText(),

@@ -68,10 +68,28 @@ public class PainelFormularioQuimico extends PainelFormulario {
      * @throws ElementoInexistenteException quando o produto químico não constar no estoque
      */
     public void atualizarProdutoQuimico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) throws ElementoInexistenteException, IdRepetidoException, NivelRestricaoInadequadoException {
+        boolean podeRestringir = itemEscolhido.checarPodeRestringir(
+                (int) opcoesPerigoaSaude.getSelectedItem(),
+                (int) opcoesRiscoDeFogo.getSelectedItem(),
+                (int) opcoesReatividade.getSelectedItem());
+
+        boolean podeLiberar = itemEscolhido.checarPodeLiberar(
+                (int) opcoesPerigoaSaude.getSelectedItem(),
+                (int) opcoesRiscoDeFogo.getSelectedItem(),
+                (int) opcoesReatividade.getSelectedItem());
+
         if (painelFormularioItem.getIsRestrito().isSelected()) {
-            itemEscolhido.restringir();
+            if (podeRestringir) {
+                itemEscolhido.restringir();
+            } else {
+                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+            }
         } else {
-            itemEscolhido.liberar();
+            if (podeLiberar) {
+                itemEscolhido.liberar();
+            } else {
+                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+            }
         }
         controleEstoqueFilial.atualizarCaracteristicasBasicas(
                 painelFormularioItem.getValorNome().getText(),
