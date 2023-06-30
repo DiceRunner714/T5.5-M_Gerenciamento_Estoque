@@ -61,35 +61,63 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
     }
 
     public void atualizarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException, NivelRestricaoInadequadoException, IdRepetidoException {
+        boolean podeRestringir = itemEscolhido.checarPodeRestringir(
+                valorTarja.getText(),
+                isRetencaoDeReceita.isSelected());
+        boolean podeLiberar = itemEscolhido.checarPodeLiberar(
+                valorTarja.getText(),
+                isRetencaoDeReceita.isSelected());
+
         if (painelFormularioItem.getIsRestrito().isSelected()) {
-            if (itemEscolhido.checarPodeRestringir(valorTarja.getText(), isRetencaoDeReceita.isSelected())) {
+            if (podeRestringir) {
+                controleEstoque.atualizarCaracteristicasBasicas(
+                        painelFormularioItem.getValorNome().getText(),
+                        painelFormularioItem.getValorCategoria().getText(),
+                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                        itemEscolhido
+                );
+                controleEstoque.atualizarFarmaceutico(
+                        valorTarja.getText(),
+                        valorComposicao.getText(),
+                        isReceita.isSelected(),
+                        isRetencaoDeReceita.isSelected(),
+                        isGenerico.isSelected(),
+                        itemEscolhido
+                );
                 itemEscolhido.restringir();
             } else {
-                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+                throw new NivelRestricaoInadequadoException(
+                        "Erro de restrição: O nível de risco escolhido não é alto o suficiente"
+                );
             }
         } else {
-            if (itemEscolhido.checarPodeLiberar(valorTarja.getText(), isRetencaoDeReceita.isSelected())) {
+            if (podeLiberar) {
+                controleEstoque.atualizarCaracteristicasBasicas(
+                        painelFormularioItem.getValorNome().getText(),
+                        painelFormularioItem.getValorCategoria().getText(),
+                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                        itemEscolhido
+                );
+                controleEstoque.atualizarFarmaceutico(
+                        valorTarja.getText(),
+                        valorComposicao.getText(),
+                        isReceita.isSelected(),
+                        isRetencaoDeReceita.isSelected(),
+                        isGenerico.isSelected(),
+                        itemEscolhido
+                );
                 itemEscolhido.liberar();
             } else {
-                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+                throw new NivelRestricaoInadequadoException(
+                        "Erro de restrição: O nível de risco escolhido não é baixo o suficiente"
+                );
             }
         }
-        controleEstoque.atualizarCaracteristicasBasicas(
-                painelFormularioItem.getValorNome().getText(),
-                painelFormularioItem.getValorCategoria().getText(),
-                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
-                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelFormularioItem.getValorId().getText()),
-                itemEscolhido
-        );
-        controleEstoque.atualizarFarmaceutico(
-                valorTarja.getText(),
-                valorComposicao.getText(),
-                isReceita.isSelected(),
-                isRetencaoDeReceita.isSelected(),
-                isGenerico.isSelected(),
-                itemEscolhido
-        );
+
     }
 
     /**

@@ -80,32 +80,52 @@ public class PainelFormularioQuimico extends PainelFormulario {
 
         if (painelFormularioItem.getIsRestrito().isSelected()) {
             if (podeRestringir) {
+                controleEstoqueFilial.atualizarCaracteristicasBasicas(
+                        painelFormularioItem.getValorNome().getText(),
+                        painelFormularioItem.getValorCategoria().getText(),
+                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                        itemEscolhido
+                );
+                controleEstoqueFilial.atualizarProdutoQuimico(
+                        valorPerigoEspecifico.getText(),
+                        (int) opcoesRiscoDeFogo.getSelectedItem(),
+                        (int) opcoesReatividade.getSelectedItem(),
+                        (int) opcoesPerigoaSaude.getSelectedItem(),
+                        itemEscolhido
+                );
                 itemEscolhido.restringir();
             } else {
-                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+                throw new NivelRestricaoInadequadoException(
+                        "Erro de restrição: O nível de risco escolhido não é alto o suficiente"
+                );
             }
         } else {
             if (podeLiberar) {
+                controleEstoqueFilial.atualizarCaracteristicasBasicas(
+                        painelFormularioItem.getValorNome().getText(),
+                        painelFormularioItem.getValorCategoria().getText(),
+                        Double.parseDouble(painelFormularioItem.getValorValor().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
+                        Integer.parseInt(painelFormularioItem.getValorId().getText()),
+                        itemEscolhido
+                );
+                controleEstoqueFilial.atualizarProdutoQuimico(
+                        valorPerigoEspecifico.getText(),
+                        (int) opcoesRiscoDeFogo.getSelectedItem(),
+                        (int) opcoesReatividade.getSelectedItem(),
+                        (int) opcoesPerigoaSaude.getSelectedItem(),
+                        itemEscolhido
+                );
                 itemEscolhido.liberar();
             } else {
-                throw new NivelRestricaoInadequadoException("O nível de risco desse farmacêutico não é alto o suficiente");
+                throw new NivelRestricaoInadequadoException(
+                        "Erro de restrição: O nível de risco escolhido não é baixo o suficiente"
+                );
             }
         }
-        controleEstoqueFilial.atualizarCaracteristicasBasicas(
-                painelFormularioItem.getValorNome().getText(),
-                painelFormularioItem.getValorCategoria().getText(),
-                Double.parseDouble(painelFormularioItem.getValorValor().getText()),
-                Integer.parseInt(painelFormularioItem.getValorQuantidade().getText()),
-                Integer.parseInt(painelFormularioItem.getValorId().getText()),
-                itemEscolhido
-        );
-        controleEstoqueFilial.atualizarProdutoQuimico(
-                valorPerigoEspecifico.getText(),
-                (int) opcoesRiscoDeFogo.getSelectedItem(),
-                (int) opcoesReatividade.getSelectedItem(),
-                (int) opcoesPerigoaSaude.getSelectedItem(),
-                itemEscolhido
-        );
+
     }
 
     /**
