@@ -24,7 +24,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
     private final JTextField valorPerigoEspecifico = new JTextField();
 
     /**
-     * Cria um novo Painel com os atributos de produto químico
+     * Cria um Painel com os atributos de produto químico
      */
     public PainelFormularioQuimico() {
         criarFormulario(
@@ -62,7 +62,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
     /**
      * Atualiza todos os campos de um produto químico
      *
-     * @param painelFormularioItem  painel com os formulários das características básicas
+     * @param painelFormularioItem  painel com formulários referentes as características básicas desse item
      * @param controleEstoqueFilial controlador do estoque da filial escolhida
      * @param itemEscolhido         produto químico a ser atualizado
      * @throws ElementoInexistenteException quando o produto químico não constar no estoque
@@ -126,7 +126,7 @@ public class PainelFormularioQuimico extends PainelFormulario {
     /**
      * Adiciona um novo produto químico ao estoque
      *
-     * @param painelFormularioItem  painel do item
+     * @param painelFormularioItem  painel com formulários referentes as características básicas desse item
      * @param controleEstoqueFilial controle do estoque da filial escolhida
      * @throws IdRepetidoException          gera uma exceção caso id do novo item seja igual a um existente
      * @throws ElementoInexistenteException gera uma exceção caso produto químico escolhido não exista

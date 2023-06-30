@@ -113,7 +113,7 @@ public class Farmaceutico extends Item {
     }
 
     /**
-     * Checa previamente se esse farmacêutico pode ser restrito com as características escolhidas
+     * Checa previamente se esse farmacêutico pode ser restrito com base nas características escolhidas
      *
      * @param tarja             tarja escolhida para o teste
      * @param retencaoDeReceita estado de retenção de receita escolhida para o teste
@@ -124,7 +124,7 @@ public class Farmaceutico extends Item {
     }
 
     /**
-     * Checa previamente se esse farmacêutico pode ser liberado com as características escolhidas
+     * Checa previamente se esse farmacêutico pode ser liberado com base nas características escolhidas
      *
      * @param tarja             tarja escolhida para o teste
      * @param retencaoDeReceita estado de retenção de receita escolhida para o teste

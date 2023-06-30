@@ -70,7 +70,7 @@ public class PainelFormularioItem extends PainelFormulario {
     // Formulários só podem fazer duas coisas, receber dados, ou colocar dados
 
     /**
-     * Atualizar características de um item
+     * Atualizar as características comuns de um item
      *
      * @param controleEstoque controle do estoque
      * @param itemEscolhido   item a ser atualizado

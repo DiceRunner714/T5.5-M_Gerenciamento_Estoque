@@ -87,7 +87,7 @@ public class ProdutoQuimico extends Item {
     //METODO RESTRINGIR
 
     /**
-     * Checa previamente se esse produto químico pode ser restrito com as características escolhidas
+     * Checa previamente se esse produto químico pode ser restrito base nas características escolhidas
      *
      * @param perigoaSaude perigo a saúde escolhido
      * @param riscoDeFogo  risco de fogo escolhido
@@ -99,7 +99,7 @@ public class ProdutoQuimico extends Item {
     }
 
     /**
-     * Checa previamente se esse produto químico pode ser liberado com as características escolhidas
+     * Checa previamente se esse produto químico pode ser liberado base nas características escolhidas
      *
      * @param perigoaSaude perigo a saúde escolhido
      * @param riscoDeFogo  risco de fogo escolhido
