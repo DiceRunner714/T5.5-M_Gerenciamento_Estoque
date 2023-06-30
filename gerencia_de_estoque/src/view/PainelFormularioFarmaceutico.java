@@ -110,13 +110,6 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
     }
 
     /**
-     * Modifica os campos presentes no farmacêutico, excluindo o de restrição
-     */
-    private void modificarCamposFarmaceutico() {
-
-    }
-
-    /**
      * Adiciona um novo produto químico ao estoque
      *
      * @param painelFormularioItem painel com formulários referentes as características básicas desse item
