@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Painel formulário com os campos de item, herda da classe PainelFormulario
+ *
  * @author André Emanuel Bipo da Silva
  * @version 1.0
  * @see PainelFormulario
@@ -30,10 +31,12 @@ public class PainelFormularioItem extends PainelFormulario {
     private JComboBox<Filial> opcoesFiliais;
 
     // Editar item de uma filial
+
     /**
      * Edita o item de uma filial
+     *
      * @param filialdoItem filial do item
-     * @param modo indica o modo da JanelaDetalhe
+     * @param modo         indica o modo da JanelaDetalhe
      */
     public PainelFormularioItem(Filial filialdoItem, ModosDetalhe modo) {
         List<JComponent> direitos = new ArrayList<>(inicializarComponentesDireitos());
@@ -48,6 +51,7 @@ public class PainelFormularioItem extends PainelFormulario {
 
     /**
      * Adiciona um Item geral
+     *
      * @param filiaisDisponiveis lista de filiais
      */
     public PainelFormularioItem(List<Filial> filiaisDisponiveis) {
@@ -67,12 +71,14 @@ public class PainelFormularioItem extends PainelFormulario {
 
     /**
      * Atualizar características de um item
+     *
      * @param controleEstoque controle do estoque
-     * @param itemEscolhido item a ser atualizado
-     * @throws IdRepetidoException gera uma exceção caso id do novo item seja igual a um existente
-     * @throws ElementoInexistenteException gera uma exceção caso produto químico escolhido não exista
+     * @param itemEscolhido   item a ser atualizado
+     * @throws IdRepetidoException               gera uma exceção caso id do novo item seja igual a um existente
+     * @throws ElementoInexistenteException      gera uma exceção caso produto químico escolhido não exista
      * @throws NivelRestricaoInadequadoException gera uma exceção caso o item seja restrito
      */
+    @Deprecated
     public void atualizarCaracteristicasBasicas(ControleEstoqueFilial controleEstoque, Item itemEscolhido) throws IdRepetidoException, ElementoInexistenteException, NivelRestricaoInadequadoException {
         if (isRestrito.isSelected())
             itemEscolhido.restringir();
@@ -90,6 +96,7 @@ public class PainelFormularioItem extends PainelFormulario {
 
     /**
      * Preenche os campos do formulário com as informações de um item específico
+     *
      * @param itemEscolhido item escolhido
      */
     public void popularFormularios(Item itemEscolhido) {
@@ -103,6 +110,7 @@ public class PainelFormularioItem extends PainelFormulario {
 
     /**
      * Inicializa JLabels do lado esquerdo
+     *
      * @return componentes
      */
     private List<JComponent> inicializarComponentesEsquerdos() {
@@ -113,8 +121,10 @@ public class PainelFormularioItem extends PainelFormulario {
                 new JLabel("Quantidade: "),
                 new JLabel("Valor (R$): "));
     }
+
     /**
      * Inicializa JLabels do lado direito
+     *
      * @return componentes
      */
     private List<JComponent> inicializarComponentesDireitos() {
@@ -124,8 +134,12 @@ public class PainelFormularioItem extends PainelFormulario {
                 valorCategoria,
                 valorQuantidade,
                 valorValor
-            );
+        );
 
+    }
+
+    public JCheckBox getIsRestrito() {
+        return isRestrito;
     }
 
     public Filial getSelectedFilial() {
