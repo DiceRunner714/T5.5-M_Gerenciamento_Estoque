@@ -57,7 +57,8 @@ pode ter zero ou mais filiais, com um estoque cada
 ## Uso
 
 Para iniciar a interface gráfica apenas é necessário rodar o ponto de entrada main na classe
-```ViewMain``` do pacote view, dentro da pasta ```src``` do projeto
+```ViewMain``` do pacote view, dentro da pasta ```src``` do projeto, para inserir dados pré-existentes ao iniciar
+utiliza-se a opção de linha de comando ```--dados-aleatorios```
 
 ## Tecnologias
 
@@ -66,8 +67,7 @@ e o Look and Feel customizado flatlaf para swing
 
 ## Status
 
-O projeto está na etapa final de desenvolvimento, no final da qual será lançada
-a versão 2.0
+O projeto aguarda apenas detalhes de implementação e documentação para a próxima release
 
 ## Grupo
 
