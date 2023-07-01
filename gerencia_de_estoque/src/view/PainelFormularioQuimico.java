@@ -65,7 +65,9 @@ public class PainelFormularioQuimico extends PainelFormulario {
      * @param painelFormularioItem  painel com formulários referentes as características básicas desse item
      * @param controleEstoqueFilial controlador do estoque da filial escolhida
      * @param itemEscolhido         produto químico a ser atualizado
-     * @throws ElementoInexistenteException quando o produto químico não constar no estoque
+     * @throws ElementoInexistenteException      quando o produto químico não constar no estoque
+     * @throws NivelRestricaoInadequadoException caso a operação de restrição seja mal sucedida
+     * @throws IdRepetidoException               caso um item presente no estoque já tenha o id escolhido
      */
     public void atualizarProdutoQuimico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoqueFilial, ProdutoQuimico itemEscolhido) throws ElementoInexistenteException, IdRepetidoException, NivelRestricaoInadequadoException {
         boolean podeRestringir = itemEscolhido.checarPodeRestringir(
