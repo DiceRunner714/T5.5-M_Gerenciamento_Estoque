@@ -66,9 +66,14 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
      * @param painelFormularioItem painel com formulários referentes as características básicas desse item
      * @param controleEstoque      controle do estoque
      * @param itemEscolhido        farmacêutico a ser atualizado
-     * @throws ElementoInexistenteException gera uma exceção caso farmacêutico escolhido não exista
+     * @throws ElementoInexistenteException      gera uma exceção caso farmacêutico escolhido não exista
+     * @throws NivelRestricaoInadequadoException caso a operação de restrição seja mal sucedida
+     * @throws IdRepetidoException               caso um item presente no estoque já tenha o id escolhido
      */
-    public void atualizarFarmaceutico(PainelFormularioItem painelFormularioItem, ControleEstoqueFilial controleEstoque, Farmaceutico itemEscolhido) throws ElementoInexistenteException, NivelRestricaoInadequadoException, IdRepetidoException {
+    public void atualizarFarmaceutico(PainelFormularioItem painelFormularioItem,
+                                      ControleEstoqueFilial controleEstoque,
+                                      Farmaceutico itemEscolhido)
+            throws ElementoInexistenteException, NivelRestricaoInadequadoException, IdRepetidoException {
         boolean restritoEscolhido = painelFormularioItem.getIsRestrito().isSelected();
 
         boolean podeRestringir = itemEscolhido.checarPodeRestringir(

@@ -6,21 +6,24 @@ import java.util.List;
 
 /**
  * Criar um Painel de Pesquisa
+ *
  * @author André Emanuel Bispo da Silva
  * @version 1.0
  * @since 2023
  */
 class PainelPesquisa extends JPanel {
     /**
-     * Método construtor
-     * @param stringTitulo
-     * @param listaElementos
-     * @param botoes
-     * @param componentesExtras
-     * @param <T>
+     * Constrói um painel de pesquisa para certo tipo de objeto com os componentes
+     * escolhidos
+     *
+     * @param stringTitulo      Título do painel
+     * @param listaElementos    JList com os elementos a pesquisar
+     * @param botoes            botões de controle de elementos
+     * @param componentesExtras componentes para adicionar funcionalidades extras para o painél
+     * @param <T>               Classe do elemento a ser pesquisado
      */
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos,
-                                     List<JButton> botoes, List<? extends JComponent> componentesExtras) {
+                              List<JButton> botoes, List<? extends JComponent> componentesExtras) {
 
         construirBasico(stringTitulo, listaElementos, botoes, componentesExtras.size());
         GridBagConstraints c = new GridBagConstraints();
@@ -40,11 +43,12 @@ class PainelPesquisa extends JPanel {
     }
 
     /**
-     * Construtor simplificado,
-     * @param stringTitulo
-     * @param listaElementos
-     * @param botoes
-     * @param <T>
+     * Constrói um painel de pesquisa simplificado, sem componentes extras
+     *
+     * @param stringTitulo   título do painel
+     * @param listaElementos Jlist contendo os elementos a serem pesquisados
+     * @param botoes         botões para controle de elementos
+     * @param <T>            classe do elemento a ser pesquisado
      */
     public <T> PainelPesquisa(String stringTitulo, JList<T> listaElementos, List<JButton> botoes) {
         construirBasico(stringTitulo, listaElementos, botoes, 0);
@@ -52,7 +56,8 @@ class PainelPesquisa extends JPanel {
 
     /**
      * Constrói o painel básico com o título, a lista de elementos e os botões
-     * @param stringTitulo titulo do painel
+     *
+     * @param stringTitulo   titulo do painel
      * @param listaElementos
      * @param botoes
      * @param listaOffset
@@ -99,6 +104,7 @@ class PainelPesquisa extends JPanel {
 
     /**
      * Cria um painel de botões a partir de uma lista de botões fornecida
+     *
      * @param botoes
      * @return
      */

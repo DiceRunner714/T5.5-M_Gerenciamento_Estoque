@@ -7,8 +7,20 @@ import controle.IdRepetidoException;
 
 import javax.swing.*;
 
+/**
+ * Ponto de entrada da inicialização da view
+ *
+ * @author André Emanuel Bispo da Silva
+ * @version 1.0
+ * @since 2023
+ */
 public class ViewMain {
 
+    /**
+     * Método de entrada do programa
+     *
+     * @param args opções de linha de comando
+     */
     public static void main(String[] args) {
         // Tentar colocar tema customizado
         try {
@@ -40,6 +52,12 @@ public class ViewMain {
         }
     }
 
+    /**
+     * Cria um controle empresa com dados pré-existentes
+     *
+     * @param nomeEmpresa nome da empresa a ser criada
+     * @return um ControleEmpresa com dados inseridos
+     */
     private static ControleEmpresa criarEmpresaDadosAleatorios(String nomeEmpresa) {
         ControleEmpresa controleEmpresa = new ControleEmpresa(nomeEmpresa);
 
