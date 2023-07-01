@@ -83,7 +83,7 @@ public class PainelFormularioFarmaceutico extends PainelFormulario {
                 valorTarja.getText(),
                 isRetencaoDeReceita.isSelected());
 
-        if ((restritoEscolhido && !podeRestringir) || (!restritoEscolhido && podeLiberar)) {
+        if ((restritoEscolhido && !podeRestringir) || (!restritoEscolhido && !podeLiberar)) {
             throw new NivelRestricaoInadequadoException(
                     "Erro de restrição: O nível de risco escolhido não é adequado"
             );
