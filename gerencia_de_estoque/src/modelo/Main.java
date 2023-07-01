@@ -2,9 +2,21 @@ package modelo;
 
 import java.util.ArrayList;
 
+/**
+ * Ponto de entrada para teste da model
+ *
+ * @author André Emanuel Bispo da Silva
+ * @version 1.0
+ * @since 2023
+ */
 @Deprecated
 public class Main {
 
+    /**
+     * Método de entrada do programa
+     *
+     * @param args opções de linha de comando
+     */
     public static void main(String[] args) {
 
         // --REQUISITOS MÍNIMOS--
