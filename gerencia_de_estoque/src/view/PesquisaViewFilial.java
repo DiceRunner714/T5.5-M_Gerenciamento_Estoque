@@ -3,9 +3,11 @@ package view;
 import controle.ControleEmpresa;
 import modelo.Filial;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
@@ -55,8 +57,12 @@ public class PesquisaViewFilial extends PesquisaView {
         botaoVerDetalhes.addActionListener(new ManipularElementoListener());
         botaoAdicionar.addActionListener(new ManipularElementoListener());
 
-        ImageIcon img = new ImageIcon("recursos/icones/chart-tree-black.png");
-        janela.setIconImage(img.getImage());
+        try {
+            ImageIcon img = new ImageIcon(ImageIO.read(ClassLoader.getSystemResource("chart-tree-black.png")));
+            janela.setIconImage(img.getImage());
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         janela.setSize(400, 400);
         janela.setResizable(false);
         janela.setVisible(true);

@@ -4,12 +4,14 @@ import controle.ControleEmpresa;
 import controle.ElementoInexistenteException;
 import controle.IdRepetidoException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -95,8 +97,12 @@ public abstract class DetalheView {
                 , c);
 
         // HABILITAR JANELA
-        ImageIcon img = new ImageIcon("recursos/icones/file-edit.png");
-        janela.setIconImage(img.getImage());
+        try {
+            ImageIcon img = new ImageIcon(ImageIO.read(ClassLoader.getSystemResource("file-edit.png")));
+            janela.setIconImage(img.getImage());
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         janela.setSize(width, height);
         janela.setResizable(false);
         janela.setVisible(true);
