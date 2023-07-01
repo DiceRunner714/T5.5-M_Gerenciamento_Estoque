@@ -48,11 +48,11 @@ pode ter zero ou mais filiais, com um estoque cada
 
 ### Diagrama de classes:
 
-![Diagrama classes modelo](recursos/diagramas/diagrama-classes-modelo.png)
+![Diagrama classes modelo](docs/diagramas/diagrama-classes-modelo.png)
 
 ### Diagrama de pacotes:
 
-![Diagrama pacotes](recursos/diagramas/diagrama-pacotes.png)
+![Diagrama pacotes](docs/diagramas/diagrama-pacotes.png)
 
 ## Uso
 
