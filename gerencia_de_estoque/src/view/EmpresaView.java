@@ -2,10 +2,12 @@ package view;
 
 import controle.ControleEmpresa;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Classe EmpresaView representa a tela de menu da empresa, por meio da qual
@@ -74,8 +76,12 @@ public class EmpresaView {
         janela.add(verEstoque, c);
 
         //Ícone
-        ImageIcon img = new ImageIcon("recursos/icones/building-black.png");
-        janela.setIconImage(img.getImage());
+        try {
+            ImageIcon img = new ImageIcon(ImageIO.read(ClassLoader.getSystemResource("building.png")));
+            janela.setIconImage(img.getImage());
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         janela.setSize(400, 400);
         janela.setVisible(true);
         janela.setResizable(false);

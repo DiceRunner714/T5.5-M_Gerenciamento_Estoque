@@ -6,12 +6,14 @@ import controle.LeitorEstoque;
 import modelo.Filial;
 import modelo.Item;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,8 +113,12 @@ public class PesquisaViewEstoque extends PesquisaView {
                 )
         );
 
-        ImageIcon img = new ImageIcon("recursos/icones/garage-open-black.png");
-        janela.setIconImage(img.getImage());
+        try {
+            ImageIcon img = new ImageIcon(ImageIO.read(ClassLoader.getSystemResource("garage-open-black.png")));
+            janela.setIconImage(img.getImage());
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         janela.setSize(400, 400);
         janela.setResizable(false);
         janela.setVisible(true);

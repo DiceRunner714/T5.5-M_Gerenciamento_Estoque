@@ -16,3 +16,4 @@ hs_err_pid*
 
 # Pasta de saída de testes
 gerencia_de_estoque/testsBin
+out
