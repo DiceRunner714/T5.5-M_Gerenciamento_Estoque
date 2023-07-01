@@ -50,6 +50,7 @@ public abstract class DetalheView {
                 }
             }
         });
+
         this.modo = modo;
         this.pesquisaView = pesquisaView;
         this.controleEmpresa = controleEmpresa;
@@ -94,6 +95,8 @@ public abstract class DetalheView {
                 , c);
 
         // HABILITAR JANELA
+        ImageIcon img = new ImageIcon("recursos/icones/file-edit.png");
+        janela.setIconImage(img.getImage());
         janela.setSize(width, height);
         janela.setResizable(false);
         janela.setVisible(true);

@@ -73,6 +73,9 @@ public class EmpresaView {
         c.gridx = 1;
         janela.add(verEstoque, c);
 
+        //Ícone
+        ImageIcon img = new ImageIcon("recursos/icones/building-black.png");
+        janela.setIconImage(img.getImage());
         janela.setSize(400, 400);
         janela.setVisible(true);
         janela.setResizable(false);
