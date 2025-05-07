@@ -27,7 +27,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Cadastro de Farmacêutico
 
-**Como** gestor de estoque, **desejo** cadastrar medicamentos com composição, tarja e se exigem receita, **para** controlar a venda e uso de medicamentos conforme legislação.
+> **Como** gestor de estoque, **desejo** cadastrar medicamentos com composição, tarja e se exigem receita, **para** controlar a venda e uso de medicamentos conforme legislação.
 
 **Critérios de Aceitação:**
 - Deve conter campos para tarja, composição, genérico, receita e retenção de receita.
@@ -46,7 +46,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Restringir ou Liberar Itens
 
-**Como** gestor, **desejo** restringir ou liberar um item conforme regras de segurança, **para** garantir que itens perigosos não estejam acessíveis indevidamente para clientes que não devam obtê-los.
+> **Como** gestor, **desejo** restringir ou liberar um item conforme regras de segurança, **para** garantir que itens perigosos não estejam acessíveis indevidamente para clientes que não devam obtê-los.
 
 **Critérios de Aceitação:**
 - Um item deve poder ser marcado como restrito.
@@ -65,7 +65,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Listagem de Características Básicas
 
-**Como** usuário do sistema, **quero** ver as informações básicas de cada item, **para** entender rapidamente nome, valor e categoria.
+> **Como** usuário do sistema, **quero** ver as informações básicas de cada item, **para** entender rapidamente nome, valor e categoria.
 
 **Critérios de Aceitação:**
 - Para todo item, é possível ver seu nome, categoria, valor e se é restrito.
@@ -83,7 +83,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Atualização de Itens
 
-**Como** operador de estoque, **quero** conseguir atualizar os dados de um item existente, **para** manter o controle de estoque correto e atualizado.
+> **Como** operador de estoque, **quero** conseguir atualizar os dados de um item existente, **para** manter o controle de estoque correto e atualizado.
 
 **Critérios de Aceitação:**
 - Permitir atualização de nome, quantidade, valor, categoria e ID.
@@ -102,7 +102,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Cadastro de Filial
 
-**Como** administrador da empresa, **quero** cadastrar uma filial com nome, local e ID, **para** representar a estrutura organizacional da empresa.
+> **Como** administrador da empresa, **quero** cadastrar uma filial com nome, local e ID, **para** representar a estrutura organizacional da empresa.
 
 **Critérios de Aceitação:**
 - Deve armazenar corretamente as informações da filial.
@@ -121,7 +121,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Controle de Estoque da Filial
 
-**Como** funcionário da filial, **desejo** adicionar e remover itens do estoque da minha filial, **para** manter o controle do inventário.
+> **Como** funcionário da filial, **desejo** adicionar e remover itens do estoque da minha filial, **para** manter o controle do inventário.
 
 **Critérios de Aceitação:**
 - Deve permitir adicionar e remover itens.
@@ -140,7 +140,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Cadastro de Empresa e Filiais
 
-**Como** administrador geral, **quero** cadastrar uma empresa e suas filiais, **para** organizar as operações por localidade.
+> **Como** administrador geral, **quero** cadastrar uma empresa e suas filiais, **para** organizar as operações por localidade.
 
 **Critérios de Aceitação:**
 - Deve ser possível cadastrar uma nova empresa, com nome da empresa e lista de filiais.
@@ -159,7 +159,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Título:** Busca de Itens por ID
 
-**Como** operador, **quero** buscar um item pelo seu ID, **para** localizá-lo rapidamente no sistema.
+> **Como** operador, **quero** buscar um item pelo seu ID, **para** localizá-lo rapidamente no sistema.
 
 **Critérios de Aceitação:**
 - Deve funcionar em qualquer estoque (filial, empresa, etc.).
@@ -170,6 +170,47 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 <!-- <p align="center">
   <img src="link.png" alt="Busca por ID">
+</p> -->
+
+---
+
+## História #10
+
+**Título:** Busca de Item por Nome
+
+> **Como** operador de estoque, **quero** buscar um item pelo nome, **para** localizá-lo mesmo sem saber seu ID.
+
+**Critérios de Aceitação:**
+- Deve ser possível realizar busca parcial.
+- Deve ignorar letras maiúsculas e minúsculas.
+- Deve conseguir buscar por substrings.
+- Deve retornar todos os itens correspondentes.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Busca por Nome">
+</p> -->
+
+---
+
+## História #11
+
+**Título:** Visualizar Todos os Itens
+
+> **Como** administrador, **quero** ver todos os itens do sistema, **para** ter uma visão geral do estoque da empresa.
+
+**Critérios de Aceitação:**
+- Deve exibir lista com nome, ID, categoria, quantidade, valor e filial.
+- Deve exibir o estoque completo da empresa.
+- Pode incluir ordenação alfabética ou por quantidade.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Listagem Geral de Itens">
 </p> -->
 
 ---
