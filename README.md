@@ -43,7 +43,7 @@ pode ter zero ou mais filiais, com um estoque cada
 
 
 ## Links para documentos
-- [Diagrama UML](/docs/diagrama-classes-modelo.png)
+- [Diagrama UML](/docs/diagramas/diagrama-classes-modelo.png)
 - [Backlog do projeto](/docs/backlog.md)
 
 ## Screenshots
