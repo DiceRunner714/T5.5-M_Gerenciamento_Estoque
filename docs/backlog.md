@@ -106,13 +106,70 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 **Critérios de Aceitação:**
 - Deve armazenar corretamente as informações da filial.
-- Deve permitir adicionar itens à filial.
+- É possível adicionar itens ao estoque da filial.
 
 **Status:** A Fazer  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
   <img src="link.png" alt="Cadastro de Filial">
+</p> -->
+
+---
+
+## História #07
+
+**Título:** Controle de Estoque da Filial
+
+**Como** funcionário da filial, **desejo** adicionar e remover itens do estoque da minha filial, **para** manter o controle do inventário.
+
+**Critérios de Aceitação:**
+- Deve permitir adicionar e remover itens.
+- Deve retornar o estoque completo da filial.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Estoque da Filial">
+</p> -->
+
+---
+
+## História #08
+
+**Título:** Cadastro de Empresa e Filiais
+
+**Como** administrador geral, **quero** cadastrar uma empresa e suas filiais, **para** organizar as operações por localidade.
+
+**Critérios de Aceitação:**
+- Deve ser possível cadastrar uma nova empresa, com nome da empresa e lista de filiais.
+- Deve ser possível adicionar e remover filiais da empresa.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Cadastro de Empresa">
+</p> -->
+
+---
+
+## História #09
+
+**Título:** Busca de Itens por ID
+
+**Como** operador, **quero** buscar um item pelo seu ID, **para** localizá-lo rapidamente no sistema.
+
+**Critérios de Aceitação:**
+- Deve funcionar em qualquer estoque (filial, empresa, etc.).
+- Deve retornar o item correspondente ou erro se não existir.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Busca por ID">
 </p> -->
 
 ---
