@@ -60,3 +60,59 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 </p> -->
 
 ---
+
+## História #04
+
+**Título:** Listagem de Características Básicas
+
+**Como** usuário do sistema, **quero** ver as informações básicas de cada item, **para** entender rapidamente nome, valor e categoria.
+
+**Critérios de Aceitação:**
+- Para todo item, é possível ver seu nome, categoria, valor e se é restrito.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Características Básicas">
+</p> -->
+
+---
+
+## História #05
+
+**Título:** Atualização de Itens
+
+**Como** operador de estoque, **quero** conseguir atualizar os dados de um item existente, **para** manter o controle de estoque correto e atualizado.
+
+**Critérios de Aceitação:**
+- Permitir atualização de nome, quantidade, valor, categoria e ID.
+- Validar a existência do item antes da alteração.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Atualização de Itens">
+</p> -->
+
+---
+
+## História #06
+
+**Título:** Cadastro de Filial
+
+**Como** administrador da empresa, **quero** cadastrar uma filial com nome, local e ID, **para** representar a estrutura organizacional da empresa.
+
+**Critérios de Aceitação:**
+- Deve armazenar corretamente as informações da filial.
+- Deve permitir adicionar itens à filial.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Cadastro de Filial">
+</p> -->
+
+---
