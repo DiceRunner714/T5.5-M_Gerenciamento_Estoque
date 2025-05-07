@@ -214,3 +214,22 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 </p> -->
 
 ---
+
+## História #12
+
+**Título:** Itens com Estoque Zerado
+
+> **Como** supervisor de estoque, **quero** listar os itens com estoque zerado de uma filial, **para** identificar o que precisa ser reabastecido.
+
+**Critérios de Aceitação:**
+- Deve retornar apenas os itens com quantidade = 0.
+- Deve filtrar por filial específica.
+
+**Status:** A Fazer  
+**Tipo:** Funcionalidade
+
+<!-- <p align="center">
+  <img src="link.png" alt="Estoque Zerado">
+</p> -->
+
+---
