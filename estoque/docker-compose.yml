@@ -37,6 +37,11 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+  test:
+    build: ./app
+    command: ["pytest"]
+    volumes:
+      - ./app:/app
 
 volumes:
   postgres_data:
