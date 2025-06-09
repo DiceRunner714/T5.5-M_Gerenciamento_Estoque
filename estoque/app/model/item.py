@@ -11,3 +11,6 @@ class Item(ABC):
 
     def restringir(self) -> None:
         self._restrito = True
+
+    def liberar(self) -> None:
+        self._restrito = False
