@@ -8,3 +8,6 @@ class Item(ABC):
         self._id = id
         self._valor = valor
         self._restrito = restrito
+
+    def restringir(self) -> None:
+        self._restrito = True
