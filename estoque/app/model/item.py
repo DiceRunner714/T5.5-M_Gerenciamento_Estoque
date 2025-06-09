@@ -14,3 +14,6 @@ class Item(ABC):
 
     def liberar(self) -> None:
         self._restrito = False
+
+    def listar_caracteristicas_basicas(self) -> str:
+        return self._nome + self._categoria + str(self._quantidade) + str(self._id) + str(self._valor) + str(self._restrito)     
