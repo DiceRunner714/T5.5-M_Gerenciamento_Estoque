@@ -24,3 +24,6 @@ class Empresa:
             filial.nome = nome
             filial.local = local
             filial.id = novo_id
+
+    def listar_filiais(self) -> list[Filial]:
+        return self._filiais
