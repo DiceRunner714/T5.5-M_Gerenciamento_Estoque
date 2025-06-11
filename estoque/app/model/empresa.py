@@ -15,3 +15,6 @@ class Empresa:
             if filial.id == id:
                 return filial
         return None
+    
+    def remover_filial(self, id: int) -> None:
+        self._filiais = [f for f in self._filiais if f.id != id]
