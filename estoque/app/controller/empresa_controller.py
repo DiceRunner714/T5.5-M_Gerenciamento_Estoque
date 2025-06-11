@@ -21,3 +21,6 @@ def remover_empresa(id: int) -> bool:
         del empresas[id]
         return True
     return False
+
+def get_empresas_dict():
+    return empresas
