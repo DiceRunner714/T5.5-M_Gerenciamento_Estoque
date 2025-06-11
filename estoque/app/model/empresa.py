@@ -27,3 +27,11 @@ class Empresa:
 
     def listar_filiais(self) -> list[Filial]:
         return self._filiais
+    
+    @property
+    def nome(self) -> str:
+        return self._nome
+
+    @nome.setter
+    def nome(self, novo_nome: str) -> None:
+        self._nome = novo_nome
