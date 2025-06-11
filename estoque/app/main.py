@@ -1,7 +1,6 @@
 from fastapi import FastAPI
+from view import empresa_routes
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, world!"}
+app.include_router(empresa_routes.router)
