@@ -14,3 +14,10 @@ def test_criar_empresa():
     data = response.json()
     assert "id" in data
     assert data["nome"] == "Empresa Teste"
+
+def test_listar_empresas():
+    response = client.get("/empresa/")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
