@@ -21,3 +21,13 @@ def test_listar_empresas():
     data = response.json()
     assert isinstance(data, list)
     assert len(data) > 0
+
+def test_deletar_empresa():
+    post = client.post("/empresa/", json={"nome": "Empresa Delete"})
+    id_empresa = post.json()["id"]
+
+    delete = client.delete(f"/empresa/{id_empresa}")
+    assert delete.status_code == 200
+
+    get = client.get(f"/empresa/{id_empresa}")
+    assert get.status_code == 404
