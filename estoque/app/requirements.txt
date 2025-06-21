@@ -6,3 +6,4 @@ python-dotenv
 pytest
 flake8
 pydantic
+httpx
