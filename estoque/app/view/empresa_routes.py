@@ -7,17 +7,12 @@ router = APIRouter(prefix="/empresa", tags=["Empresa"])
 @router.post("/", response_model=EmpresaResponse)
 def criar_empresa(dados: EmpresaCreate):
     nova = empresa_controller.criar_empresa(dados.nome)
-    for id_empresa, empresa in empresa_controller.get_empresas_dict().items():
-        if empresa == nova:
-            return EmpresaResponse(id=id_empresa, nome=empresa.nome)
-    raise HTTPException(status_code=500, detail="Erro ao criar empresa")
+    return EmpresaResponse(id=nova.id, nome=nova.nome)
 
 @router.get("/", response_model=list[EmpresaResponse])
 def listar_empresas():
-    return [
-        EmpresaResponse(id=id_empresa, nome=empresa.nome)
-        for id_empresa, empresa in empresa_controller.listar_empresas()
-    ]
+    empresas = empresa_controller.listar_empresas()
+    return [EmpresaResponse(id=e.id, nome=e.nome) for e in empresas]
 
 @router.get("/{id}", response_model=EmpresaResponse)
 def buscar_empresa(id: int):

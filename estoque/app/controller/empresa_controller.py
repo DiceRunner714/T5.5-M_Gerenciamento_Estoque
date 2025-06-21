@@ -1,26 +1,35 @@
-from model.empresa import Empresa
+from sqlalchemy.orm import Session
+from config.database import SessionLocal
+from model.empresa_orm import EmpresaORM
 
-empresas: dict[int, Empresa] = {}
-id_counter = 1
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-def criar_empresa(nome: str) -> Empresa:
-    global id_counter
-    nova = Empresa(nome)
-    empresas[id_counter] = nova
-    id_counter += 1
+def criar_empresa(nome: str) -> EmpresaORM:
+    db: Session = next(get_db())
+    nova = EmpresaORM(nome=nome)
+    db.add(nova)
+    db.commit()
+    db.refresh(nova)
     return nova
 
-def listar_empresas() -> list[tuple[int, Empresa]]:
-    return list(empresas.items())
+def listar_empresas() -> list[EmpresaORM]:
+    db: Session = next(get_db())
+    return db.query(EmpresaORM).all()
 
-def buscar_empresa_por_id(id: int) -> Empresa | None:
-    return empresas.get(id)
+def buscar_empresa_por_id(id: int) -> EmpresaORM | None:
+    db: Session = next(get_db())
+    return db.query(EmpresaORM).filter(EmpresaORM.id == id).first()
 
 def remover_empresa(id: int) -> bool:
-    if id in empresas:
-        del empresas[id]
+    db: Session = next(get_db())
+    empresa = db.query(EmpresaORM).filter(EmpresaORM.id == id).first()
+    if empresa:
+        db.delete(empresa)
+        db.commit()
         return True
     return False
-
-def get_empresas_dict():
-    return empresas

@@ -7,3 +7,4 @@ pytest
 flake8
 pydantic
 httpx
+psycopg2-binary
