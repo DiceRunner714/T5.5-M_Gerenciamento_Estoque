@@ -17,25 +17,32 @@ class Filial:
     def listar_caracteristicas(self) -> str:
         return f"ID: {self._id}\nNome: {self._nome}\nLocal: {self._local}\nQtd Itens: {len(self._itens)}"
     
-    def listar_itens(self) -> list[Item]:
+    @property
+    def itens(self) -> list[Item]:
         return self._itens.copy()
     
-    def get_nome(self) -> str:
+    @property
+    def nome(self) -> str:
         return self._nome
 
-    def set_nome(self, nome: str) -> None:
+    @nome.setter
+    def nome(self, nome: str) -> None:
         self._nome = nome
 
-    def get_local(self) -> str:
+    @property
+    def local(self) -> str:
         return self._local
 
-    def set_local(self, local: str) -> None:
+    @local.setter
+    def local(self, local: str) -> None:
         self._local = local
 
-    def get_id(self) -> int:
+    @property
+    def id(self) -> int:
         return self._id
 
-    def set_id(self, id: int) -> None:
+    @id.setter
+    def id(self, id: int) -> None:
         self._id = id
 
     def __str__(self) -> str:
