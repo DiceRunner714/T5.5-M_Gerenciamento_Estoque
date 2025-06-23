@@ -13,3 +13,6 @@ class Filial:
     def remover_item(self, item: Item) -> None:
         if item in self._itens:
             self._itens.remove(item)
+
+    def listar_caracteristicas(self) -> str:
+        return f"ID: {self._id}\nNome: {self._nome}\nLocal: {self._local}\nQtd Itens: {len(self._itens)}"
