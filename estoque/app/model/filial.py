@@ -37,3 +37,6 @@ class Filial:
 
     def set_id(self, id: int) -> None:
         self._id = id
+
+    def __str__(self) -> str:
+        return f"Filial {self._nome} (ID: {self._id}) - Local: {self._local}"
