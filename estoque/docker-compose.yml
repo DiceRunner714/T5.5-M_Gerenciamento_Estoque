@@ -43,6 +43,12 @@ services:
     volumes:
       - ./app:/app
 
+  lint:
+    build: ./app
+    command: flake8 .
+    volumes:
+      - ./app:/app
+
 volumes:
   postgres_data:
   pgadmin_data:
