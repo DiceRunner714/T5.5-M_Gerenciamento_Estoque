@@ -9,3 +9,7 @@ class Filial:
     
     def adicionar_item(self, item: Item) -> None:
         self._itens.append(item)
+
+    def remover_item(self, item: Item) -> None:
+        if item in self._itens:
+            self._itens.remove(item)
