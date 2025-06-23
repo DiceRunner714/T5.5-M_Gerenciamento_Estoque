@@ -16,3 +16,6 @@ class Filial:
 
     def listar_caracteristicas(self) -> str:
         return f"ID: {self._id}\nNome: {self._nome}\nLocal: {self._local}\nQtd Itens: {len(self._itens)}"
+    
+    def listar_itens(self) -> list[Item]:
+        return self._itens.copy()
