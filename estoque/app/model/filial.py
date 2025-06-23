@@ -6,3 +6,6 @@ class Filial:
         self._local: str = local
         self._id: int = id
         self._itens: list[Item] = []
+    
+    def adicionar_item(self, item: Item) -> None:
+        self._itens.append(item)
