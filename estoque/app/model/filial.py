@@ -19,3 +19,21 @@ class Filial:
     
     def listar_itens(self) -> list[Item]:
         return self._itens.copy()
+    
+    def get_nome(self) -> str:
+        return self._nome
+
+    def set_nome(self, nome: str) -> None:
+        self._nome = nome
+
+    def get_local(self) -> str:
+        return self._local
+
+    def set_local(self, local: str) -> None:
+        self._local = local
+
+    def get_id(self) -> int:
+        return self._id
+
+    def set_id(self, id: int) -> None:
+        self._id = id
