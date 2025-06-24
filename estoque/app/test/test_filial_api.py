@@ -38,3 +38,20 @@ def test_buscar_filial_por_id():
     response = client.get(f"/filial/{filial_id}")
     assert response.status_code == 200
     assert response.json()["nome"] == "Filial Consulta"
+
+def test_deletar_filial():
+    empresa = client.post("/empresa/", json={"nome": "Empresa Delete"})
+    empresa_id = empresa.json()["id"]
+
+    filial = client.post("/filial/", json={
+        "nome": "Filial Delete",
+        "local": "MG",
+        "empresa_id": empresa_id
+    })
+    filial_id = filial.json()["id"]
+
+    delete = client.delete(f"/filial/{filial_id}")
+    assert delete.status_code == 200
+
+    get = client.get(f"/filial/{filial_id}")
+    assert get.status_code == 404
