@@ -2,9 +2,9 @@ from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from model.filial_orm import FilialORM
 
-def criar_filial(nome: str, empresa_id: int) -> FilialORM:
+def criar_filial(nome: str, local: str, empresa_id: int) -> FilialORM:
     db: Session = SessionLocal()
-    nova = FilialORM(nome=nome, empresa_id=empresa_id)
+    nova = FilialORM(nome=nome, local=local, empresa_id=empresa_id)
     db.add(nova)
     db.commit()
     db.refresh(nova)

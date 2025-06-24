@@ -6,19 +6,36 @@ router = APIRouter(prefix="/filial", tags=["Filial"])
 
 @router.post("/", response_model=FilialResponse)
 def criar_filial(dados: FilialCreate):
-    nova = filial_controller.criar_filial(dados.nome, dados.empresa_id)
-    return FilialResponse(id=nova.id, nome=nova.nome, empresa_id=nova.empresa_id)
+    nova = filial_controller.criar_filial(dados.nome, dados.local, dados.empresa_id)
+    return FilialResponse(
+        id=nova.id,
+        nome=nova.nome,
+        local=nova.local,
+        empresa_id=nova.empresa_id
+    )
 
 @router.get("/", response_model=list[FilialResponse])
 def listar_filiais():
     filiais = filial_controller.listar_filiais()
-    return [FilialResponse(id=f.id, nome=f.nome, empresa_id=f.empresa_id) for f in filiais]
+    return [
+        FilialResponse(
+            id=f.id,
+            nome=f.nome,
+            local=f.local,
+            empresa_id=f.empresa_id
+        ) for f in filiais
+    ]
 
 @router.get("/{id}", response_model=FilialResponse)
 def buscar_filial(id: int):
     f = filial_controller.buscar_filial_por_id(id)
     if f:
-        return FilialResponse(id=f.id, nome=f.nome, empresa_id=f.empresa_id)
+        return FilialResponse(
+            id=f.id,
+            nome=f.nome,
+            local=f.local,
+            empresa_id=f.empresa_id
+        )
     raise HTTPException(status_code=404, detail="Filial não encontrada")
 
 @router.delete("/{id}")
