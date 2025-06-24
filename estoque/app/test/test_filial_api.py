@@ -18,3 +18,8 @@ def test_criar_filial():
     assert json["nome"] == "Filial Teste"
     assert json["local"] == "São Paulo"
     assert json["empresa_id"] == empresa_id
+
+def test_listar_filiais():
+    response = client.get("/filial/")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
