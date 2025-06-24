@@ -23,3 +23,18 @@ def test_listar_filiais():
     response = client.get("/filial/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+def test_buscar_filial_por_id():
+    empresa = client.post("/empresa/", json={"nome": "Empresa Consulta"})
+    empresa_id = empresa.json()["id"]
+
+    filial = client.post("/filial/", json={
+        "nome": "Filial Consulta",
+        "local": "RJ",
+        "empresa_id": empresa_id
+    })
+    filial_id = filial.json()["id"]
+
+    response = client.get(f"/filial/{filial_id}")
+    assert response.status_code == 200
+    assert response.json()["nome"] == "Filial Consulta"
