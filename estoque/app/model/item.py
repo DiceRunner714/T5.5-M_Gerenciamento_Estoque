@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import ABC  # , abstractmethod
+
 
 class Item(ABC):
     def __init__(self, nome: str, categoria: str, quantidade: int, id: int, valor: float, restrito: bool = False):
@@ -16,4 +17,4 @@ class Item(ABC):
         self._restrito = False
 
     def listar_caracteristicas_basicas(self) -> str:
-        return self._nome + self._categoria + str(self._quantidade) + str(self._id) + str(self._valor) + str(self._restrito)     
+        return self._nome + self._categoria + str(self._quantidade) + str(self._id) + str(self._valor) + str(self._restrito)

@@ -1,5 +1,6 @@
 from model.filial import Filial
 
+
 class Empresa:
     def __init__(self, nome: str):
         self._nome: str = nome
@@ -14,7 +15,7 @@ class Empresa:
             if filial.id == id:
                 return filial
         return None
-    
+
     def remover_filial(self, id: int) -> None:
         self._filiais = [f for f in self._filiais if f.id != id]
 
@@ -27,7 +28,7 @@ class Empresa:
 
     def listar_filiais(self) -> list[Filial]:
         return self._filiais
-    
+
     @property
     def nome(self) -> str:
         return self._nome
