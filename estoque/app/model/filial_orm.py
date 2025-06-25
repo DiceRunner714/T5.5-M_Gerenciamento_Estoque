@@ -12,3 +12,4 @@ class FilialORM(Base):
 
     empresa = relationship("EmpresaORM", back_populates="filiais")
     produtos = relationship("ProdutoQuimicoORM", back_populates="filial")
+    farmaceuticos = relationship("FarmaceuticoORM", back_populates="filial", cascade="all, delete")
