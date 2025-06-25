@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from config.database import Base
 
+
 class ProdutoQuimicoORM(Base):
     __tablename__ = "produto_quimico"
 

@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from config.database import Base
 
+
 class FilialORM(Base):
     __tablename__ = "filial"
 
