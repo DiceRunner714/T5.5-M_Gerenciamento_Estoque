@@ -61,7 +61,6 @@ def test_deletar_farmaceutico():
         "filial_id": filial_id
     }).json()
 
-
     response = client.delete(f"/farmaceutico/{post['id']}")
     assert response.status_code == 200
     assert response.json()["mensagem"] == "Farmacêutico removido com sucesso"

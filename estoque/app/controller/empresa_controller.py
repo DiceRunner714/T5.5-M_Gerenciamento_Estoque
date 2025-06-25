@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import func
 from config.database import SessionLocal
 from model.empresa_orm import EmpresaORM
 from model.filial_orm import FilialORM

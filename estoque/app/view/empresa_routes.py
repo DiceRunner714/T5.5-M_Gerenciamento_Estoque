@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from sqlalchemy.sql import func
 from schema.empresa_schema import EmpresaCreate, EmpresaResponse
 from controller import empresa_controller
 
@@ -40,5 +39,5 @@ def estoque_total(id: int):
     try:
         total = empresa_controller.calcular_estoque_total_empresa(id)
         return {"empresa_id": id, "estoque_total": total}
-    except:
+    except Exception:
         raise HTTPException(status_code=404, detail="Empresa não encontrada ou sem filiais/produtos.")
