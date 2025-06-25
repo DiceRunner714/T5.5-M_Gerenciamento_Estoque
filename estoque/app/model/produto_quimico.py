@@ -8,3 +8,8 @@ class ProdutoQuimico(Item):
 
     def ajustarRestricao(self):
         self._restrito = self._toxicidade >= 7
+
+    def restringir(self):
+        if self._toxicidade < 7:
+            raise Exception("Produto não é tóxico o suficiente para ser restrito.")
+        self._restrito = True
