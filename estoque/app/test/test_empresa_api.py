@@ -14,6 +14,7 @@ def test_criar_empresa():
     data = response.json()
     assert "id" in data
     assert data["nome"] == "Empresa Teste"
+    client.delete(f"/empresa/{data['id']}")
 
 
 def test_listar_empresas():
@@ -33,6 +34,7 @@ def test_buscar_empresa_por_id():
     data = response.json()
     assert data["id"] == id_empresa
     assert data["nome"] == "Empresa Consulta"
+    client.delete(f"/empresa/{data['id']}")
 
 
 def test_deletar_empresa():

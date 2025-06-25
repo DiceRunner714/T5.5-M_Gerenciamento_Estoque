@@ -21,6 +21,9 @@ def test_criar_filial():
     assert json["local"] == "São Paulo"
     assert json["empresa_id"] == empresa_id
 
+    client.delete(f"/filial/{json['id']}")
+    client.delete(f"/empresa/{empresa_id}")
+
 
 def test_listar_filiais():
     response = client.get("/filial/")
@@ -43,6 +46,9 @@ def test_buscar_filial_por_id():
     assert response.status_code == 200
     assert response.json()["nome"] == "Filial Consulta"
 
+    client.delete(f"/filial/{filial_id}")
+    client.delete(f"/empresa/{empresa_id}")
+
 
 def test_deletar_filial():
     empresa = client.post("/empresa/", json={"nome": "Empresa Delete"})
@@ -60,3 +66,5 @@ def test_deletar_filial():
 
     get = client.get(f"/filial/{filial_id}")
     assert get.status_code == 404
+
+    client.delete(f"/empresa/{empresa_id}")
