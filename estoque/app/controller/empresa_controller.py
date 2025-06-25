@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 from config.database import SessionLocal
 from model.empresa_orm import EmpresaORM
+from model.filial_orm import FilialORM
+from model.produto_quimico_orm import ProdutoQuimicoORM
 
 
 def get_db():
@@ -38,3 +41,16 @@ def remover_empresa(id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def calcular_estoque_total_empresa(empresa_id: int) -> int:
+    db: Session = SessionLocal()
+    
+    filiais = db.query(FilialORM).filter(FilialORM.empresa_id == empresa_id).all()
+    filial_ids = [f.id for f in filiais]
+
+    total_estoque = db.query(ProdutoQuimicoORM).filter(
+        ProdutoQuimicoORM.filial_id.in_(filial_ids)
+    ).with_entities(func.sum(ProdutoQuimicoORM.quantidade)).scalar() or 0
+
+    return total_estoque
