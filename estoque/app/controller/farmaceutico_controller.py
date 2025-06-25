@@ -24,7 +24,7 @@ def buscar_farmaceutico_por_id(id: int) -> FarmaceuticoORM | None:
 
 def remover_farmaceutico(id: int) -> bool:
     db: Session = SessionLocal()
-    farmaceutico = buscar_farmaceutico_por_id(id)
+    farmaceutico = db.query(FarmaceuticoORM).filter(FarmaceuticoORM.id == id).first()
     if farmaceutico:
         db.delete(farmaceutico)
         db.commit()
