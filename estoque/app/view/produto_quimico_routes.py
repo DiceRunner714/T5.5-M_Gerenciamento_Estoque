@@ -2,7 +2,9 @@ from fastapi import APIRouter, HTTPException
 from schema.produto_quimico_schema import ProdutoQuimicoCreate, ProdutoQuimicoResponse
 from controller import produto_quimico_controller
 
+
 router = APIRouter(prefix="/produto_quimico", tags=["Produto Químico"])
+
 
 @router.post("/", response_model=ProdutoQuimicoResponse)
 def criar(dados: ProdutoQuimicoCreate):
@@ -12,9 +14,11 @@ def criar(dados: ProdutoQuimicoCreate):
         print("Erro ao criar produto químico:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.get("/", response_model=list[ProdutoQuimicoResponse])
 def listar():
     return produto_quimico_controller.listar_produtos()
+
 
 @router.get("/{id}", response_model=ProdutoQuimicoResponse)
 def buscar(id: int):
@@ -22,6 +26,7 @@ def buscar(id: int):
     if produto:
         return produto
     raise HTTPException(status_code=404, detail="Produto não encontrado")
+
 
 @router.delete("/{id}")
 def deletar(id: int):
