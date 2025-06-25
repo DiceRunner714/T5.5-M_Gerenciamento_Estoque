@@ -18,13 +18,13 @@ def test_criar_farmaceutico():
     empresa_id, filial_id = criar_empresa_e_filial()
 
     response = client.post("/farmaceutico/", json={
-        "nome": "Dr. João",
+        "nome": "Paracetamol",
         "crf": "CRF12345",
         "filial_id": filial_id
     })
     assert response.status_code == 200
     json = response.json()
-    assert json["nome"] == "Dr. João"
+    assert json["nome"] == "Paracetamol"
     assert json["crf"] == "CRF12345"
     assert json["filial_id"] == filial_id
     assert json["ativo"] is True
@@ -55,7 +55,7 @@ def test_listar_farmaceuticos():
 def test_buscar_farmaceutico_por_id():
     empresa_id, filial_id = criar_empresa_e_filial()
     post = client.post("/farmaceutico/", json={
-        "nome": "Dr. Maria",
+        "nome": "Rem Dor de cabeça",
         "crf": "CRF99999",
         "filial_id": filial_id
     }).json()
