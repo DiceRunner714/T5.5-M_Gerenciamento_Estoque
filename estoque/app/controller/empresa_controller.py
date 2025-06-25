@@ -43,14 +43,30 @@ def remover_empresa(id: int) -> bool:
     return False
 
 
-def calcular_estoque_total_empresa(empresa_id: int) -> int:
+def calcular_estoque_total_empresa(empresa_id: int):
     db: Session = SessionLocal()
-    
+
     filiais = db.query(FilialORM).filter(FilialORM.empresa_id == empresa_id).all()
+    if not filiais:
+        return None
+
     filial_ids = [f.id for f in filiais]
 
-    total_estoque = db.query(ProdutoQuimicoORM).filter(
+    produtos = db.query(ProdutoQuimicoORM).filter(
         ProdutoQuimicoORM.filial_id.in_(filial_ids)
-    ).with_entities(func.sum(ProdutoQuimicoORM.quantidade)).scalar() or 0
+    ).all()
 
-    return total_estoque
+    total_estoque = sum(p.quantidade for p in produtos)
+
+    lista_produtos = [
+        {
+            "id": p.id,
+            "nome": p.nome,
+            "quantidade": p.quantidade,
+            "categoria": p.categoria,
+            "filial_id": p.filial_id
+        }
+        for p in produtos
+    ]
+
+    return {"empresa_id": empresa_id, "estoque_total": total_estoque, "produtos": lista_produtos}
