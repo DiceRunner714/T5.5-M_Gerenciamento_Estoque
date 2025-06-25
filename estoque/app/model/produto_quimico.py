@@ -18,3 +18,11 @@ class ProdutoQuimico(Item):
         if self._toxicidade >= 7:
             raise Exception("Produto tóxico não pode ser liberado.")
         self._restrito = False
+
+    @property
+    def restrito(self):
+        return self._restrito
+
+    @property
+    def toxicidade(self):
+        return self._toxicidade
