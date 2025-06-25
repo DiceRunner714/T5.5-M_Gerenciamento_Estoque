@@ -28,6 +28,7 @@ def test_criar_farmaceutico():
     assert json["crf"] == "CRF12345"
     assert json["filial_id"] == filial_id
     assert json["ativo"] is True
+    client.delete(f"/farmaceutico/{json['id']}")
 
 
 def test_listar_farmaceuticos():
@@ -49,6 +50,7 @@ def test_buscar_farmaceutico_por_id():
     json = response.json()
     assert json["id"] == post["id"]
     assert json["crf"] == "CRF99999"
+    client.delete(f"/farmaceutico/{post['id']}")
 
 
 def test_deletar_farmaceutico():
