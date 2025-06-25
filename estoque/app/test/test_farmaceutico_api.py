@@ -1,7 +1,9 @@
 from fastapi.testclient import TestClient
 from main import app
 
+
 client = TestClient(app)
+
 
 def criar_empresa_e_filial():
     empresa = client.post("/empresa/", json={"nome": "Empresa Farma"}).json()
@@ -11,6 +13,7 @@ def criar_empresa_e_filial():
         "empresa_id": empresa["id"]
     }).json()
     return filial["id"]
+
 
 def test_criar_farmaceutico():
     filial_id = criar_empresa_e_filial()
@@ -26,10 +29,12 @@ def test_criar_farmaceutico():
     assert json["filial_id"] == filial_id
     assert json["ativo"] is True
 
+
 def test_listar_farmaceuticos():
     response = client.get("/farmaceutico/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
 
 def test_buscar_farmaceutico_por_id():
     filial_id = criar_empresa_e_filial()
@@ -45,6 +50,7 @@ def test_buscar_farmaceutico_por_id():
     assert json["id"] == post["id"]
     assert json["crf"] == "CRF99999"
 
+
 def test_deletar_farmaceutico():
     filial_id = criar_empresa_e_filial()
     post = client.post("/farmaceutico/", json={
@@ -52,6 +58,7 @@ def test_deletar_farmaceutico():
         "crf": "CRF00000",
         "filial_id": filial_id
     }).json()
+
 
     response = client.delete(f"/farmaceutico/{post['id']}")
     assert response.status_code == 200

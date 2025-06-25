@@ -1,7 +1,9 @@
 from fastapi.testclient import TestClient
 from main import app
 
+
 client = TestClient(app)
+
 
 def criar_empresa_e_filial():
     empresa = client.post("/empresa/", json={"nome": "Empresa Teste"}).json()
@@ -11,6 +13,7 @@ def criar_empresa_e_filial():
         "empresa_id": empresa["id"]
     }).json()
     return filial["id"]
+
 
 def test_criar_produto_quimico():
     filial_id = criar_empresa_e_filial()
@@ -30,13 +33,14 @@ def test_criar_produto_quimico():
     assert data["quantidade"] == 10
     assert data["restrito"] in [True, False]
 
+
 def test_listar_produtos_quimicos():
     response = client.get("/produto_quimico/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
+
 def test_buscar_produto_quimico_por_id():
-    # Criar primeiro
     filial_id = criar_empresa_e_filial()
     post = client.post("/produto_quimico/", json={
         "nome": "Busca PQ",
@@ -50,6 +54,7 @@ def test_buscar_produto_quimico_por_id():
     response = client.get(f"/produto_quimico/{post['id']}")
     assert response.status_code == 200
     assert response.json()["nome"] == "Busca PQ"
+
 
 def test_deletar_produto_quimico():
     filial_id = criar_empresa_e_filial()
@@ -65,4 +70,3 @@ def test_deletar_produto_quimico():
     response = client.delete(f"/produto_quimico/{post['id']}")
     assert response.status_code == 200
     assert response.json()["mensagem"] == "Produto removido com sucesso"
-
