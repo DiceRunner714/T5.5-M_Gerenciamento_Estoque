@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from view import empresa_routes
 from view import filial_routes
+from view import produto_quimico_routes
 
 app = FastAPI()
 
+app.include_router(produto_quimico_routes.router)
 app.include_router(filial_routes.router)
 app.include_router(empresa_routes.router)
 
