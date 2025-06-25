@@ -13,3 +13,8 @@ class ProdutoQuimico(Item):
         if self._toxicidade < 7:
             raise Exception("Produto não é tóxico o suficiente para ser restrito.")
         self._restrito = True
+
+    def liberar(self):
+        if self._toxicidade >= 7:
+            raise Exception("Produto tóxico não pode ser liberado.")
+        self._restrito = False
