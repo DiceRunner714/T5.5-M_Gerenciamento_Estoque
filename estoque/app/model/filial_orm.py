@@ -11,3 +11,4 @@ class FilialORM(Base):
     empresa_id = Column(Integer, ForeignKey("empresa.id"), nullable=False)
 
     empresa = relationship("EmpresaORM", back_populates="filiais")
+    produtos = relationship("ProdutoQuimicoORM", back_populates="filial")
