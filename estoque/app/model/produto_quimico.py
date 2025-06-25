@@ -5,3 +5,6 @@ class ProdutoQuimico(Item):
         super().__init__(nome, categoria, valor, quantidade, id)
         self._toxicidade = toxicidade
         self.ajustarRestricao()
+
+    def ajustarRestricao(self):
+        self._restrito = self._toxicidade >= 7
