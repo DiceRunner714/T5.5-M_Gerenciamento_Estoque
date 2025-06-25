@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class ProdutoQuimicoCreate(BaseModel):
     nome: str
     categoria: str
@@ -7,6 +8,7 @@ class ProdutoQuimicoCreate(BaseModel):
     quantidade: int
     toxicidade: int
     filial_id: int
+
 
 class ProdutoQuimicoResponse(BaseModel):
     id: int
