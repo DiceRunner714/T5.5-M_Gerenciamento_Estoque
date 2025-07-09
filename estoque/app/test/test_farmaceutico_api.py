@@ -19,15 +19,28 @@ def test_criar_farmaceutico():
 
     response = client.post("/farmaceutico/", json={
         "nome": "Paracetamol",
-        "crf": "CRF12345",
+        "categoria": "alucinogenos",
+        "quantidade": 10,
+        "valor": 50,
+        "tarja": "preta",
+        "composicao": "hibisco",
+        "retencao_de_receita": True,
+        "generico": True,
+        "receita": True,
         "filial_id": filial_id
     })
     assert response.status_code == 200
     json = response.json()
     assert json["nome"] == "Paracetamol"
-    assert json["crf"] == "CRF12345"
+    assert json["categoria"] == "alucinogenos"
+    assert json["quantidade"] == 10
+    assert json["valor"] == 50.0
+    assert json["tarja"] == "preta"
+    assert json["composicao"] == "hibisco"
+    assert json["retencao_de_receita"] is True
+    assert json["generico"] is True
+    assert json["receita"] is True
     assert json["filial_id"] == filial_id
-    assert json["ativo"] is True
 
     client.delete(f"/farmaceutico/{json['id']}")
     client.delete(f"/filial/{filial_id}")
@@ -37,8 +50,15 @@ def test_criar_farmaceutico():
 def test_listar_farmaceuticos():
     empresa_id, filial_id = criar_empresa_e_filial()
     farmaceutico = client.post("/farmaceutico/", json={
-        "nome": "Dr. Lista",
-        "crf": "CRFLIST",
+        "nome": "Paracetamol",
+        "categoria": "alucinogenos",
+        "quantidade": 10,
+        "valor": 50,
+        "tarja": "preta",
+        "composicao": "hibisco",
+        "retencao_de_receita": True,
+        "generico": True,
+        "receita": True,
         "filial_id": filial_id
     }).json()
 
@@ -55,8 +75,15 @@ def test_listar_farmaceuticos():
 def test_buscar_farmaceutico_por_id():
     empresa_id, filial_id = criar_empresa_e_filial()
     post = client.post("/farmaceutico/", json={
-        "nome": "Rem Dor de cabeça",
-        "crf": "CRF99999",
+        "nome": "Paracetamol",
+        "categoria": "alucinogenos",
+        "quantidade": 10,
+        "valor": 50,
+        "tarja": "preta",
+        "composicao": "hibisco",
+        "retencao_de_receita": True,
+        "generico": True,
+        "receita": True,
         "filial_id": filial_id
     }).json()
 
@@ -64,7 +91,7 @@ def test_buscar_farmaceutico_por_id():
     assert response.status_code == 200
     json = response.json()
     assert json["id"] == post["id"]
-    assert json["crf"] == "CRF99999"
+    assert json["nome"] == "Paracetamol"
 
     client.delete(f"/farmaceutico/{post['id']}")
     client.delete(f"/filial/{filial_id}")
@@ -74,8 +101,15 @@ def test_buscar_farmaceutico_por_id():
 def test_deletar_farmaceutico():
     empresa_id, filial_id = criar_empresa_e_filial()
     post = client.post("/farmaceutico/", json={
-        "nome": "Dr. Delete",
-        "crf": "CRF00000",
+        "nome": "Paracetamol",
+        "categoria": "alucinogenos",
+        "quantidade": 10,
+        "valor": 50,
+        "tarja": "preta",
+        "composicao": "hibisco",
+        "retencao_de_receita": True,
+        "generico": True,
+        "receita": True,
         "filial_id": filial_id
     }).json()
 
