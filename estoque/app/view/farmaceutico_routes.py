@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from schema.farmaceutico_schema import FarmaceuticoCreate, FarmaceuticoResponse
 from controller import farmaceutico_controller
+from typing import List
 
 
 router = APIRouter(prefix="/farmaceutico", tags=["Farmaceutico"])
@@ -23,6 +24,14 @@ def buscar(id: int):
     if f:
         return f
     raise HTTPException(status_code=404, detail="Farmacêutico não encontrado")
+
+
+@router.get("/nome/{nome}", response_model=List[FarmaceuticoResponse])
+def buscar_por_nome(nome: str):
+    produtos = farmaceutico_controller.buscar_farmaceutico_por_nome(nome)
+    if produtos:
+        return produtos
+    raise HTTPException(status_code=404, detail="Nenhum produto encontrado com esse nome")
 
 
 @router.delete("/{id}")

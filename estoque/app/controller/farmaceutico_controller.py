@@ -36,6 +36,11 @@ def buscar_farmaceutico_por_id(id: int) -> FarmaceuticoORM | None:
     return db.query(FarmaceuticoORM).filter(FarmaceuticoORM.id == id).first()
 
 
+def buscar_farmaceutico_por_nome(nome: str) -> list[FarmaceuticoORM]:
+    db: Session = SessionLocal()
+    return db.query(FarmaceuticoORM).filter(FarmaceuticoORM.nome.ilike(f"%{nome}%")).all()
+
+
 def remover_farmaceutico(id: int) -> bool:
     db: Session = SessionLocal()
     farmaceutico = db.query(FarmaceuticoORM).filter(FarmaceuticoORM.id == id).first()
