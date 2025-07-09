@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from schema.produto_quimico_schema import ProdutoQuimicoCreate, ProdutoQuimicoResponse
 from controller import produto_quimico_controller
+from typing import List
 
 
 router = APIRouter(prefix="/produto_quimico", tags=["Produto Químico"])
@@ -26,6 +27,14 @@ def buscar(id: int):
     if produto:
         return produto
     raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+
+@router.get("/nome/{nome}", response_model=List[ProdutoQuimicoResponse])
+def buscar_por_nome(nome: str):
+    produtos = produto_quimico_controller.buscar_produto_por_nome(nome)
+    if produtos:
+        return produtos
+    raise HTTPException(status_code=404, detail="Nenhum produto encontrado com esse nome")
 
 
 @router.delete("/{id}")

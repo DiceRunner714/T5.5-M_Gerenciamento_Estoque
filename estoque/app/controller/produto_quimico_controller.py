@@ -31,6 +31,11 @@ def buscar_produto_por_id(id: int) -> ProdutoQuimicoORM | None:
     return db.query(ProdutoQuimicoORM).filter(ProdutoQuimicoORM.id == id).first()
 
 
+def buscar_produto_por_nome(nome: str) -> list[ProdutoQuimicoORM]:
+    db: Session = SessionLocal()
+    return db.query(ProdutoQuimicoORM).filter(ProdutoQuimicoORM.nome.ilike(f"%{nome}%")).all()
+
+
 def remover_produto(id: int) -> bool:
     db: Session = SessionLocal()
     produto = db.query(ProdutoQuimicoORM).filter(ProdutoQuimicoORM.id == id).first()
