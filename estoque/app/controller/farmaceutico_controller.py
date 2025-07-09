@@ -3,6 +3,7 @@ from config.database import SessionLocal
 from model.farmaceutico_orm import FarmaceuticoORM
 from schema.farmaceutico_schema import FarmaceuticoCreate
 
+
 def criar_farmaceutico(dados: FarmaceuticoCreate) -> FarmaceuticoORM:
     db: Session = SessionLocal()
     restrito = dados.tarja.lower() in ["vermelha", "preta"] or dados.retencao_de_receita
@@ -24,13 +25,16 @@ def criar_farmaceutico(dados: FarmaceuticoCreate) -> FarmaceuticoORM:
     db.refresh(novo)
     return novo
 
+
 def listar_farmaceuticos() -> list[FarmaceuticoORM]:
     db: Session = SessionLocal()
     return db.query(FarmaceuticoORM).all()
 
+
 def buscar_farmaceutico_por_id(id: int) -> FarmaceuticoORM | None:
     db: Session = SessionLocal()
     return db.query(FarmaceuticoORM).filter(FarmaceuticoORM.id == id).first()
+
 
 def remover_farmaceutico(id: int) -> bool:
     db: Session = SessionLocal()
