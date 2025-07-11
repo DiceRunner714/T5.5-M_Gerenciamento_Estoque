@@ -48,3 +48,11 @@ def deletar_filial(id: int):
     if filial_controller.remover_filial(id):
         return {"mensagem": "Filial removida com sucesso"}
     raise HTTPException(status_code=404, detail="Filial não encontrada")
+
+
+@router.get("/{id}/estoque")
+def estoque_filial(id: int):
+    resultado = filial_controller.calcular_estoque_total_filial(id)
+    if resultado:
+        return resultado
+    raise HTTPException(status_code=404, detail="Filial não encontrada ou sem estoque")
