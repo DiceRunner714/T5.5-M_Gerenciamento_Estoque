@@ -6,7 +6,10 @@ from schema.farmaceutico_schema import FarmaceuticoCreate
 
 def criar_farmaceutico(dados: FarmaceuticoCreate) -> FarmaceuticoORM:
     db: Session = SessionLocal()
-    restrito = dados.tarja.lower() in ["vermelha", "preta"] or dados.retencao_de_receita
+    restrito = (
+        dados.tarja.lower() in ["vermelha", "preta"]
+        or dados.retencao_de_receita
+    )
     novo = FarmaceuticoORM(
         nome=dados.nome,
         categoria=dados.categoria,
