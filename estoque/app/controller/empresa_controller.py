@@ -55,17 +55,17 @@ def calcular_estoque_total_empresa(empresa_id: int):
         ProdutoQuimicoORM.filial_id.in_(filial_ids)
     ).all()
 
-    total_estoque = sum(p.quantidade for p in produtos)
+    total_estoque = sum(produto.quantidade for produto in produtos)
 
     lista_produtos = [
         {
-            "id": p.id,
-            "nome": p.nome,
-            "quantidade": p.quantidade,
-            "categoria": p.categoria,
-            "filial_id": p.filial_id
+            "id": produto.id,
+            "nome": produto.nome,
+            "quantidade": produto.quantidade,
+            "categoria": produto.categoria,
+            "filial_id": produto.filial_id
         }
-        for p in produtos
+        for produto in produtos
     ]
 
     return {
