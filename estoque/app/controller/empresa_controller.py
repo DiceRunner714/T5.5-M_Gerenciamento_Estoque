@@ -60,7 +60,10 @@ def calcular_estoque_total_empresa(empresa_id: int):
         FarmaceuticoORM.filial_id.in_(filial_ids)
     ).all()
 
-    total_estoque = sum(produto.quantidade for produto in produtos) + sum(farmaceutico.quantidade for farmaceutico in farmaceuticos) #!!!
+    total_estoque = (
+        sum(produto.quantidade for produto in produtos)
+        + sum(farmaceutico.quantidade for farmaceutico in farmaceuticos)
+    )
 
     lista_produtos = [
         {
