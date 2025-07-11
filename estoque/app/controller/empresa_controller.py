@@ -3,6 +3,7 @@ from config.database import SessionLocal
 from model.empresa_orm import EmpresaORM
 from model.filial_orm import FilialORM
 from model.produto_quimico_orm import ProdutoQuimicoORM
+from model.farmaceutico_orm import FarmaceuticoORM
 
 
 def get_db():
@@ -55,7 +56,11 @@ def calcular_estoque_total_empresa(empresa_id: int):
         ProdutoQuimicoORM.filial_id.in_(filial_ids)
     ).all()
 
-    total_estoque = sum(produto.quantidade for produto in produtos)
+    farmaceuticos = db.query(FarmaceuticoORM).filter(
+        FarmaceuticoORM.filial_id.in_(filial_ids)
+    ).all()
+
+    total_estoque = sum(produto.quantidade for produto in produtos) + sum(farmaceutico.quantidade for farmaceutico in farmaceuticos) #!!!
 
     lista_produtos = [
         {
@@ -68,8 +73,20 @@ def calcular_estoque_total_empresa(empresa_id: int):
         for produto in produtos
     ]
 
+    lista_farmaceuticos = [
+        {
+            "id": farmaceutico.id,
+            "nome": farmaceutico.nome,
+            "quantidade": farmaceutico.quantidade,
+            "categoria": farmaceutico.categoria,
+            "filial_id": farmaceutico.filial_id
+        }
+        for farmaceutico in farmaceuticos
+    ]
+
     return {
         "empresa_id": empresa_id,
         "estoque_total": total_estoque,
-        "produtos": lista_produtos
-        }
+        "produtos": lista_produtos,
+        "farmaceuticos": lista_farmaceuticos
+    }
