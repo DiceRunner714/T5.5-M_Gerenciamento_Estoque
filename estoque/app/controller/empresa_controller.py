@@ -49,7 +49,7 @@ def calcular_estoque_total_empresa(empresa_id: int):
     if not filiais:
         return None
 
-    filial_ids = [f.id for f in filiais]
+    filial_ids = [filial.id for filial in filiais]
 
     produtos = db.query(ProdutoQuimicoORM).filter(
         ProdutoQuimicoORM.filial_id.in_(filial_ids)
@@ -68,4 +68,8 @@ def calcular_estoque_total_empresa(empresa_id: int):
         for p in produtos
     ]
 
-    return {"empresa_id": empresa_id, "estoque_total": total_estoque, "produtos": lista_produtos}
+    return {
+        "empresa_id": empresa_id,
+        "estoque_total": total_estoque,
+        "produtos": lista_produtos
+        }
