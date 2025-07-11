@@ -74,3 +74,37 @@ def calcular_estoque_total_filial(filial_id: int):
         "produtos": lista_produtos,
         "farmaceuticos": lista_farmaceuticos
     }
+
+
+def listar_itens_zerados_filial(filial_id: int):
+    db: Session = SessionLocal()
+
+    produtos_zerados = db.query(ProdutoQuimicoORM).filter(
+        ProdutoQuimicoORM.filial_id == filial_id,
+        ProdutoQuimicoORM.quantidade == 0
+    ).all()
+
+    farmaceuticos_zerados = db.query(FarmaceuticoORM).filter(
+        FarmaceuticoORM.filial_id == filial_id,
+        FarmaceuticoORM.quantidade == 0
+    ).all()
+
+    lista_produtos = [
+        {
+            "id": produto.id,
+            "nome": produto.nome,
+            "categoria": produto.categoria,
+            "tipo": "Produto Químico"
+        } for produto in produtos_zerados
+    ]
+
+    lista_farmaceuticos = [
+        {
+            "id": farmaceutico.id,
+            "nome": farmaceutico.nome,
+            "categoria": farmaceutico.categoria,
+            "tipo": "Farmacêutico"
+        } for farmaceutico in farmaceuticos_zerados
+    ]
+
+    return lista_produtos + lista_farmaceuticos

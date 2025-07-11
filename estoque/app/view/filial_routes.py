@@ -56,3 +56,9 @@ def estoque_filial(id: int):
     if resultado:
         return resultado
     raise HTTPException(status_code=404, detail="Filial não encontrada ou sem estoque")
+
+
+@router.get("/{id}/itens-zerados")
+def itens_zerados_filial(id: int):
+    itens = filial_controller.listar_itens_zerados_filial(id)
+    return {"filial_id": id, "itens_zerados": itens}
