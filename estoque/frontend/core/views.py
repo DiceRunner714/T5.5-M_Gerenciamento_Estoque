@@ -309,3 +309,27 @@ def item_create(request):
         'farmaceutico_form': form if tipo != 'produto' else None,
     }
     return render(request, 'item/create.html', contexto)
+
+def item_detail(request, tipo, pk):
+    item = None
+
+    if tipo == 'produto':
+        from core.services import ProdutoQuimicoService
+        service = ProdutoQuimicoService()
+        item = service.buscar_produto(pk)
+
+    elif tipo == 'farmaceutico':
+        from core.services import FarmaceuticoService
+        service = FarmaceuticoService()
+        item = service.buscar_farmaceutico(pk)
+
+    else:
+        raise Http404("Tipo de item inválido")
+
+    if not item or not item.get('id'):
+        raise Http404(f"{tipo.capitalize()} não encontrado")
+
+    return render(request, 'item/detail.html', {
+        'item': item,
+        'tipo': tipo
+    })

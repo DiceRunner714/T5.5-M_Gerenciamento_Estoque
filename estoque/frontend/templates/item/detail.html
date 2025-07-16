@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Detalhes do {{ tipo|capfirst }} - {{ item.nome }}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-info-circle"></i> Detalhes do {{ tipo|capfirst }}</h2>
+    <a href="{% url 'filial_detail' item.filial_id %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar para Filial
+    </a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h3>{{ item.nome }}</h3>
+        <p><strong>Categoria:</strong> {{ item.categoria }}</p>
+        <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+        <p><strong>Valor:</strong> R$ {{ item.valor }}</p>
+
+        {% if tipo == 'farmaceutico' %}
+            <hr>
+            <p><strong>Tarja:</strong> {{ item.tarja }}</p>
+            <p><strong>Composição:</strong> {{ item.composicao }}</p>
+            <p><strong>Retenção de Receita:</strong> {{ item.retencao_de_receita }}</p>
+            <p><strong>Genérico:</strong> {{ item.generico }}</p>
+            <p><strong>Receita:</strong> {{ item.receita }}</p>
+        {% elif tipo == 'produto' %}
+            <hr>
+            <p><strong>Toxicidade:</strong> {{ item.toxicidade }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="d-flex gap-2">
+    {% if tipo == 'farmaceutico' %}
+        <a href="{% url 'farmaceutico_delete' item.id %}" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Excluir
+        </a>
+    {% elif tipo == 'produto' %}
+        <a href="{% url 'produto_delete' item.id %}" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Excluir
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

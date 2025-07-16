@@ -49,7 +49,6 @@
     </label>
 </form>
 
-
 {% if mostrar_zerados %}
     <div class="mt-4">
         <h4>Itens com Estoque Zerado</h4>
@@ -65,7 +64,15 @@
                 <tbody>
                     {% for item in itens_zerados %}
                     <tr>
-                        <td>{{ item.nome }}</td>
+                        <td>
+                            {% if item.tipo == 'produto' %}
+                                <a href="{% url 'item_detail' 'produto' item.id %}">{{ item.nome }}</a>
+                            {% elif item.tipo == 'farmaceutico' %}
+                                <a href="{% url 'item_detail' 'farmaceutico' item.id %}">{{ item.nome }}</a>
+                            {% else %}
+                                {{ item.nome }}
+                            {% endif %}
+                        </td>
                         <td>{{ item.categoria }}</td>
                         <td>{{ item.tipo }}</td>
                     </tr>
@@ -91,7 +98,7 @@
             <tbody>
                 {% for produto in estoque.produtos %}
                 <tr>
-                    <td>{{ produto.nome }}</td>
+                    <td><a href="{% url 'item_detail' 'produto' produto.id %}">{{ produto.nome }}</a></td>
                     <td>{{ produto.categoria }}</td>
                     <td>{{ produto.quantidade }}</td>
                 </tr>
@@ -115,7 +122,7 @@
             <tbody>
                 {% for farmaco in estoque.farmaceuticos %}
                 <tr>
-                    <td>{{ farmaco.nome }}</td>
+                    <td><a href="{% url 'item_detail' 'farmaceutico' farmaco.id %}">{{ farmaco.nome }}</a></td>
                     <td>{{ farmaco.categoria }}</td>
                     <td>{{ farmaco.quantidade }}</td>
                 </tr>

@@ -30,4 +30,5 @@ urlpatterns = [
 
     # Item URLs
     path('itens/novo/', views.item_create, name='item_create'),
+    path('itens/<str:tipo>/<int:pk>/', views.item_detail, name='item_detail'),
 ]
