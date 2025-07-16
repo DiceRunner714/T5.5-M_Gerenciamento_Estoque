@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - Sistema de Estoque{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded mb-4">
+            <h1 class="display-4">Sistema de Gerenciamento de Estoque</h1>
+            <p class="lead">Gerencie empresas, filiais, produtos químicos e farmacêuticos de forma eficiente.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-building fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Empresas</h5>
+                <p class="card-text">Gerencie as empresas do sistema</p>
+                <a href="{% url 'empresa_list' %}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-store fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Filiais</h5>
+                <p class="card-text">Controle as filiais das empresas</p>
+                <a href="{% url 'filial_list' %}" class="btn btn-success">Acessar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-flask fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Produtos Químicos</h5>
+                <p class="card-text">Administre produtos químicos</p>
+                <a href="{% url 'produto_list' %}" class="btn btn-warning">Acessar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-pills fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Farmacêuticos</h5>
+                <p class="card-text">Gerencie produtos farmacêuticos</p>
+                <a href="{% url 'farmaceutico_list' %}" class="btn btn-info">Acessar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

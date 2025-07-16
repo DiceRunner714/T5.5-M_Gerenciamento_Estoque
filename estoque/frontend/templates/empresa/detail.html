@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ empresa.nome }} - Sistema de Estoque{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-building"></i> {{ empresa.nome }}</h2>
+    <a href="{% url 'empresa_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> Informações da Empresa</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> {{ empresa.id }}</p>
+                <p><strong>Nome:</strong> {{ empresa.nome }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        {% if estoque %}
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-boxes"></i> Estoque Total</h5>
+            </div>
+            <div class="card-body">
+                <h3 class="text-primary">{{ estoque.estoque_total }} itens</h3>
+                <p class="text-muted">Total em todas as filiais</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="btn-group">
+        <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Excluir Empresa
+        </a>
+    </div>
+</div>
+{% endblock %}
