@@ -248,3 +248,64 @@ def farmaceutico_delete(request, pk):
         raise Http404("Farmacêutico não encontrado")
     
     return render(request, 'farmaceutico/delete.html', {'farmaceutico': farmaceutico})
+
+# Item Views
+def item_create(request):
+    tipo = request.GET.get('tipo', 'farmaceutico')
+    filial_id = request.GET.get('filial_id') or request.POST.get('filial_id')
+    
+    if request.method == 'POST':
+        tipo = request.POST.get('tipo', 'farmaceutico')
+        if tipo == 'produto':
+            form = ProdutoQuimicoForm(request.POST)
+            if form.is_valid():
+                service = ProdutoQuimicoService()
+                data = {
+                    'nome': form.cleaned_data['nome'],
+                    'categoria': form.cleaned_data['categoria'],
+                    'valor': float(form.cleaned_data['valor']),
+                    'quantidade': form.cleaned_data['quantidade'],
+                    'toxicidade': form.cleaned_data['toxicidade'],
+                    'filial_id': form.cleaned_data['filial_id']
+                }
+                result = service.criar_produto(data)
+                if result:
+                    messages.success(request, 'Produto criado com sucesso!')
+                    return redirect('filial_detail', pk=filial_id)
+                else:
+                    messages.error(request, 'Erro ao criar produto.')
+        else:
+            form = FarmaceuticoForm(request.POST)
+            if form.is_valid():
+                service = FarmaceuticoService()
+                data = {
+                    'nome': form.cleaned_data['nome'],
+                    'categoria': form.cleaned_data['categoria'],
+                    'quantidade': form.cleaned_data['quantidade'],
+                    'valor': float(form.cleaned_data['valor']),
+                    'tarja': form.cleaned_data['tarja'],
+                    'composicao': form.cleaned_data['composicao'],
+                    'retencao_de_receita': form.cleaned_data['retencao_de_receita'],
+                    'generico': form.cleaned_data['generico'],
+                    'receita': form.cleaned_data['receita'],
+                    'filial_id': form.cleaned_data['filial_id']
+                }
+                result = service.criar_farmaceutico(data)
+                if result:
+                    messages.success(request, 'Farmacêutico criado com sucesso!')
+                    return redirect('filial_detail', pk=filial_id)
+                else:
+                    messages.error(request, 'Erro ao criar farmacêutico.')
+    else:
+        if tipo == 'produto':
+            form = ProdutoQuimicoForm(initial={'filial_id': filial_id})
+        else:
+            form = FarmaceuticoForm(initial={'filial_id': filial_id})
+
+    contexto = {
+        'tipo': tipo,
+        'filial_id': filial_id,
+        'produto_form': form if tipo == 'produto' else None,
+        'farmaceutico_form': form if tipo != 'produto' else None,
+    }
+    return render(request, 'item/create.html', contexto)

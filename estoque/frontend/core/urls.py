@@ -27,4 +27,7 @@ urlpatterns = [
     path('farmaceuticos/<int:pk>/', views.farmaceutico_detail, name='farmaceutico_detail'),
     path('farmaceuticos/novo/', views.farmaceutico_create, name='farmaceutico_create'),
     path('farmaceuticos/<int:pk>/deletar/', views.farmaceutico_delete, name='farmaceutico_delete'),
+
+    # Item URLs
+    path('itens/novo/', views.item_create, name='item_create'),
 ]
