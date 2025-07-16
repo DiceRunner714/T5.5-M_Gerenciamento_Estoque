@@ -33,7 +33,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Deve conter campos para tarja, composição, genérico, receita e retenção de receita.
 - Deve permitir validar se o medicamento é restrito ou não.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -52,7 +52,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Um item deve poder ser marcado como restrito.
 - Um item deve poder ser marcado como não restrito.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -138,15 +138,15 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 
 ## História #08
 
-**Título:** Cadastro de Empresa e Filiais
+**Título:** Cadastro de Empresa
 
 > **Como** administrador geral, **quero** cadastrar uma empresa e suas filiais, **para** organizar as operações por localidade.
 
 **Critérios de Aceitação:**
-- Deve ser possível cadastrar uma nova empresa, com nome da empresa e lista de filiais.
+- Deve ser possível cadastrar uma nova empresa, com nome da empresa.
 - Deve ser possível adicionar e remover filiais da empresa.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
