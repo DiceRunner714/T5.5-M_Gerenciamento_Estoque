@@ -38,6 +38,58 @@
     </div>
 </div>
 
+{% if estoque.produtos %}
+<div class="mt-5">
+    <h4>Produtos Químicos</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Filial</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in estoque.produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>{{ produto.filial_id }}</td>
+                <td>{{ produto.quantidade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if estoque.farmaceuticos %}
+<div class="mt-4">
+    <h4>Farmacêuticos</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Filial</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for farmaco in estoque.farmaceuticos %}
+            <tr>
+                <td>{{ farmaco.nome }}</td>
+                <td>{{ farmaco.categoria }}</td>
+                <td>{{ farmaco.filial_id }}</td>
+                <td>{{ farmaco.quantidade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
 <div class="mt-4">
     <div class="btn-group">
         <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">

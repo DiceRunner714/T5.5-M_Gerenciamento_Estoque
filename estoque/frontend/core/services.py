@@ -1,4 +1,5 @@
 import requests
+import ast
 from django.conf import settings
 from typing import Dict, List, Optional
 
@@ -41,7 +42,13 @@ class EmpresaService(APIService):
         return result is not None
     
     def estoque_total(self, empresa_id: int) -> Optional[Dict]:
-        return self._make_request('GET', f'/empresa/{empresa_id}/estoque')
+        raw = self._make_request('GET', f'/empresa/{empresa_id}/estoque')
+        try:
+            if isinstance(raw, str):
+                return ast.literal_eval(raw)
+            return raw
+        except Exception:
+            return None
 
 class FilialService(APIService):
     def listar_filiais(self) -> List[Dict]:

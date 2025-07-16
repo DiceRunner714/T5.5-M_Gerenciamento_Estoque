@@ -43,53 +43,54 @@ def remover_empresa(id: int) -> bool:
     return False
 
 
-def calcular_estoque_total_empresa(empresa_id: int):
+def calcular_estoque_total_empresa(empresa_id: int) -> dict:
     db: Session = SessionLocal()
+    try:
+        filiais = db.query(FilialORM).filter(FilialORM.empresa_id == empresa_id).all()
+        if not filiais:
+            raise ValueError("Empresa sem filiais ou inexistente")
 
-    filiais = db.query(FilialORM).filter(FilialORM.empresa_id == empresa_id).all()
-    if not filiais:
-        return None
+        filial_ids = [filial.id for filial in filiais]
 
-    filial_ids = [filial.id for filial in filiais]
+        produtos = db.query(ProdutoQuimicoORM).filter(
+            ProdutoQuimicoORM.filial_id.in_(filial_ids)
+        ).all()
 
-    produtos = db.query(ProdutoQuimicoORM).filter(
-        ProdutoQuimicoORM.filial_id.in_(filial_ids)
-    ).all()
+        farmaceuticos = db.query(FarmaceuticoORM).filter(
+            FarmaceuticoORM.filial_id.in_(filial_ids)
+        ).all()
 
-    farmaceuticos = db.query(FarmaceuticoORM).filter(
-        FarmaceuticoORM.filial_id.in_(filial_ids)
-    ).all()
+        total_estoque = (
+            sum(produto.quantidade for produto in produtos) +
+            sum(farmaceutico.quantidade for farmaceutico in farmaceuticos)
+        )
 
-    total_estoque = (
-        sum(produto.quantidade for produto in produtos)
-        + sum(farmaceutico.quantidade for farmaceutico in farmaceuticos)
-    )
+        lista_produtos = [
+            {
+                "id": produto.id,
+                "nome": produto.nome,
+                "quantidade": produto.quantidade,
+                "categoria": produto.categoria,
+                "filial_id": produto.filial_id
+            } for produto in produtos
+        ]
 
-    lista_produtos = [
-        {
-            "id": produto.id,
-            "nome": produto.nome,
-            "quantidade": produto.quantidade,
-            "categoria": produto.categoria,
-            "filial_id": produto.filial_id
+        lista_farmaceuticos = [
+            {
+                "id": farmaceutico.id,
+                "nome": farmaceutico.nome,
+                "quantidade": farmaceutico.quantidade,
+                "categoria": farmaceutico.categoria,
+                "filial_id": farmaceutico.filial_id
+            } for farmaceutico in farmaceuticos
+        ]
+
+        return {
+            "empresa_id": empresa_id,
+            "estoque_total": total_estoque,
+            "produtos": lista_produtos,
+            "farmaceuticos": lista_farmaceuticos
         }
-        for produto in produtos
-    ]
 
-    lista_farmaceuticos = [
-        {
-            "id": farmaceutico.id,
-            "nome": farmaceutico.nome,
-            "quantidade": farmaceutico.quantidade,
-            "categoria": farmaceutico.categoria,
-            "filial_id": farmaceutico.filial_id
-        }
-        for farmaceutico in farmaceuticos
-    ]
-
-    return {
-        "empresa_id": empresa_id,
-        "estoque_total": total_estoque,
-        "produtos": lista_produtos,
-        "farmaceuticos": lista_farmaceuticos
-    }
+    finally:
+        db.close()

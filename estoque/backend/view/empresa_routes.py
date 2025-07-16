@@ -38,6 +38,6 @@ def deletar_empresa(id: int):
 def estoque_total(id: int):
     try:
         total = empresa_controller.calcular_estoque_total_empresa(id)
-        return {"empresa_id": id, "estoque_total": total}
+        return total
     except Exception:
         raise HTTPException(status_code=404, detail="Empresa não encontrada ou sem filiais/produtos.")
