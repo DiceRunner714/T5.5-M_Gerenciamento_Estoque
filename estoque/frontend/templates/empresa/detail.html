@@ -91,10 +91,18 @@
 {% endif %}
 
 <div class="mt-4">
-    <div class="btn-group">
-        <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Excluir Empresa
-        </a>
+    <div class="d-flex justify-content-between">
+        <div>
+            <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Excluir Empresa
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'filial_list' %}?empresa_id={{ empresa.id }}" class="btn btn-outline-primary">
+                <i class="fas fa-store"></i> Ver Filiais
+            </a>
+        </div>
     </div>
 </div>
+
 {% endblock %}

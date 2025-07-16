@@ -127,10 +127,18 @@
 {% endif %}
 
 <div class="mt-4">
-    <div class="btn-group">
-        <a href="{% url 'filial_delete' filial.id %}" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Excluir Filial
-        </a>
+    <div class="d-flex justify-content-between">
+        <div>
+            <a href="{% url 'filial_delete' filial.id %}" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Excluir Filial
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'empresa_detail' filial.empresa_id %}" class="btn btn-outline-primary">
+                <i class="fas fa-building"></i> Ver Empresa
+            </a>
+        </div>
     </div>
 </div>
+
 {% endblock %}
