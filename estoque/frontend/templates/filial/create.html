@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Nova Filial - Sistema de Estoque{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-plus"></i> Nova Filial</h2>
+    <a href="{% url 'filial_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Cancelar
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        {{ form.nome.label_tag }}
+                        {{ form.nome }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.local.label_tag }}
+                        {{ form.local }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.empresa_id.label_tag }}
+                        {{ form.empresa_id }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
