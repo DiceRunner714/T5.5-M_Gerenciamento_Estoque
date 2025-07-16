@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from model.farmaceutico_orm import FarmaceuticoORM
+from schema.farmaceutico_schema import FarmaceuticoUpdate
 from schema.farmaceutico_schema import FarmaceuticoCreate
 
 
@@ -52,3 +53,18 @@ def remover_farmaceutico(id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def atualizar_farmaceutico(id: int, dados: FarmaceuticoUpdate):
+    db: Session = SessionLocal()
+    farmaceutico = db.query(FarmaceuticoORM).filter(FarmaceuticoORM.id == id).first()
+    if not farmaceutico:
+        return None
+
+    for campo, valor in dados.dict().items():
+        setattr(farmaceutico, campo, valor)
+
+    farmaceutico.restrito = farmaceutico.tarja.lower() in ["vermelha", "preta"]
+    db.commit()
+    db.refresh(farmaceutico)
+    return farmaceutico

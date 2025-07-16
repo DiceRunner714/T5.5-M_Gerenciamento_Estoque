@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from schema.farmaceutico_schema import FarmaceuticoCreate, FarmaceuticoResponse
+from schema.farmaceutico_schema import FarmaceuticoCreate, FarmaceuticoResponse, FarmaceuticoUpdate
 from controller import farmaceutico_controller
 from typing import List
 
@@ -38,4 +38,12 @@ def buscar_por_nome(nome: str):
 def deletar(id: int):
     if farmaceutico_controller.remover_farmaceutico(id):
         return {"mensagem": "Farmacêutico removido com sucesso"}
+    raise HTTPException(status_code=404, detail="Farmacêutico não encontrado")
+
+
+@router.put("/{id}", response_model=FarmaceuticoResponse)
+def atualizar(id: int, dados: FarmaceuticoUpdate):
+    atualizado = farmaceutico_controller.atualizar_farmaceutico(id, dados)
+    if atualizado:
+        return atualizado
     raise HTTPException(status_code=404, detail="Farmacêutico não encontrado")

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class FarmaceuticoCreate(BaseModel):
@@ -12,6 +13,18 @@ class FarmaceuticoCreate(BaseModel):
     generico: bool
     receita: bool
     filial_id: int
+
+
+class FarmaceuticoUpdate(BaseModel):
+    nome: Optional[str] = None
+    categoria: Optional[str] = None
+    quantidade: Optional[int] = None
+    valor: Optional[float] = None
+    tarja: Optional[str] = None
+    composicao: Optional[str] = None
+    retencao_de_receita: Optional[bool] = None
+    generico: Optional[bool] = None
+    receita: Optional[bool] = None
 
 
 class FarmaceuticoResponse(FarmaceuticoCreate):
