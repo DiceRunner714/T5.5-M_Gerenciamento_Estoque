@@ -63,8 +63,13 @@ def empresa_delete(request, pk):
 # Filial Views
 def filial_list(request):
     service = FilialService()
-    filiais = service.listar_filiais()
-    return render(request, 'filial/list.html', {'filiais': filiais})
+    empresa_id = request.GET.get('empresa_id')
+
+    filiais = service.listar_filiais(empresa_id=empresa_id)
+    return render(request, 'filial/list.html', {
+        'filiais': filiais,
+        'empresa_id': empresa_id
+    })
 
 def filial_detail(request, pk):
     service = FilialService()

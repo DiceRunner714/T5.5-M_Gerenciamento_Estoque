@@ -14,9 +14,14 @@ def criar_filial(nome: str, local: str, empresa_id: int) -> FilialORM:
     return nova
 
 
-def listar_filiais() -> list[FilialORM]:
+def listar_filiais(empresa_id: int = None) -> list[FilialORM]:
     db: Session = SessionLocal()
-    return db.query(FilialORM).all()
+
+    query = db.query(FilialORM)
+    if empresa_id is not None:
+        query = query.filter(FilialORM.empresa_id == empresa_id)
+
+    return query.all()
 
 
 def buscar_filial_por_id(id: int) -> FilialORM | None:

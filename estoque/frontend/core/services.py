@@ -7,12 +7,12 @@ class APIService:
     def __init__(self):
         self.base_url = settings.FASTAPI_BASE_URL
     
-    def _make_request(self, method: str, endpoint: str, data: Dict = None) -> Optional[Dict]:
+    def _make_request(self, method: str, endpoint: str, data: Dict = None, params: Dict = None) -> Optional[Dict]:
         """Make HTTP request to FastAPI backend"""
         url = f"{self.base_url}{endpoint}"
         try:
             if method.upper() == 'GET':
-                response = requests.get(url)
+                response = requests.get(url, params=params)
             elif method.upper() == 'POST':
                 response = requests.post(url, json=data)
             elif method.upper() == 'DELETE':
@@ -51,9 +51,9 @@ class EmpresaService(APIService):
             return None
 
 class FilialService(APIService):
-    def listar_filiais(self) -> List[Dict]:
-        result = self._make_request('GET', '/filial/')
-        return result if result else []
+    def listar_filiais(self, empresa_id=None) -> list[dict]:
+        params = {'empresa_id': empresa_id} if empresa_id else None
+        return self._make_request('GET', '/filial/', params=params) or []
     
     def buscar_filial(self, filial_id: int) -> Optional[Dict]:
         return self._make_request('GET', f'/filial/{filial_id}')

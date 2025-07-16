@@ -18,8 +18,9 @@ def criar_filial(dados: FilialCreate):
 
 
 @router.get("/", response_model=list[FilialResponse])
-def listar_filiais():
-    filiais = filial_controller.listar_filiais()
+def listar_filiais(empresa_id: int = None):
+    filiais = filial_controller.listar_filiais(empresa_id)
+
     return [
         FilialResponse(
             id=f.id,

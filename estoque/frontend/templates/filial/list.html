@@ -10,33 +10,52 @@
     </a>
 </div>
 
+<!-- Filtro por ID de empresa -->
+<form method="get" class="mb-4">
+    <div class="input-group" style="max-width: 300px;">
+        <input type="number" name="empresa_id" class="form-control" placeholder="Filtrar por ID da empresa"
+               value="{{ empresa_id }}">
+        <button type="submit" class="btn btn-outline-secondary">
+            <i class="fas fa-search"></i> Filtrar
+        </button>
+    </div>
+</form>
+
+{% if empresa_id %}
+<div class="alert alert-info">
+    <i class="fas fa-building"></i> Mostrando apenas filiais da empresa ID <strong>{{ empresa_id }}</strong>.
+    <a href="{% url 'filial_list' %}" class="btn btn-sm btn-outline-secondary">Ver todas</a>
+</div>
+{% endif %}
+
 {% if filiais %}
-    <div class="row">
-        {% for filial in filiais %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ filial.nome }}</h5>
-                    <p class="card-text">
-                        <small class="text-muted">ID: {{ filial.id }}</small><br>
-                        <small class="text-muted">Empresa ID: {{ filial.empresa_id }}</small>
-                    </p>
-                    <div class="btn-group w-100" role="group">
-                        <a href="{% url 'filial_detail' filial.id %}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-eye"></i> Ver
-                        </a>
-                        <a href="{% url 'filial_delete' filial.id %}" class="btn btn-outline-danger btn-sm">
-                            <i class="fas fa-trash"></i> Excluir
-                        </a>
-                    </div>
+<div class="row">
+    {% for filial in filiais %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ filial.nome }}</h5>
+                <p class="card-text">
+                    <small class="text-muted">ID: {{ filial.id }}</small><br>
+                    <small class="text-muted">Empresa ID: {{ filial.empresa_id }}</small><br>
+                    <small class="text-muted">Local: {{ filial.local }}</small>
+                </p>
+                <div class="btn-group w-100" role="group">
+                    <a href="{% url 'filial_detail' filial.id %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye"></i> Ver
+                    </a>
+                    <a href="{% url 'filial_delete' filial.id %}" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-trash"></i> Excluir
+                    </a>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+</div>
 {% else %}
-    <div class="alert alert-info">
-        <i class="fas fa-info-circle"></i> Nenhuma filial cadastrada ainda.
-    </div>
+<div class="alert alert-info">
+    <i class="fas fa-info-circle"></i> Nenhuma filial encontrada.
+</div>
 {% endif %}
 {% endblock %}
