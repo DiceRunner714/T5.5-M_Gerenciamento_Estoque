@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from schema.produto_quimico_schema import ProdutoQuimicoCreate, ProdutoQuimicoResponse
+from schema.produto_quimico_schema import ProdutoQuimicoCreate, ProdutoQuimicoResponse, ProdutoQuimicoUpdate
 from controller import produto_quimico_controller
 from typing import List
 
@@ -42,3 +42,11 @@ def deletar(id: int):
     if produto_quimico_controller.remover_produto(id):
         return {"mensagem": "Produto removido com sucesso"}
     raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+
+@router.put("/{id}", response_model=ProdutoQuimicoResponse)
+def atualizar(id: int, dados: ProdutoQuimicoUpdate):
+    atualizado = produto_quimico_controller.atualizar_produto_quimico(id, dados)
+    if atualizado:
+        return atualizado
+    raise HTTPException(status_code=404, detail="Produto químico não encontrado")

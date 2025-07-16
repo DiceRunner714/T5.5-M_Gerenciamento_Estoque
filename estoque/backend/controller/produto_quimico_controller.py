@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from model.produto_quimico_orm import ProdutoQuimicoORM
+from schema.produto_quimico_schema import ProdutoQuimicoUpdate
 
 
 def criar_produto_quimico(dados) -> ProdutoQuimicoORM:
@@ -44,3 +45,18 @@ def remover_produto(id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def atualizar_produto_quimico(id: int, dados: ProdutoQuimicoUpdate) -> ProdutoQuimicoORM | None:
+    db = SessionLocal()
+    produto = db.query(ProdutoQuimicoORM).filter_by(id=id).first()
+    if not produto:
+        return None
+
+    for campo, valor in dados.dict(exclude_unset=True).items():
+        setattr(produto, campo, valor)
+
+    produto.restrito = produto.toxicidade >= 7
+    db.commit()
+    db.refresh(produto)
+    return produto

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class ProdutoQuimicoCreate(BaseModel):
@@ -8,6 +9,14 @@ class ProdutoQuimicoCreate(BaseModel):
     quantidade: int
     toxicidade: int
     filial_id: int
+
+
+class ProdutoQuimicoUpdate(BaseModel):
+    nome: Optional[str] = None
+    categoria: Optional[str] = None
+    quantidade: Optional[int] = None
+    valor: Optional[float] = None
+    toxicidade: Optional[int] = None
 
 
 class ProdutoQuimicoResponse(BaseModel):
