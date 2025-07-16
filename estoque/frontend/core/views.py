@@ -76,14 +76,24 @@ def filial_detail(request, pk):
     filial = service.buscar_filial(pk)
     if not filial:
         raise Http404("Filial não encontrada")
-    
-    estoque = service.estoque_filial(pk)
-    itens_zerados = service.itens_zerados(pk)
-    return render(request, 'filial/detail.html', {
-        'filial': filial,
-        'estoque': estoque,
-        'itens_zerados': itens_zerados
-    })
+
+    mostrar_zerados = request.GET.get('zerados') == 'true'
+
+    if mostrar_zerados:
+        itens_zerados = service.itens_zerados(pk)
+        return render(request, 'filial/detail.html', {
+            'filial': filial,
+            'mostrar_zerados': True,
+            'itens_zerados': itens_zerados.get('itens_zerados', [])
+        })
+    else:
+        estoque = service.estoque_filial(pk)
+        return render(request, 'filial/detail.html', {
+            'filial': filial,
+            'mostrar_zerados': False,
+            'estoque': estoque
+        })
+
 
 def filial_create(request):
     if request.method == 'POST':
