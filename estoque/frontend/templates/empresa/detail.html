@@ -90,19 +90,18 @@
 </div>
 {% endif %}
 
-<div class="mt-4">
-    <div class="d-flex justify-content-between">
-        <div>
-            <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">
-                <i class="fas fa-trash"></i> Excluir Empresa
-            </a>
-        </div>
-        <div>
-            <a href="{% url 'filial_list' %}?empresa_id={{ empresa.id }}" class="btn btn-outline-primary">
-                <i class="fas fa-store"></i> Ver Filiais
-            </a>
-        </div>
+<div class="mt-4 d-flex justify-content-between">
+    <div class="btn-group">
+        <a href="{% url 'filial_list' %}?empresa_id={{ empresa.id }}" class="btn btn-outline-secondary">
+            <i class="fas fa-store"></i> Ver Filiais
+        </a>
+        <a href="{% url 'empresa_delete' empresa.id %}" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Excluir Empresa
+        </a>
     </div>
+    <a href="{% url 'filial_create' %}?empresa_id={{ empresa.id }}" class="btn btn-success">
+        <i class="fas fa-plus"></i> Adicionar Filial
+    </a>
 </div>
 
 {% endblock %}

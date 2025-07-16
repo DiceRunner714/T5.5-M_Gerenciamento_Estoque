@@ -96,6 +96,8 @@ def filial_detail(request, pk):
 
 
 def filial_create(request):
+    empresa_id = request.GET.get('empresa_id')
+
     if request.method == 'POST':
         form = FilialForm(request.POST)
         if form.is_valid():
@@ -112,7 +114,10 @@ def filial_create(request):
             else:
                 messages.error(request, 'Erro ao criar filial.')
     else:
-        form = FilialForm()
+        initial_data = {}
+        if empresa_id:
+            initial_data['empresa_id'] = empresa_id
+        form = FilialForm(initial=initial_data)
     
     return render(request, 'filial/create.html', {'form': form})
 
