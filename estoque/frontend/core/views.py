@@ -333,3 +333,30 @@ def item_detail(request, tipo, pk):
         'item': item,
         'tipo': tipo
     })
+
+def item_delete(request, tipo, pk):
+    if tipo == 'produto':
+        from core.services import ProdutoQuimicoService
+        service = ProdutoQuimicoService()
+        item = service.buscar_produto(pk)
+        deletar = service.deletar_produto
+    elif tipo == 'farmaceutico':
+        from core.services import FarmaceuticoService
+        service = FarmaceuticoService()
+        item = service.buscar_farmaceutico(pk)
+        deletar = service.deletar_farmaceutico
+    else:
+        raise Http404("Tipo inválido")
+
+    if not item:
+        raise Http404(f"{tipo.capitalize()} não encontrado")
+
+    if request.method == 'POST':
+        deletar(pk)
+        messages.success(request, f"{tipo.capitalize()} excluído com sucesso.")
+        return redirect('filial_detail', item['filial_id'])
+
+    return render(request, 'item/delete.html', {
+        'item': item,
+        'tipo': tipo
+    })

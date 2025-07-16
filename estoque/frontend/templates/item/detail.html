@@ -33,15 +33,7 @@ Detalhes do {{ tipo|capfirst }} - {{ item.nome }}
     </div>
 </div>
 
-<div class="d-flex gap-2">
-    {% if tipo == 'farmaceutico' %}
-        <a href="{% url 'farmaceutico_delete' item.id %}" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Excluir
-        </a>
-    {% elif tipo == 'produto' %}
-        <a href="{% url 'produto_delete' item.id %}" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Excluir
-        </a>
-    {% endif %}
-</div>
+<a href="{% url 'item_delete' tipo item.id %}" class="btn btn-danger">
+    <i class="fas fa-trash"></i> Excluir
+</a>
 {% endblock %}
