@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ filial.nome }} - Sistema de Estoque{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-code-branch"></i> {{ filial.nome }}</h2>
+    <a href="{% url 'filial_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> Informações da Filial</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> {{ filial.id }}</p>
+                <p><strong>Nome:</strong> {{ filial.nome }}</p>
+                <p><strong>Localização:</strong> {{ filial.local }}</p>
+                <p><strong>Empresa ID:</strong> {{ filial.empresa_id }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        {% if estoque %}
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-boxes"></i> Estoque da Filial</h5>
+            </div>
+            <div class="card-body">
+                <h3 class="text-primary">{{ estoque.estoque_total }} itens</h3>
+                <p class="text-muted">Total armazenado nesta filial</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if estoque.produtos %}
+<div class="mt-5">
+    <h4>Produtos Químicos</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in estoque.produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>{{ produto.quantidade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if estoque.farmaceuticos %}
+<div class="mt-4">
+    <h4>Farmacêuticos</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for farmaco in estoque.farmaceuticos %}
+            <tr>
+                <td>{{ farmaco.nome }}</td>
+                <td>{{ farmaco.categoria }}</td>
+                <td>{{ farmaco.quantidade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<div class="mt-4">
+    <div class="btn-group">
+        <a href="{% url 'filial_delete' filial.id %}" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Excluir Filial
+        </a>
+    </div>
+</div>
+{% endblock %}
