@@ -11,10 +11,10 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 > **Como** gestor de estoque, **desejo** poder cadastrar produtos químicos com nível de risco, **para** garantir que informações críticas estejam disponíveis e restrições sejam respeitadas.
 
 **Critérios de Aceitação:**
-- Deve ser possível registrar perigos à saúde, risco de fogo, reatividade e perigo específico.
+- Deve ser possível registrar perigos à saúde.
 - A classe deve permitir avaliar se o produto pode ou não ser restrito.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -68,9 +68,9 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 > **Como** usuário do sistema, **quero** ver as informações básicas de cada item, **para** entender rapidamente nome, valor e categoria.
 
 **Critérios de Aceitação:**
-- Para todo item, é possível ver seu nome, categoria, valor e se é restrito.
+- Para todo item, é possível ver seu nome, categoria e valor.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -108,7 +108,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Deve armazenar corretamente as informações da filial.
 - É possível adicionar itens ao estoque da filial.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -127,7 +127,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Deve permitir adicionar e remover itens.
 - Deve retornar o estoque completo da filial.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -202,11 +202,11 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 > **Como** administrador, **quero** ver todos os itens do sistema, **para** ter uma visão geral do estoque da empresa.
 
 **Critérios de Aceitação:**
-- Deve exibir lista com nome, ID, categoria, quantidade, valor e filial.
+- Deve exibir lista com nome, categoria, quantidade, valor e filial.
 - Deve exibir o estoque completo da empresa.
 - Pode incluir ordenação alfabética ou por quantidade.
 
-**Status:** A Fazer  
+**Status:** Feito 
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
@@ -225,7 +225,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Deve retornar apenas os itens com quantidade = 0.
 - Deve filtrar por filial específica.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">
