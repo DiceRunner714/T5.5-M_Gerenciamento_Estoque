@@ -32,4 +32,5 @@ urlpatterns = [
     path('itens/novo/', views.item_create, name='item_create'),
     path('itens/<str:tipo>/<int:pk>/', views.item_detail, name='item_detail'),
     path('itens/<str:tipo>/<int:pk>/deletar/', views.item_delete, name='item_delete'),
+    path('itens/<str:tipo>/<int:pk>/editar/', views.item_update, name='item_update'),
 ]

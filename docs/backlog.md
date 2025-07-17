@@ -89,7 +89,7 @@ Este documento contém as histórias de usuário derivadas da modelagem de class
 - Permitir atualização de nome, quantidade, valor, categoria e ID.
 - Validar a existência do item antes da alteração.
 
-**Status:** A Fazer  
+**Status:** Feito  
 **Tipo:** Funcionalidade
 
 <!-- <p align="center">

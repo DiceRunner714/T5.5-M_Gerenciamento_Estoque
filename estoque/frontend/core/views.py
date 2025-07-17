@@ -360,3 +360,54 @@ def item_delete(request, tipo, pk):
         'item': item,
         'tipo': tipo
     })
+
+def item_update(request, tipo, pk):
+    if tipo == 'produto':
+        from core.services import ProdutoQuimicoService
+        service = ProdutoQuimicoService()
+        item = service.buscar_produto(pk)
+        FormClass = ProdutoQuimicoForm
+    elif tipo == 'farmaceutico':
+        from core.services import FarmaceuticoService
+        service = FarmaceuticoService()
+        item = service.buscar_farmaceutico(pk)
+        FormClass = FarmaceuticoForm
+    else:
+        raise Http404("Tipo inválido")
+
+    if not item or not item.get('id'):
+        raise Http404(f"{tipo.capitalize()} não encontrado")
+
+    if request.method == 'POST':
+        form = FormClass(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            # Ajuste de tipo para valor
+            data['valor'] = float(data['valor'])
+
+            # Adiciona campos obrigatórios que não vêm do form
+            data['filial_id'] = item.get('filial_id')
+            data['id'] = item.get('id')
+
+            if tipo == 'produto':
+                updated = service.atualizar_produto(pk, data)
+            else:
+                updated = service.atualizar_farmaceutico(pk, data)
+
+            if updated:
+                messages.success(request, f"{tipo.capitalize()} atualizado com sucesso!")
+                return redirect('filial_detail', pk=item['filial_id'])
+            else:
+                messages.error(request, f"Erro ao atualizar {tipo}.")
+        else:
+            messages.error(request, "Formulário inválido. Verifique os dados.")
+    else:
+        form = FormClass(initial=item)
+
+    contexto = {
+        'tipo': tipo,
+        'item': item,
+        'form': form,
+    }
+    return render(request, 'item/update.html', contexto)

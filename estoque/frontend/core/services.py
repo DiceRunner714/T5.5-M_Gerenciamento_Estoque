@@ -15,6 +15,8 @@ class APIService:
                 response = requests.get(url, params=params)
             elif method.upper() == 'POST':
                 response = requests.post(url, json=data)
+            elif method == 'PUT':
+                response = requests.put(url, json=data)
             elif method.upper() == 'DELETE':
                 response = requests.delete(url)
             else:
@@ -89,6 +91,10 @@ class ProdutoQuimicoService(APIService):
     def deletar_produto(self, produto_id: int) -> bool:
         result = self._make_request('DELETE', f'/produto_quimico/{produto_id}')
         return result is not None
+    
+    def atualizar_produto(self, produto_id: int, data: Dict) -> bool:
+        result = self._make_request('PUT', f'/produto_quimico/{produto_id}', data)
+        return result is not None
 
 class FarmaceuticoService(APIService):
     def listar_farmaceuticos(self) -> List[Dict]:
@@ -107,4 +113,8 @@ class FarmaceuticoService(APIService):
     
     def deletar_farmaceutico(self, farmaceutico_id: int) -> bool:
         result = self._make_request('DELETE', f'/farmaceutico/{farmaceutico_id}')
+        return result is not None
+    
+    def atualizar_farmaceutico(self, farmaceutico_id: int, data: Dict) -> bool:
+        result = self._make_request('PUT', f'/farmaceutico/{farmaceutico_id}', data)
         return result is not None
