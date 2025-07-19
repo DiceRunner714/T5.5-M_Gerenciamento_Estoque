@@ -26,7 +26,7 @@
 # Gerenciador de Estoque TPPE - 25.1
 
 Esse projeto é uma aplicação de gerenciar estoques de uma empresa por meio de uma interface gráfica. Onde uma empresa
-pode ter zero ou mais filiais, com um estoque cada
+pode ter zero ou mais filiais, com um estoque cada.
 
 | Aluno                             | Matrícula |
 | --------------------------------- | --------- |
@@ -40,18 +40,20 @@ pode ter zero ou mais filiais, com um estoque cada
 - [Tecnologias](#tecnologias) -->
 - [Status](#status)
 - [Grupo original OO - 23.1](#grupo-original-oo---231)
+- [Repositório antigo](https://github.com/Hunter104/T5.5-M_Gerenciamento_Estoque)
 
 
 ## Links para documentos
 - [Diagrama UML](/docs/diagramas/diagrama-classes-modelo.png)
 - [Backlog do projeto](/docs/backlog.md)
+- [Diagrama físico](/docs/diagramas/diagram_fisico_banco.png)
 
 ## Screenshots
 
-![janela principal](recursos/recursos-readme/screenshots/principal.png)
-![editar filiais](recursos/recursos-readme/screenshots/filial.png)
-![visualizar estoque](recursos/recursos-readme/screenshots/estoque.png)
-![adicionar item](recursos/recursos-readme/screenshots/editar-item.png)
+![janela principal](images/principal.png)
+![editar item](images/upditem.png)
+![visualizar estoque](images/estoque.png)
+![adicionar item](images/additem.png)
 
 ## Diagramas
 
@@ -59,10 +61,9 @@ pode ter zero ou mais filiais, com um estoque cada
 
 ![Diagrama classes modelo](docs/diagramas/diagrama-classes-modelo.png)
 
-### Diagrama de pacotes:
+### Diagrama físico:
 
-![Diagrama pacotes](docs/diagramas/diagrama-pacotes.png)
-
+![Diagrama classes modelo](/docs/diagramas/diagram_fisico_banco.png)
 <!-- ## Uso
 
 Para iniciar a interface gráfica apenas é necessário rodar o ponto de entrada main na classe
